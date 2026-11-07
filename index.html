@@ -236,6 +236,9 @@ const tourStatus=s=>s==='confirmed'?tourText('Potwierdzony','Bestätigt'):tourTe
 function tourError(err){
   const messages={
     registration_closed:['Zapisy są zamknięte.','Die Anmeldung ist geschlossen.'],
+    guest_invalid:['Sprawdź imię, nazwisko i adres e-mail.','Prüfe deinen Namen und deine E-Mail-Adresse.'],
+    guest_duplicate:['Nie można ponownie zapisać tego adresu. W razie potrzeby skontaktuj się z klubem.','Diese Adresse kann nicht erneut angemeldet werden. Wende dich bei Bedarf an den Club.'],
+    guest_entries_present:['Turniej ma zgłoszenia gości. Możesz zamknąć nowe zapisy gości i zostawić turniej publiczny.','Es gibt Gastanmeldungen. Du kannst neue Gastanmeldungen schließen und das Turnier öffentlich lassen.'],
     event_full:['Brak miejsc.','Keine Plätze frei.'],
     event_unavailable:['Turniej jest niedostępny.','Das Turnier ist nicht verfügbar.'],
     event_started:['Turniej już się rozpoczął.','Das Turnier hat bereits begonnen.'],
@@ -244,6 +247,106 @@ function tourError(err){
   };
   return messages[err?.message]?tourText(...messages[err.message]):tourText('Operacja nie powiodła się. Sprawdź dane lub spróbuj ponownie.','Vorgang fehlgeschlagen. Bitte prüfe die Daten oder versuche es erneut.');
 }
+const guestKeys = new Map();
+function guestKey(id) {
+  if (guestKeys.has(id)) return guestKeys.get(id);
+  try { return localStorage.getItem('bizons-guest-' + id); } catch { return null; }
+}
+function storeGuestKey(id, key) {
+  guestKeys.set(id, key);
+  try {
+    if (key) localStorage.setItem('bizons-guest-' + id, key);
+    else localStorage.removeItem('bizons-guest-' + id);
+  } catch {}
+}
+function tourCanSign(event, now = Date.now()) {
+  return event.state === 'published' && now >= Date.parse(event.opens_at)
+    && now < Date.parse(event.closes_at || event.starts_at);
+}
+function showGuestForm(event) {
+  modal(`<section class="tour-dialog"><h2>${safe(tourTitle(event))}</h2>
+    <p>${tourText('Zapis jako gość. E-mail będzie dostępny dla administratorów klubu w sprawach turnieju.','Anmeldung als Gast. Die Clubadministration kann deine E-Mail-Adresse für Fragen zum Turnier verwenden.')}</p>
+    <form id="guestSignup">
+      <label class="field">${tourText('Imię i nazwisko','Vor- und Nachname')}<input name="name" autocomplete="name" maxlength="80" required></label>
+      <label class="field">E-mail<input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+      <button class="btn primary">${tourText('Wyślij zgłoszenie','Anmeldung absenden')}</button>
+      <p class="tiny" role="status"></p>
+    </form></section>`);
+  $('#guestSignup').onsubmit = async e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const button = form.querySelector('button');
+    const values = new FormData(form);
+    button.disabled = true;
+    try {
+      const key = guestKey(event.id) || crypto.randomUUID();
+      storeGuestKey(event.id, key);
+      const {data, error} = await tourDb.rpc('bizons_register_guest', {
+        event_key: event.id,
+        guest_name_input: values.get('name').trim(),
+        guest_email_input: values.get('email').trim(),
+        guest_secret: key
+      });
+      if (error) throw error;
+      renderEvents();
+      if (form.isConnected) showGuestStatus(event, data);
+    } catch (e) {
+      if (form.isConnected) form.querySelector('[role=status]').textContent = tourError(e);
+    } finally {
+      button.disabled = false;
+    }
+  };
+}
+function showGuestStatus(event, status) {
+  const canWithdraw = Date.now() < Date.parse(event.starts_at);
+  modal(`<section class="tour-dialog"><h2>${safe(tourTitle(event))}</h2>
+    <p role="status">${event.state === 'cancelled' ? tourText('Turniej odwołany','Turnier abgesagt') : tourEntryStatus(status,event)}</p>
+    ${canWithdraw ? `<p>${tourText('Do tego zgłoszenia wrócisz w tej samej przeglądarce.','Du kannst diese Anmeldung im selben Browser wieder öffnen.')}</p>
+    <button class="btn" onclick="tourGuestWithdraw('${event.id}',this)">${tourText('Zrezygnuj','Abmelden')}</button>` : ''}
+    </section>`);
+}
+async function tourGuest(id, button) {
+  const event = tourEvents.find(item => item.id === id);
+  if (!event || event.visibility !== 'public') return;
+  const key = guestKey(id);
+  if (!key) {
+    if (event.guest_registration && tourCanSign(event)) showGuestForm(event);
+    return;
+  }
+  button.disabled = true;
+  try {
+    const {data, error} = await tourDb.rpc('bizons_guest_status', {event_key:id, guest_secret:key});
+    if (error) throw error;
+    if (!button.isConnected) return;
+    if (data) showGuestStatus(event, data);
+    else {
+      storeGuestKey(id, null);
+      renderEvents();
+      if (event.guest_registration && tourCanSign(event)) showGuestForm(event);
+      else toast(tourText('Brak aktywnego zgłoszenia.','Keine aktive Anmeldung.'));
+    }
+  } catch (e) { toast(tourError(e)); }
+  finally { button.disabled = false; }
+}
+async function tourGuestWithdraw(id, button, queueKey = null) {
+  if (!confirm(tourText('Anulować zgłoszenie?','Anmeldung stornieren?'))) return;
+  button.disabled = true;
+  try {
+    const args = queueKey === null
+      ? {event_key:id, guest_secret:guestKey(id)}
+      : {event_key:id, guest_queue_key:queueKey};
+    const {error} = await tourDb.rpc('bizons_withdraw_guest', args);
+    if (error) throw error;
+    if (queueKey === null) {
+      storeGuestKey(id, null);
+      renderEvents();
+      if (button.isConnected) $('#modal').close();
+    } else if (button.isConnected) await tourRoster(id);
+    toast(tourText('Zgłoszenie anulowane.','Anmeldung storniert.'));
+  } catch (e) { toast(tourError(e)); }
+  finally { button.disabled = false; }
+}
+
 function renderEvents(filter=tourFilter){
   tourFilter=filter;
   const list=$('#eventList');
@@ -255,8 +358,10 @@ function renderEvents(filter=tourFilter){
   list.innerHTML=visible.length?visible.map(e=>{
     const entry=tourEntries.find(r=>r.event_id===e.id);
     const now=Date.now();
-    const canSign=e.state==='published'&&now>=Date.parse(e.opens_at)&&now<Date.parse(e.closes_at||e.starts_at);
-    const action=entry&&now<Date.parse(e.starts_at)?`<button class="btn" onclick="tourWithdraw('${e.id}',this)">${tourText('Zrezygnuj','Abmelden')}</button>`:canSign?`<button class="btn primary" onclick="tourSignup('${e.id}',this)">${tourMember?.active?tourText('Zapisz się','Anmelden'):tourText('Zaloguj się, aby się zapisać','Zur Anmeldung einloggen')}</button>`:'';
+    const canSign=tourCanSign(e,now);
+    const guestAction=e.visibility==='public' && (guestKey(e.id) || (canSign && e.guest_registration && !tourMember?.active))
+      ? `<button class="btn primary" onclick="tourGuest('${e.id}',this)">${guestKey(e.id)?tourText('Moje zgłoszenie gościa','Meine Gastanmeldung'):tourText('Zapisz się bez konta','Ohne Konto anmelden')}</button>` : '';
+    const action=guestAction || (entry&&now<Date.parse(e.starts_at)?`<button class="btn" onclick="tourWithdraw('${e.id}',this)">${tourText('Zrezygnuj','Abmelden')}</button>`:canSign?`<button class="btn primary" onclick="tourSignup('${e.id}',this)">${tourMember?.active?tourText('Zapisz się','Anmelden'):tourText('Zaloguj się, aby się zapisać','Zur Anmeldung einloggen')}</button>`:'');
     return `<article class="event live-event"><div><span class="badge">${tourText(...tourCategories[e.category])} · ${e.visibility==='public'?tourText('Publiczny','Öffentlich'):tourText('Dla członków','Für Mitglieder')}</span><h3>${safe(tourTitle(e))}</h3><div>${safe(tourEventDate(e))} · ${safe(e.venue)}</div><p class="tiny">${tourText('Zapisy','Anmeldung')}: ${safe(tourDate(e.opens_at))} – ${e.closes_at?safe(tourDate(e.closes_at)):tourText('do dnia turnieju','bis zum Turniertag')} · ${e.capacity===null?tourText('bez limitu','ohne Limit'):e.capacity+' '+tourText('miejsc','Plätze')}</p><p class="tiny">${e.waitlist?tourText('Lista rezerwowa aktywna','Warteliste aktiv'):''}</p><p class="tour-details">${safe(tourText(e.details,e.details_de||e.details))}</p><b>${e.state==='cancelled'?tourText('Odwołany','Abgesagt'):entry?tourEntryStatus(entry.status,e):canSign?'':tourText('Zapisy nie są otwarte','Anmeldung nicht geöffnet')}</b></div>${action}</article>`;
   }).join(''):`<p class="muted">${tourText('Brak turniejów w tym widoku.','Keine Turniere in dieser Ansicht.')}</p>`;
 }
@@ -389,7 +494,13 @@ function tourEventForm(id=null){
   ${field(tourText('Koniec zapisów (opcjonalnie)','Anmeldeschluss (optional)'),'closes_at','datetime-local',false)}
   ${field(tourText('Limit miejsc (puste pole = bez limitu)','Platzlimit (leer = unbegrenzt)'),'capacity','number',false)}
   ${select(tourText('Kategoria','Kategorie'),'category',Object.fromEntries(Object.entries(tourCategories).map(([k,v])=>[k,tourText(...v)])))}
-  ${select(tourText('Widoczność','Sichtbarkeit'),'visibility',{public:tourText('Publiczny','Öffentlich'),members:tourText('Tylko członkowie','Nur Mitglieder')})}
+  <label class="field">${tourText('Dostęp i zapisy','Zugang und Anmeldung')}
+    <select name="access">
+      <option value="guests" ${!e.id||e.guest_registration?'selected':''}>${tourText('Publiczny — goście mogą się zapisać','Öffentlich — Gastanmeldung möglich')}</option>
+      <option value="public" ${e.visibility==='public'&&!e.guest_registration?'selected':''}>${tourText('Publiczny — zapisy tylko dla członków','Öffentlich — Anmeldung nur für Mitglieder')}</option>
+      <option value="members" ${e.visibility==='members'?'selected':''}>${tourText('Tylko członkowie','Nur Mitglieder')}</option>
+    </select>
+  </label>
   ${select(tourText('Stan','Status'),'state',{draft:tourText('Szkic','Entwurf'),published:tourText('Opublikowany','Veröffentlicht'),cancelled:tourText('Odwołany','Abgesagt')})}
   <label><input type="checkbox" name="waitlist" ${e.waitlist!==false?'checked':''}> ${tourText('Lista rezerwowa','Warteliste')}</label>
   <label class="field">${tourText('Opis / regulamin PL','Beschreibung / Regeln PL')}<textarea name="details" maxlength="3000">${safe(e.details||'')}</textarea></label>
@@ -400,6 +511,9 @@ function tourEventForm(id=null){
     ev.preventDefault();const form=ev.currentTarget,b=form.querySelector('button');b.disabled=true;
     try{
       const payload=Object.fromEntries(new FormData(form));
+      payload.visibility=payload.access==='members'?'members':'public';
+      payload.guest_registration=payload.access==='guests';
+      delete payload.access;
       for(const key of ['starts_at','opens_at','closes_at'])payload[key]=payload[key]?new Date(payload[key]).toISOString():null;
       if(!(payload.opens_at<(payload.closes_at||payload.starts_at)&&(!payload.closes_at||payload.closes_at<=payload.starts_at)))throw new Error('date_order');
       payload.capacity=payload.capacity===''?null:Number(payload.capacity);payload.waitlist=form.elements.waitlist.checked;payload.date_only=form.elements.date_only.checked;
@@ -416,16 +530,20 @@ async function tourRoster(id){
   const target=$('#tourRosterBody');
   try{
     const [entries,withdrawals]=await Promise.all([
-      tourDb.from('bizons_entries').select('user_id,status,bizons_members(display_name)').eq('event_id',id).order('queue_id'),
-      tourDb.from('bizons_withdrawals').select('withdrawn_at,bizons_members(display_name)').eq('event_id',id).order('withdrawn_at',{ascending:false})
+      tourDb.from('bizons_entries').select('queue_id,user_id,status,guest_name,guest_email,bizons_members(display_name)').eq('event_id',id).order('queue_id'),
+      tourDb.from('bizons_withdrawals').select('withdrawn_at,guest_name,bizons_members(display_name)').eq('event_id',id).order('withdrawn_at',{ascending:false})
     ]);
     if(entries.error||withdrawals.error)throw entries.error||withdrawals.error;
     const data=entries.data;
     if(!target.isConnected)return;
     target.innerHTML=['confirmed','waiting'].map(status=>{
       const group=data.filter(r=>r.status===status);
-      return `<h3>${status==='confirmed'?(event.category==='away'?tourText('Chętni','Interessierte'):tourText('Potwierdzeni','Bestätigt')):tourText('Lista rezerwowa','Warteliste')} · ${group.length}</h3><ol>${group.map(r=>`<li>${safe(r.bizons_members?.display_name||'—')} <button class="textlink" onclick="tourWithdraw('${id}',this,false,'${r.user_id}')">${tourText('Anuluj','Stornieren')}</button></li>`).join('')}</ol>`;
-    }).join('')+`<h3>${tourText('Rezygnacje','Zurückgezogene Meldungen')} · ${withdrawals.data.length}</h3><ol>${withdrawals.data.map(r=>`<li>${safe(r.bizons_members?.display_name||'—')} · ${safe(tourDate(r.withdrawn_at))}</li>`).join('')}</ol>`;
+      return `<h3>${status==='confirmed'?(event.category==='away'?tourText('Chętni','Interessierte'):tourText('Potwierdzeni','Bestätigt')):tourText('Lista rezerwowa','Warteliste')} · ${group.length}</h3><ol>${group.map(r=>{
+        const name=r.guest_name||r.bizons_members?.display_name||'—';
+        const action=r.user_id?`tourWithdraw('${id}',this,false,'${r.user_id}')`:`tourGuestWithdraw('${id}',this,${Number(r.queue_id)})`;
+        return `<li>${safe(name)} ${r.guest_name?`· ${tourText('Gość','Gast')} · ${safe(r.guest_email)}`:''} <button class="textlink" onclick="${action}">${tourText('Anuluj','Stornieren')}</button></li>`;
+      }).join('')}</ol>`;
+    }).join('')+`<h3>${tourText('Rezygnacje','Zurückgezogene Meldungen')} · ${withdrawals.data.length}</h3><ol>${withdrawals.data.map(r=>`<li>${safe(r.guest_name||r.bizons_members?.display_name||'—')} · ${safe(tourDate(r.withdrawn_at))}</li>`).join('')}</ol>`;
   }catch(e){target.textContent=tourError(e)}
 }
 async function initTournaments(){
