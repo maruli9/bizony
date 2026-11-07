@@ -379,17 +379,17 @@ async function refreshTournaments(){
   if(eventsResponse.error||entriesResponse.error)throw eventsResponse.error||entriesResponse.error;
   if(version!==tourVersion)return;
   tourSession=session;tourMember=memberResponse.data;tourEvents=eventsResponse.data;tourEntries=entriesResponse.data;tourState='ready';
-  $('#loginBtn').textContent=tourMember?.active?tourText('Mój panel ↗','Mein Bereich ↗'):tourText('Strefa członka ↗','Mitgliederbereich ↗');
+  $('#loginBtn').textContent=tourMember?.active?tourText('Mój panel ↗','Mein Bereich ↗'):tourText('Strefa bizonów ↗','Mitgliederbereich ↗');
   renderEvents();
 }
 function tourLoadFailure(){tourState='error';tourEvents=[];tourEntries=[];tourMember=null;renderEvents()}
 async function openMember(eventKey=null){
   await tourReady;
   if(tourState!=='ready'){
-    modal(`<h2>${tourText('Strefa członka','Mitgliederbereich')}</h2><p>${tourText('Strefa członka jest chwilowo niedostępna.','Der Mitgliederbereich ist derzeit nicht verfügbar.')}</p>`);return;
+    modal(`<h2>${tourText('Strefa bizonów','Mitgliederbereich')}</h2><p>${tourText('Strefa bizonów jest chwilowo niedostępna.','Der Mitgliederbereich ist derzeit nicht verfügbar.')}</p>`);return;
   }
   if(tourSession){if(eventKey&&tourMember?.active)await tourSignup(eventKey);else dashboard();return}
-  modal(`<section class="tour-dialog"><h2>${tourText('Strefa członka','Mitgliederbereich')}</h2><p>${tourText('Dostęp dla członków zaproszonych przez klub.','Zugang für vom Club eingeladene Mitglieder.')}</p><form id="memberLogin">
+  modal(`<section class="tour-dialog"><h2>${tourText('Strefa bizonów','Mitgliederbereich')}</h2><p>${tourText('Dostęp dla członków zaproszonych przez klub.','Zugang für vom Club eingeladene Mitglieder.')}</p><form id="memberLogin">
     ${eventKey?`<p>${tourText('Po zalogowaniu zapiszemy Twoją chęć udziału w wybranym turnieju.','Nach der Anmeldung wird dein Interesse am gewählten Turnier gespeichert.')}</p>`:''}
     <label class="field">E-mail<input type="email" name="email" autocomplete="username" required></label>
     <label class="field">${tourText('Hasło','Passwort')}<input type="password" name="password" autocomplete="current-password" required></label>
