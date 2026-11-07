@@ -17,7 +17,7 @@ body[data-theme="light"] header{background:#f4f7fced}body[data-theme="light"] na
     height: 52px;
     padding: 0;
     color: var(--lime);
-    border-color: var(--lime);
+    border-color: transparent;
     border-radius: 10px;
   }
 }
@@ -29,9 +29,9 @@ body[data-theme="light"] header{background:#f4f7fced}body[data-theme="light"] na
 
 .live-event{grid-template-columns:minmax(0,1fr) auto}.live-event .tour-details{white-space:pre-wrap}.tour-dialog{padding:0}.tour-dialog .internal{margin:10px 0}.tour-dialog textarea{width:100%;min-height:90px;font:inherit}.tour-dialog input[type=checkbox]{width:auto;margin-right:8px}@media(max-width:700px){.live-event{grid-template-columns:1fr}.live-event>.btn{grid-column:1}}
 </style></head><body>
-<header><div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a><button class="btn menu-btn" aria-label="Otwórz menu" aria-expanded="false" onclick="toggleMenu(this)"> <svg width="29" height="29" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<header><div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a><button class="btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mainNavigation"> <svg width="29" height="29" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M3 5h18M3 12h18M3 19h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-</svg></button><nav aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#shop">Sklep klubowy</a></nav><button class="btn" onclick="openCart()" aria-label="Otwórz koszyk">Koszyk <span id="cartCount" class="count">0</span></button><div class="language-picker" role="group" aria-label="Język / Sprache"><button type="button" data-language="pl" aria-pressed="true" onclick="setLanguage('pl')">PL</button><button type="button" data-language="de" aria-pressed="false" onclick="setLanguage('de')">DE</button></div><div class="theme-picker" role="group" aria-label="Kolorystyka strony"><button class="theme-choice" data-theme-choice="original" style="--swatch:#d7f587" aria-label="Oryginalna zielona" title="Oryginalna zielona" aria-pressed="true" onclick="setTheme('original')"></button><button class="theme-choice" data-theme-choice="navy" style="--swatch:#233f6c" aria-label="Granatowa ciemna" title="Granatowa ciemna" aria-pressed="false" onclick="setTheme('navy')"></button><button class="theme-choice" data-theme-choice="light" style="--swatch:#ffffff" aria-label="Jasna biało-granatowa" title="Jasna biało-granatowa" aria-pressed="false" onclick="setTheme('light')"></button></div><button id="loginBtn" class="btn primary" onclick="openMember()">Strefa członka ↗</button></div></header>
+</svg></button><nav id="mainNavigation" aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#shop">Sklep klubowy</a></nav><button class="btn" onclick="openCart()" aria-label="Otwórz koszyk">Koszyk <span id="cartCount" class="count">0</span></button><div class="language-picker" role="group" aria-label="Język / Sprache"><button type="button" data-language="pl" aria-pressed="true" onclick="setLanguage('pl')">PL</button><button type="button" data-language="de" aria-pressed="false" onclick="setLanguage('de')">DE</button></div><div class="theme-picker" role="group" aria-label="Kolorystyka strony"><button class="theme-choice" data-theme-choice="original" style="--swatch:#d7f587" aria-label="Oryginalna zielona" title="Oryginalna zielona" aria-pressed="true" onclick="setTheme('original')"></button><button class="theme-choice" data-theme-choice="navy" style="--swatch:#233f6c" aria-label="Granatowa ciemna" title="Granatowa ciemna" aria-pressed="false" onclick="setTheme('navy')"></button><button class="theme-choice" data-theme-choice="light" style="--swatch:#ffffff" aria-label="Jasna biało-granatowa" title="Jasna biało-granatowa" aria-pressed="false" onclick="setTheme('light')"></button></div><button id="loginBtn" class="btn primary" onclick="openMember()">Strefa członka ↗</button></div></header>
 <main><div class="hero" id="start"><div class="hero-art"></div><div class="wrap"><span class="pill"><i class="dot"></i> POLSKA PASJA. WIEDEŃSKI ADRES.</span><h1>Więcej niż gra.<br>To nasz <em>klub.</em></h1><p class="lead">Łączy nas badminton. Zostajemy dla ludzi.<br>Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.</p><div class="actions"><a class="btn primary" href="#events">Znajdź swój następny turniej ↗</a><a class="btn" href="#club">Poznaj Bizony ↓</a></div><div class="hero-bottom"><div><strong>20 lat</strong><span>wspólnej pasji</span></div><div><strong>Wiedeń</strong><span>nasze miejsce na korcie</span></div><div><strong>Bez granic</strong><span>Polska · Austria · dalej</span></div></div></div></div><div class="ticker">WSPÓLNOTA <b>✦</b> RYWALIZACJA <b>✦</b> SZACUNEK <b>✦</b> WSPÓLNA PASJA</div>
 <div class="wrap"><section id="news"><div class="section-top"><div><div class="eyebrow">Z życia Bizonów</div><h2>Na korcie i poza nim.</h2></div><button class="textlink" onclick="showArchive()">Archiwum aktualności ↗</button></div><div class="grid" id="newsGrid"></div></section></div>
 <div class="surface"><div class="wrap"><section id="events"><div class="section-top"><div><div class="eyebrow">Kalendarz klubu</div><h2>Kolejny mecz?<br>Widzimy się tutaj.</h2></div><p class="muted">Turnieje klubowe, wyjazdy i starty indywidualne.<br><span class="tiny">Zapisy online dla członków klubu.</span></p></div><div class="tabs" id="eventTabs"><button class="tab active" data-filter="all">Wszystkie</button><button class="tab" data-filter="club">Klubowe</button><button class="tab" data-filter="away">Wyjazdowe</button><button class="tab" data-filter="solo">Indywidualne</button></div><div id="eventList" data-user-content aria-live="polite"></div></section></div></div>
@@ -459,4 +459,25 @@ tourReady=initTournaments();
 tabs('#eventTabs','filter',renderEvents);
 window.addEventListener('focus',()=>{if(tourDb)refreshTournaments().catch(tourLoadFailure)});
 
-</script></body></html>
+</script><script id="mobileNavigation">
+(() => {
+  const button = document.querySelector('.menu-btn');
+  const nav = document.getElementById('mainNavigation');
+
+  function setMenuOpen(open) {
+    nav.classList.toggle('open', open);
+    button.setAttribute('aria-expanded', String(open));
+  }
+
+  button.addEventListener('click', () => setMenuOpen(!nav.classList.contains('open')));
+  nav.addEventListener('click', event => {
+    if (event.target.closest('a')) setMenuOpen(false);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !nav.classList.contains('open') || !button.getClientRects().length) return;
+    setMenuOpen(false);
+    button.focus();
+  });
+})();
+</script>
+</body></html>
