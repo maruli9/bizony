@@ -17,19 +17,154 @@ body[data-theme="light"] header{background:#f4f7fced}body[data-theme="light"] na
     height: 52px;
     padding: 0;
     color: var(--lime);
-    /*border-color: var(--lime);*/
-    border-color: transparent;
+    border-color: var(--lime);
     border-radius: 10px;
   }
 }
 
-.shop-picture{display:grid;place-items:center;width:100%;height:240px;padding:0;background:#252525;border:0;color:#e8d6b8;font:600 20px system-ui;letter-spacing:4px}
-.shop-picture img{width:100%;height:100%;min-height:0;object-fit:contain}
-.shop-product{display:flex;flex-direction:column}.shop-product .pad{display:flex;flex:1;flex-direction:column}.shop-product .price{margin-top:auto;gap:8px}.shop-product .price strong{white-space:nowrap}
-.shop-detail{padding:0;scroll-margin:0}.shop-models{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px}.shop-models figure{margin:0}.shop-models img{width:100%;height:190px;object-fit:contain;background:#252525;border-radius:6px}.shop-models figcaption{font-size:11px;color:var(--muted)}
+.shop-detail{padding:0;scroll-margin:0}
+
+/* RED BOX product gallery, scoped to the Bizons shop */
+#products.shop-gallery {
+  display: block;
+  column-count: 4;
+  column-gap: 18px;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.shop-gallery-tile {
+  display: block;
+  width: 100%;
+  margin: 0 0 18px;
+  padding: 0;
+  break-inside: avoid;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+}
+.shop-gallery-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  border-radius: 10px;
+  transition: transform .3s ease;
+}
+.shop-gallery-tile img:is([src$=".png"], [src^="data:image/png;"]) {
+  border: .5px solid rgba(128, 128, 128, .435);
+}
+.shop-gallery-tile:is(:hover, :focus-visible) img { transform: scale(1.03); }
+.shop-gallery-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: 14px;
+  border-radius: 10px;
+  background: #252525;
+  color: #f5f5f5;
+}
+#modal:has(.shop-redbox-detail) {
+  width: min(1200px, 92vw);
+  max-width: none;
+  max-height: 94vh;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .05);
+  color: #f5f5f5;
+  backdrop-filter: blur(25px);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .05), 0 40px 80px rgba(0, 0, 0, .6);
+  animation: shop-redbox-open .35s ease both;
+}
+#modal:has(.shop-redbox-detail)::backdrop {
+  background: rgba(0, 0, 0, .6);
+  backdrop-filter: blur(14px);
+}
+#modal:has(.shop-redbox-detail) > .close {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  right: 12px;
+  color: inherit;
+}
+#modal:has(.shop-redbox-detail) input { color: inherit; background: rgba(0, 0, 0, .25); }
+#modal:has(.shop-redbox-detail) .btn.primary { color: #172019; }
+.shop-redbox-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 40px;
+  min-height: 0;
+  scroll-margin: 0;
+}
+.shop-redbox-image {
+  flex: 0 1 auto;
+  max-width: 60%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+}
+.shop-redbox-image img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 80vh;
+  min-height: 0;
+  object-fit: contain;
+  border-radius: 16px;
+}
+.shop-redbox-info {
+  flex: 0 1 40%;
+  max-width: 40%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.shop-redbox-info > * { margin: 0; }
+#modal .shop-redbox-title { font-size: 24px; font-weight: 600; }
+.shop-redbox-price { font-size: 20px; }
+.shop-redbox-desc { opacity: .75; line-height: 1.6; }
+.shop-redbox-controls { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.shop-redbox-controls button {
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 7px;
+  padding: 2px 8px;
+}
+body[data-theme="light"] #modal:has(.shop-redbox-detail) {
+  background: rgba(255, 255, 255, .6);
+  color: #1a1a1a;
+  backdrop-filter: blur(35px);
+  border-color: rgba(0, 0, 0, .08);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, .08), 0 60px 140px rgba(0, 0, 0, .12);
+}
+body[data-theme="light"] #modal:has(.shop-redbox-detail) input { background: #fff; }
+@keyframes shop-redbox-open { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+@media (max-width: 1000px) { #products.shop-gallery { column-count: 1; } }
+@media (max-width: 900px) {
+  .shop-redbox-detail { flex-direction: column; text-align: center; }
+  .shop-redbox-image, .shop-redbox-info { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #modal:has(.shop-redbox-detail) { animation: none; }
+  .shop-gallery-tile img { transition: none; }
+}
 
 .live-event{grid-template-columns:minmax(0,1fr) auto}.live-event .tour-details{white-space:pre-wrap}.tour-dialog{padding:0}.tour-dialog .internal{margin:10px 0}.tour-dialog textarea{width:100%;min-height:90px;font:inherit}.tour-dialog input[type=checkbox]{width:auto;margin-right:8px}@media(max-width:700px){.live-event{grid-template-columns:1fr}.live-event>.btn{grid-column:1}}
 
+/* Usuń ramkę przycisku menu na telefonie */
+.nav > .menu-btn {
+  border-color: transparent;
+}
 
 /* Tymczasowo ukryj sklep klubowy i koszyk */
 a[href="#shop"],
@@ -40,12 +175,12 @@ button[onclick="openCart()"] {
 </style></head><body>
 <header><div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a><button class="btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mainNavigation"> <svg width="29" height="29" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M3 5h18M3 12h18M3 19h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-</svg></button><nav id="mainNavigation" aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#shop">Sklep klubowy</a></nav><button class="btn" onclick="openCart()" aria-label="Otwórz koszyk">Koszyk <span id="cartCount" class="count">0</span></button><div class="language-picker" role="group" aria-label="Język / Sprache"><button type="button" data-language="pl" aria-pressed="true" onclick="setLanguage('pl')">PL</button><button type="button" data-language="de" aria-pressed="false" onclick="setLanguage('de')">DE</button></div><div class="theme-picker" role="group" aria-label="Kolorystyka strony"><button class="theme-choice" data-theme-choice="original" style="--swatch:#d7f587" aria-label="Oryginalna zielona" title="Oryginalna zielona" aria-pressed="true" onclick="setTheme('original')"></button><button class="theme-choice" data-theme-choice="navy" style="--swatch:#233f6c" aria-label="Granatowa ciemna" title="Granatowa ciemna" aria-pressed="false" onclick="setTheme('navy')"></button><button class="theme-choice" data-theme-choice="light" style="--swatch:#ffffff" aria-label="Jasna biało-granatowa" title="Jasna biało-granatowa" aria-pressed="false" onclick="setTheme('light')"></button></div><button id="loginBtn" class="btn primary" onclick="openMember()">Strefa członka ↗</button></div></header>
+</svg></button><nav id="mainNavigation" aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#shop">Sklep klubowy</a></nav><button class="btn" onclick="openCart()" aria-label="Otwórz koszyk">Koszyk <span id="cartCount" class="count">0</span></button><div class="language-picker" role="group" aria-label="Język / Sprache"><button type="button" data-language="pl" aria-pressed="true" onclick="setLanguage('pl')">PL</button><button type="button" data-language="de" aria-pressed="false" onclick="setLanguage('de')">DE</button></div><div class="theme-picker" role="group" aria-label="Kolorystyka strony"><button class="theme-choice" data-theme-choice="original" style="--swatch:#d7f587" aria-label="Oryginalna zielona" title="Oryginalna zielona" aria-pressed="true" onclick="setTheme('original')"></button><button class="theme-choice" data-theme-choice="navy" style="--swatch:#233f6c" aria-label="Granatowa ciemna" title="Granatowa ciemna" aria-pressed="false" onclick="setTheme('navy')"></button><button class="theme-choice" data-theme-choice="light" style="--swatch:#ffffff" aria-label="Jasna biało-granatowa" title="Jasna biało-granatowa" aria-pressed="false" onclick="setTheme('light')"></button></div><button id="loginBtn" class="btn primary" onclick="openMember()">Strefa bizona ↗</button></div></header>
 <main><div class="hero" id="start"><div class="hero-art"></div><div class="wrap"><span class="pill"><i class="dot"></i> POLSKA PASJA. WIEDEŃSKI ADRES.</span><h1>Więcej niż gra.<br>To nasz <em>klub.</em></h1><p class="lead">Łączy nas badminton. Zostajemy dla ludzi.<br>Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.</p><div class="actions"><a class="btn primary" href="#events">Znajdź swój następny turniej ↗</a><a class="btn" href="#club">Poznaj Bizony ↓</a></div><div class="hero-bottom"><div><strong>20 lat</strong><span>wspólnej pasji</span></div><div><strong>Wiedeń</strong><span>nasze miejsce na korcie</span></div><div><strong>Bez granic</strong><span>Polska · Austria · dalej</span></div></div></div></div><div class="ticker">WSPÓLNOTA <b>✦</b> RYWALIZACJA <b>✦</b> SZACUNEK <b>✦</b> WSPÓLNA PASJA</div>
 <div class="wrap"><section id="news"><div class="section-top"><div><div class="eyebrow">Z życia Bizonów</div><h2>Na korcie i poza nim.</h2></div><button class="textlink" onclick="showArchive()">Archiwum aktualności ↗</button></div><div class="grid" id="newsGrid"></div></section></div>
 <div class="surface"><div class="wrap"><section id="events"><div class="section-top"><div><div class="eyebrow">Kalendarz klubu</div><h2>Kolejny mecz?<br>Widzimy się tutaj.</h2></div><p class="muted">Turnieje klubowe, wyjazdy i starty indywidualne.<br><span class="tiny">Zapisy online dla członków klubu.</span></p></div><div class="tabs" id="eventTabs"><button class="tab active" data-filter="all">Wszystkie</button><button class="tab" data-filter="club">Klubowe</button><button class="tab" data-filter="away">Wyjazdowe</button><button class="tab" data-filter="solo">Indywidualne</button></div><div id="eventList" data-user-content aria-live="polite"></div></section></div></div>
 <div class="wrap"><section id="rankings"><div class="section-top"><div><div class="eyebrow">Każdy punkt ma znaczenie</div><h2>Nasza forma w liczbach.</h2></div><span class="pill">SEZON 2026/27</span></div><div class="split"><div class="card pad"><div class="badge">Rywalizacja drużynowa</div><h3>Babolat Cup - Tabela</h3><div class="tiny">Aktualizacja przez klub</div><table><thead><tr><th>#</th><th>Drużyna</th><th>Mecze</th><th>Punkty</th></tr></thead><tbody id="league"></tbody></table></div><div class="card pad"><div class="badge">Turnieje wewnętrzne</div><h3>Ranking Bizonów</h3><div class="tabs" id="rankTabs"><button class="tab active" data-rank="open">Open</button><button class="tab" data-rank="women">Kobiety</button></div><table><thead><tr><th>#</th><th>Zawodnik</th><th>Starty</th><th>Punkty</th></tr></thead><tbody id="players"></tbody></table><p class="tiny">Suma punktów z turniejów klubowych.</p><button class="textlink" onclick="modal(clubRules())">Zasady punktacji ↗</button></div></div></section><section id="gallery"><div class="section-top"><div><div class="eyebrow">Nasze wspomnienia</div><h2>Emocje zostają z nami.</h2></div><span class="tiny">Albumy klubowe</span></div><div class="event-album-list" id="galleryTabs" aria-label="Wybierz imprezę"></div><div class="gallery-controls"><label>Album <select id="albumSelect" aria-label="Wybierz album"></select></label><span id="galleryCount" class="tiny"></span></div><p class="tiny">Wybierz imprezę powyżej, aby obejrzeć jej zdjęcia. Kliknięcie zdjęcia otwiera podgląd.</p><h3 data-user-content id="selectedAlbumName">Wybierz imprezę</h3><div class="masonry" id="albums"></div></section></div>
-<div class="surface"><div class="wrap"><section id="shop"><div class="section-top"><div><div class="eyebrow">Reprezentuj swoje barwy</div><h2>Bizon zawsze z Tobą.</h2></div><p class="tiny">Katalog publiczny · dostawa do Austrii i Polski</p></div><div class="tabs" id="shopFilters" data-user-content></div><div class="grid" id="products" data-user-content></div></section></div></div>
+<div class="surface"><div class="wrap"><section id="shop"><div class="section-top"><div><div class="eyebrow">Reprezentuj swoje barwy</div><h2>Bizon zawsze z Tobą.</h2></div><p class="tiny">Katalog publiczny · dostawa do Austrii i Polski</p></div><div class="tabs" id="shopFilters" data-user-content></div><div class="shop-gallery" id="products" data-user-content></div></section></div></div>
 <div class="wrap"><section id="club"><div class="member-banner"><div><div class="eyebrow">Jeden klub. Wiele możliwości.</div><h2>Twoje miejsce<br>w drużynie.</h2><p>Sprawdź turnieje klubowe i zarządzaj swoimi zgłoszeniami.</p><button class="btn" onclick="openMember()">Otwórz strefę bizona ↗</button></div><div class="perks"><div>01 &nbsp; Zapisy i historia turniejów</div><div>02 &nbsp; Turnieje dostępne po zalogowaniu</div><div>03 &nbsp; Status zgłoszenia i lista rezerwowa</div><div>04 &nbsp; Rezygnacja ze zgłoszenia</div></div></div><div class="demo-note">Kalendarz i zapisy prowadzi klub. Koszyk przygotowuje zapytanie do pobrania.</div></section></div></main>
 <footer><div class="wrap foot"><div class="brand">VIENNA BIZONS CLUB<small>GEMEINSAME LEIDENSCHAFT</small></div><div>Polska społeczność badmintonowa w Wiedniu.<br>20 lat wspólnej pasji.</div><div>Prototyp klubowy · PL<br><a href="#start">Wróć na górę ↑</a></div></div></footer>
 <dialog id="lightbox" aria-label="Podgląd zdjęcia" class="lightbox"><button class="lb-close" aria-label="Zamknij podgląd">×</button><div class="lb-content"><span data-user-content id="lightboxAlbum" class="lb-album"></span><img id="lightboxImg" alt=""><p data-user-content id="lightboxCaption"></p><small>Kliknij w dowolnym miejscu, aby zamknąć · ← → kolejne zdjęcie · Esc zamknij</small></div><button class="lb-prev" aria-label="Poprzednie zdjęcie" onclick="event.stopPropagation();stepPhoto(-1)">‹</button><button class="lb-next" aria-label="Następne zdjęcie" onclick="event.stopPropagation();stepPhoto(1)">›</button></dialog><dialog id="modal" class="modal"><button class="close" aria-label="Zamknij okno" onclick="document.getElementById('modal').close()">×</button><div id="modalBody"></div></dialog><div id="toast" class="toast hidden" role="status"></div>
@@ -105,27 +240,66 @@ const shopPrice=p=>p.price!==null?p.price+' €':p.range?p.range+' €':shopText
 cart=get('bizons-shop-cart-v1',[]);
 if(!Array.isArray(cart))cart=[];
 cart=cart.filter(item=>products.some(p=>p.id===item.id));
+function visibleShopProducts(){
+  return products.filter(p=>shopCategory==='all'||p.cat===shopCategory);
+}
 function renderShop(){
   $('#shopFilters').innerHTML=Object.entries(shopCategories).map(([key,labels])=>`<button type="button" class="tab ${key===shopCategory?'active':''}" aria-pressed="${key===shopCategory}" onclick="filterShop('${key}')">${shopText(...labels)}</button>`).join('');
-  $('#products').innerHTML=products.filter(p=>shopCategory==='all'||p.cat===shopCategory).map(p=>`<article class="card shop-product">
-    <button class="shop-picture" type="button" aria-label="${safe(shopName(p))}" onclick="chooseProduct('${p.id}')">${p.images.length?`<img src="${p.images[0]}" alt="${safe(shopName(p))}" loading="lazy" decoding="async">`:'<span aria-hidden="true">BIZONS</span>'}</button>
-    <div class="pad"><span class="badge">${shopText(...shopCategories[p.cat])}</span><h3>${safe(shopName(p))}</h3><p class="tiny">${safe(shopText(p.description,p.descriptionDe))}</p><div class="price"><strong>${shopPrice(p)}</strong><button class="btn" onclick="chooseProduct('${p.id}')">${shopText('Szczegóły','Details')}</button></div></div>
-  </article>`).join('');
+  $('#products').innerHTML=visibleShopProducts().map(p=>`<button class="shop-gallery-tile" type="button" aria-label="${safe(shopName(p))}" onclick="chooseProduct('${p.id}')">${p.images.length
+    ? `<img src="${safe(p.images[0])}" alt="${safe(shopName(p))}" loading="lazy" decoding="async">`
+    : `<span class="shop-gallery-placeholder">${safe(shopName(p))}</span>`}</button>`).join('');
   updateCart();
 }
 function filterShop(category){shopCategory=category;renderShop();$('#shopFilters .active')?.focus({preventScroll:true})}
-function chooseProduct(id){
+
+let shopPreview = null;
+function chooseProduct(id, imageIndex=0){
   const p=products.find(item=>item.id===id);
   if(!p)return;
-  modal(`<section class="shop-detail" data-user-content><span class="badge">${shopText(...shopCategories[p.cat])}</span><h2>${safe(shopName(p))}</h2>
-    <p>${safe(shopText(p.description,p.descriptionDe))}</p>
-    ${p.images.length?`<div class="shop-models">${p.images.map((src,i)=>`<figure><img src="${src}" alt="${safe(shopName(p))} ${i+1}" loading="lazy"><figcaption>${shopText('Wizualizacja','Visualisierung')} ${i+1}</figcaption></figure>`).join('')}</div>`:''}
-    <h3>${shopPrice(p)}</h3>
-    <p class="tiny">${p.cat==='custom'?shopText('Termin i cena do uzgodnienia.','Preis und Termin nach Vereinbarung.'):shopText('Dostępność do potwierdzenia. Jeśli produkt wymaga przygotowania, może być gotowy do wysyłki w ciągu tygodnia.','Verfügbarkeit nach Bestätigung. Falls eine Anfertigung nötig ist, kann der Artikel innerhalb einer Woche versandbereit sein.')}</p>
-    ${p.images.length>1||p.price===null?`<label class="field">${shopText('Model lub uwagi','Modell oder Anmerkungen')}<input id="shopVariant" maxlength="120" placeholder="${shopText('Np. wizualizacja 2','Z. B. Visualisierung 2')}"></label>`:''}
-    <label class="field">${shopText('Liczba sztuk','Stückzahl')}<input id="shopQuantity" type="number" min="1" max="99" value="1"></label>
-    <button class="btn primary" onclick="addCart('${p.id}')">${p.price===null?shopText('Dodaj do zapytania','Zur Anfrage hinzufügen'):shopText('Dodaj do koszyka','In den Warenkorb')}</button></section>`);
+  shopPreview={id,imageIndex};
+  modal(`<section class="shop-redbox-detail" data-user-content>
+    ${p.images.length?`<button type="button" class="shop-redbox-image" aria-label="${shopText('Zamknij podgląd','Vorschau schließen')}" onclick="$('#modal').close()">
+      <img src="${safe(p.images[imageIndex])}" alt="${safe(shopName(p))}">
+    </button>`:''}
+    <div class="shop-redbox-info">
+      <h2 class="shop-redbox-title">${safe(shopName(p))}</h2>
+      <div class="shop-redbox-price">${safe(shopPrice(p))}</div>
+      <p class="shop-redbox-desc">${safe(shopText(p.description,p.descriptionDe))}</p>
+      ${p.images.length>1?`<div class="shop-redbox-controls">
+        <button type="button" onclick="stepShopPhoto(-1)" aria-label="${shopText('Poprzednie zdjęcie','Vorheriges Bild')}">‹</button>
+        <span id="shopPhotoPosition" aria-live="polite">${imageIndex+1} / ${p.images.length}</span>
+        <button type="button" onclick="stepShopPhoto(1)" aria-label="${shopText('Następne zdjęcie','Nächstes Bild')}">›</button>
+      </div>`:''}
+      <p class="tiny">${p.cat==='custom'?shopText('Termin i cena do uzgodnienia.','Preis und Termin nach Vereinbarung.'):shopText('Dostępność do potwierdzenia. Jeśli produkt wymaga przygotowania, może być gotowy do wysyłki w ciągu tygodnia.','Verfügbarkeit nach Bestätigung. Falls eine Anfertigung nötig ist, kann der Artikel innerhalb einer Woche versandbereit sein.')}</p>
+      ${p.images.length>1||p.price===null?`<label class="field">${shopText('Model lub uwagi','Modell oder Anmerkungen')}<input id="shopVariant" maxlength="120" placeholder="${shopText('Np. wizualizacja 2','Z. B. Visualisierung 2')}"></label>`:''}
+      <label class="field">${shopText('Liczba sztuk','Stückzahl')}<input id="shopQuantity" type="number" min="1" max="99" value="1"></label>
+      <button class="btn primary" onclick="addCart('${p.id}')">${p.price===null?shopText('Dodaj do zapytania','Zur Anfrage hinzufügen'):shopText('Dodaj do koszyka','In den Warenkorb')}</button>
+    </div>
+  </section>`);
 }
+function stepShopPhoto(direction){
+  if(!shopPreview||!$('.shop-redbox-detail'))return;
+  const p=products.find(item=>item.id===shopPreview.id);
+  if(!p||p.images.length<2)return;
+  shopPreview.imageIndex=(shopPreview.imageIndex+direction+p.images.length)%p.images.length;
+  $('.shop-redbox-image img').src=p.images[shopPreview.imageIndex];
+  $('#shopPhotoPosition').textContent=`${shopPreview.imageIndex+1} / ${p.images.length}`;
+}
+$('#modal').addEventListener('keydown',event=>{
+  if(!$('.shop-redbox-detail')||event.target.closest('input, textarea, select'))return;
+  const direction=event.key==='ArrowRight'?1:event.key==='ArrowLeft'?-1:0;
+  if(!direction)return;
+  event.preventDefault();
+  const visible=visibleShopProducts().filter(p=>p.images.length);
+  const index=visible.findIndex(p=>p.id===shopPreview?.id);
+  if(index!==-1&&visible.length>1){
+    chooseProduct(visible[(index+direction+visible.length)%visible.length].id);
+    $('.shop-redbox-image').focus({preventScroll:true});
+  }
+});
+$('#modal').addEventListener('click',event=>{
+  if(event.target===$('#modal')&&$('.shop-redbox-detail'))$('#modal').close();
+});
 function addCart(id){
   const input=$('#shopQuantity');
   if(!input.reportValidity())return;
@@ -162,7 +336,7 @@ function downloadShopInquiry(){
 }
 
 </script><script>
-const UI_TRANSLATIONS={"Aktualności": "Aktuelles", "Turnieje": "Turniere", "Rankingi": "Ranglisten", "Galeria": "Galerie", "Sklep klubowy": "Clubshop", "Torba": "Tasche", "Strefa członka ↗": "Mitgliederbereich ↗", "POLSKA PASJA. WIEDEŃSKI ADRES.": "POLNISCHE LEIDENSCHAFT. IN WIEN ZU HAUSE.", "Więcej niż gra.": "Mehr als ein Spiel.", "To nasz": "Das ist unser", "klub.": "Club.", "Łączy nas badminton. Zostajemy dla ludzi.": "Badminton verbindet uns. Die Menschen halten uns zusammen.", "Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.": "Wir trainieren, spielen Turniere und leben polnische Sportgemeinschaft in Wien.", "Znajdź swój następny turniej ↗": "Finde dein nächstes Turnier ↗", "Poznaj Bizony ↓": "Lerne die Bizons kennen ↓", "20 lat": "20 Jahre", "wspólnej pasji": "gemeinsame Leidenschaft", "Wiedeń": "Wien", "nasze miejsce na korcie": "unser Zuhause auf dem Court", "Bez granic": "Ohne Grenzen", "Polska · Austria · dalej": "Polen · Österreich · darüber hinaus", "WSPÓLNOTA": "GEMEINSCHAFT", "RYWALIZACJA": "WETTKAMPF", "SZACUNEK": "RESPEKT", "WSPÓLNA PASJA": "GEMEINSAME LEIDENSCHAFT", "Z życia Bizonów": "Aus dem Clubleben", "Na korcie i poza nim.": "Auf und neben dem Court.", "Archiwum aktualności ↗": "Zum Nachrichtenarchiv ↗", "Kalendarz klubu": "Clubkalender", "Kolejny mecz?": "Das nächste Match?", "Widzimy się tutaj.": "Wir sehen uns hier.", "Turnieje klubowe, wyjazdy i starty indywidualne.": "Clubturniere, Auswärtsfahrten und Einzelstarts.", "Zapisy online dla członków klubu.": "Beispieltermine — vom Club zu ergänzen.", "Wszystkie": "Alle", "Klubowe": "Clubturniere", "Wyjazdowe": "Auswärts", "Indywidualne": "Einzelstarts", "Każdy punkt ma znaczenie": "Jeder Punkt zählt", "Nasza forma w liczbach.": "Unsere Leistung in Zahlen.", "SEZON 2026/27": "DEMO-SAISON", "Rywalizacja drużynowa": "Teamwettbewerb", "Tabela ligi hobby": "Hobbyliga-Tabelle", "Aktualizacja przez klub": "Beispielteams und -ergebnisse", "Drużyna": "Team", "Mecze": "Spiele", "Punkty": "Punkte", "Turnieje wewnętrzne": "Interne Turniere", "Ranking Bizonów": "Bizons-Rangliste", "Kobiety": "Damen", "Zawodnik": "Spieler · Demo-Daten", "Starty": "Teilnahmen", "Suma punktów z turniejów klubowych. Zasady rankingu dostępne w strefie członka.": "Gesamtpunkte aus Clubturnieren. Die Ranglistenregeln stehen im Mitgliederbereich.", "Nasze wspomnienia": "Unsere Erinnerungen", "Emocje zostają z nami.": "Momente, die bleiben.", "Dodaj zdjęcia z folderu +": "Bilder aus Ordner hinzufügen +", "Lightbox po najechaniu": "Lightbox beim Darüberfahren", "Wybierz imprezę": "Veranstaltung auswählen", "Wybierz imprezę powyżej, aby obejrzeć jej zdjęcia. Kliknięcie zdjęcia otwiera podgląd.": "Wähle oben eine Veranstaltung, um nur deren Bilder zu sehen. Jeder Unterordner wird zu einem eigenen Album. Klicken oder Darüberfahren öffnet die Ansicht; ein Klick schließt sie.", "Reprezentuj swoje barwy": "Zeig deine Clubfarben", "Bizon zawsze z Tobą.": "Dein Bizon ist immer dabei.", "Katalog demonstracyjny · zamówienia do zatwierdzenia przez klub": "Demo-Katalog · Bestellungen müssen vom Club bestätigt werden", "Jeden klub. Wiele możliwości.": "Ein Club. Viele Möglichkeiten.", "Twoje miejsce": "Dein Platz", "w drużynie.": "im Team.", "Sprawdź turnieje klubowe i zarządzaj swoimi zgłoszeniami.": "Anmeldungen, eigene Turnierstarts, Organisatorisches und alles für deinen nächsten Einsatz auf dem Court.", "Otwórz strefę bizona ↗": "Mitgliederbereich öffnen ↗", "01   Zapisy i historia turniejów": "01   Anmeldungen und Turnierhistorie", "02   Komunikaty tylko dla członków": "02   Mitteilungen für Mitglieder", "03   Zgłaszanie startów indywidualnych": "03   Eigene Turnierstarts melden", "04   Klubowe zamówienia i informacje": "04   Clubbestellungen und Informationen", "Polska społeczność badmintonowa w Wiedniu.": "Polnische Badminton-Community in Wien.", "20 lat wspólnej pasji.": "20 Jahre gemeinsame Leidenschaft.", "Prototyp klubowy · PL": "Clubprototyp · DE", "Wróć na górę ↑": "Nach oben ↑", "Kliknij w dowolnym miejscu, aby zamknąć · ← → kolejne zdjęcie · Esc zamknij": "Zum Schließen beliebig klicken · ← → nächstes Bild · Esc schließen", "Wszystkie imprezy": "Alle Veranstaltungen", "Wszystkie albumy": "Alle Alben", "Otwórz podgląd ↗": "Ansicht öffnen ↗", "Nie znaleziono pliku:": "Datei nicht gefunden:", "Jeszcze nie dodano zdjęć. Kliknij „Dodaj zdjęcia z folderu +” powyżej i wybierz cały folder galerieBizonow.": "Noch keine Bilder vorhanden. Klicke oben auf „Bilder aus Ordner hinzufügen +“ und wähle den Ordner galerieBizonow.", "Galeria · proste dodawanie": "Galerie · einfach hinzufügen", "Wybierz folder. Gotowe.": "Ordner wählen. Fertig.", "Wybierz z dysku cały folder": "Wähle auf deinem Computer den gesamten Ordner", ". Odczytamy wszystkie zdjęcia JPG, PNG, WebP, AVIF i GIF, również z podfolderów.": ". Alle JPG-, PNG-, WebP-, AVIF- und GIF-Bilder werden eingelesen, auch aus Unterordnern.", "1. Wybierz folder ze zdjęciami": "1. Bilderordner auswählen", "Przeglądarka może poprosić o zgodę na odczyt plików. Zdjęcia pozostają na Twoim komputerze — niczego nie wysyłamy.": "Der Browser kann um Zugriff auf die Dateien bitten. Die Bilder bleiben auf deinem Computer und werden nicht hochgeladen.", "2. Zapisz gotowy index.html ↓": "2. Fertige index.html speichern ↓", "Pobrany plik index.html umieść obok folderu galerieBizonow, zastępując poprzedni. Nie potrzebujesz galerie.js. Na GitHub wysyłasz tylko index.html i cały folder zdjęć.": "Lege die heruntergeladene index.html neben galerieBizonow und ersetze die bisherige Datei. galerie.js wird nicht benötigt. Lade index.html und den gesamten Bilderordner auf GitHub hoch.", "CLUB · TEKST DEMO": "CLUB · DEMOTEXT", "KLUB": "CLUB", "Z KORTU": "VOM COURT", "SPOŁECZNOŚĆ": "GEMEINSCHAFT", "Nowy rozdział. Ta sama pasja.": "Ein neues Kapitel. Dieselbe Leidenschaft.", "Pomysł na jubileuszowe spotkanie, sport i wspólne wspomnienia.": "Eine Idee für ein Jubiläum mit Sport und gemeinsamen Erinnerungen.", "Jeden weekend, wiele historii.": "Ein Wochenende, viele Geschichten.", "Tak może wyglądać relacja ze startów naszych zawodników w Polsce i Austrii.": "So könnte ein Bericht über die Turnierstarts unserer Mitglieder in Polen und Österreich aussehen.", "Po ostatniej lotce gramy dalej.": "Nach dem letzten Ball geht es weiter.", "Miejsce na zaproszenia na spotkania i wydarzenia poza kortem.": "Platz für Einladungen zu Treffen und Veranstaltungen abseits des Courts.", "20 LAT": "20 JAHRE", "Przeczytaj historię ↗": "Weiterlesen ↗", "Aktualności · przykład redakcyjny": "Aktuelles · redaktionelles Beispiel", "Tutaj opublikujemy pełną relację klubu: wyniki, zdjęcia, komentarze zawodników i podziękowania. Ten artykuł jest przykładem układu; nie opisuje potwierdzonego wydarzenia.": "Hier erscheinen Clubberichte mit Ergebnissen, Bildern und Stimmen der Spieler. Dieser Artikel zeigt nur das Layout und beschreibt kein bestätigtes Ereignis.", "Archiwum klubu": "Clubarchiv", "Przykładowe materiały · sezon demo": "Beispielbeiträge · Demo-Saison", "Bizon Cup · turniej listopadowy": "Bizon Cup · Novemberturnier", "Wiedeń · miejsce do potwierdzenia": "Wien · Spielort noch zu bestätigen", "Gra klubowa · planowany termin demo": "Clubturnier · geplanter Demotermin", "Wyjazd drużynowy · Austria": "Teamfahrt · Österreich", "Austria · organizator do uzupełnienia": "Österreich · Veranstalter noch zu ergänzen", "Wspólny transport · plan demo": "Gemeinsame Anreise · Demoplan", "Bizon Cup · finał roku": "Bizon Cup · Jahresfinale", "Turniej i spotkanie · plan demo": "Turnier und Treffen · Demoplan", "Start indywidualny · Polska": "Einzelstart · Polen", "Polska · zgłoszenie przykładowe": "Polen · Beispielmeldung", "Podziel się swoim startem z drużyną": "Teile deinen Turnierstart mit dem Team", "Turniej klubowy": "Clubturnier", "Turniej zewnętrzny": "Externes Turnier", "Start indywidualny": "Einzelstart", "Zapisano lokalnie ✓": "Lokal angemeldet ✓", "Dodaj swój start ↗": "Eigenen Start hinzufügen ↗", "Zapisz się ↗": "Anmelden ↗", "LIS · DEMO": "NOV · DEMO", "GRU · DEMO": "DEZ · DEMO", "Zawodnik A": "Spieler A", "Zawodnik B": "Spieler B", "Zawodnik C": "Spieler C", "Zawodnik D": "Spieler D", "Zawodniczka A": "Spielerin A", "Zawodniczka B": "Spielerin B", "Zawodniczka C": "Spielerin C", "Zawodniczka D": "Spielerin D", "Koszulka klubowa": "Clubshirt", "Techniczny materiał · projekt koncepcyjny": "Funktionsstoff · Konzeptentwurf", "Torba na trening": "Trainingstasche", "Na kort i w podróż · projekt koncepcyjny": "Für Training und Reisen · Konzeptentwurf", "Bidon Bizons": "Bizons-Trinkflasche", "Codzienna dawka klubowej energii": "Clubenergie für jeden Tag", "Klubowa kolekcja · demo": "Clubkollektion · Demo", "Wybierz +": "Auswählen +", "Rozmiar": "Größe", "Wariant": "Variante", "Klubowy": "Clubedition", "Dodaj do torby": "In die Tasche legen", "Dodano do torby": "Zur Tasche hinzugefügt", "Twój klubowy koszyk": "Deine Clubtasche", "Usuń": "Entfernen", "Zamówienie testowe. Nic nie zostanie wysłane do klubu ani opłacone.": "Testbestellung. Es wird nichts an den Club gesendet und keine Zahlung ausgelöst.", "Zapisz rezerwację demo": "Demo-Reservierung speichern", "Torba jest pusta. Wybierz coś z klubowej kolekcji.": "Deine Tasche ist leer. Wähle etwas aus der Clubkollektion.", "Rezerwacja zapisana lokalnie ✓": "Reservierung lokal gespeichert ✓", "To potwierdzenie demonstracyjne. Klub nie otrzymał zamówienia, a płatność nie została pobrana.": "Dies ist eine Demo-Bestätigung. Der Club hat keine Bestellung erhalten und es wurde nichts bezahlt.", "Strefa członka · podgląd": "Mitgliederbereich · Vorschau", "Dobrze Cię widzieć.": "Schön, dich zu sehen.", "Wejdź do demonstracyjnego panelu. Nie wpisuj prawdziwego hasła ani poufnych danych.": "Öffne den Demo-Bereich. Gib kein echtes Passwort und keine vertraulichen Daten ein.", "Imię lub pseudonim": "Name oder Spitzname", "np. Bizon": "z. B. Bizon", "Wejdź do wersji demo ↗": "Demo öffnen ↗", "To nie jest prawdziwe uwierzytelnianie. Informacje panelu są przykładowe i dostępne w kodzie HTML.": "Dies ist keine echte Anmeldung. Die Beispieldaten des Bereichs stehen im HTML-Quelltext.", "Mój panel ↗": "Mein Bereich ↗", "Panel demonstracyjny": "Demo-Bereich", "Moje zapisy": "Meine Anmeldungen", "Nie masz jeszcze zapisów.": "Du hast noch keine Anmeldungen.", "Przejdź do turniejów ↗": "Zu den Turnieren ↗", "Komunikat klubowy": "Clubmitteilung", "Przykład: szczegóły najbliższego treningu i organizacja wspólnych dojazdów pojawią się w tym miejscu.": "Beispiel: Hier erscheinen Details zum nächsten Training und zur gemeinsamen Anreise.", "Starty indywidualne": "Eigene Turnierstarts", "Dodaj turniej, w którym planujesz uczestniczyć.": "Füge ein Turnier hinzu, an dem du teilnehmen möchtest.", "Zgłoś swój start +": "Eigenen Start melden +", "Zasady rankingu · przykład": "Ranglistenregeln · Beispiel", "Za każdy turniej naliczamy punkty według zajętego miejsca. Docelową punktację i zasady zatwierdza klub.": "Für jedes Turnier gibt es Punkte nach Platzierung. Die endgültige Wertung und Regeln legt der Club fest.", "Wyjdź z panelu": "Bereich verlassen", "Zakończono sesję demo": "Demo-Sitzung beendet", "Zapis demonstracyjny — tylko w tej przeglądarce, bez wysyłania zgłoszenia do organizatora.": "Demo-Anmeldung — nur in diesem Browser, ohne Meldung an den Veranstalter.", "Anuluj lokalny zapis": "Lokale Anmeldung stornieren", "Potwierdź lokalny zapis": "Lokale Anmeldung bestätigen", "Zaktualizowano zapis lokalny": "Lokale Anmeldung aktualisiert", "Twój kolejny start": "Dein nächster Turnierstart", "Nazwa turnieju": "Turniername", "Miejsce / kraj": "Ort / Land", "Data": "Datum", "Zapisz lokalnie": "Lokal speichern", "Start zapisany w tej przeglądarce": "Turnierstart in diesem Browser gespeichert", "Otwórz menu": "Menü öffnen", "Menu główne": "Hauptmenü", "Otwórz koszyk": "Tasche öffnen", "Kolorystyka strony": "Farbschema", "Oryginalna zielona": "Original in Grün", "Granatowa ciemna": "Dunkelblau", "Jasna biało-granatowa": "Hell in Weiß und Blau", "Wybierz album": "Album auswählen", "Podgląd zdjęcia": "Bildansicht", "Zamknij podgląd": "Bildansicht schließen", "Poprzednie zdjęcie": "Vorheriges Bild", "Następne zdjęcie": "Nächstes Bild", "Zamknij okno": "Fenster schließen", "Przeglądarka nie pozwala zapisać danych.": "Der Browser erlaubt das Speichern nicht.", "Wybierz folder o dokładnej nazwie galerieBizonow.": "Wähle den Ordner mit dem genauen Namen galerieBizonow.", "Nie znaleziono zdjęć JPG, PNG, WebP, AVIF ani GIF. Wybierz folder ze swoimi zdjęciami.": "Keine JPG-, PNG-, WebP-, AVIF- oder GIF-Bilder gefunden. Wähle deinen Bilderordner.", "Nazwy plików zawierają niedozwolone znaki (# ? :). Zmień te znaki i wybierz folder ponownie.": "Dateinamen enthalten unzulässige Zeichen (# ? :). Ändere sie und wähle den Ordner erneut.", "Teraz kliknij „Zapisz gotowy index.html”.": "Klicke jetzt auf „Fertige index.html speichern“.", "Zdjęcia wczytane. Zapisz HTML, aby zachować galerię.": "Bilder eingelesen. Speichere die HTML-Datei, um die Galerie zu behalten.", "Zapisz pobrany index.html obok folderu galerieBizonow.": "Speichere die heruntergeladene index.html neben dem Ordner galerieBizonow.", "Wczytano": "Eingelesen:", "zdjęć": "Bilder", "albumach. Galeria jest już widoczna za oknem.": "Alben. Die Galerie ist hinter diesem Fenster bereits sichtbar.", "Otwórz zdjęcie:": "Bild öffnen:", "Wybierz imprezę powyżej": "Wähle oben eine Veranstaltung", "Kalendarz i zapisy prowadzi klub. Koszyk przygotowuje zapytanie do pobrania.": "Demo-Version. Ergebnisse, Preise, Texte und Termine sind Beispiele. Anmeldungen und Warenkorb werden nur in diesem Browser gespeichert. Die Demo-Anmeldung schützt keine Daten; echte Mitgliedskonten benötigen einen Server und Authentifizierung. Die Galerie nutzt deine Bilder im Ordner galerieBizonow. Nach der Ordnerauswahl die neue HTML-Datei speichern und mit den Bildern veröffentlichen. galerie.js wird nicht benötigt.", "Utwórz podfoldery, np. „Babolat Cup”, „Turniej Bizonów” i „Inne wydarzenia”, i włóż do nich odpowiednie zdjęcia. Każdy podfolder stanie się przyciskiem wyboru imprezy. Możesz też rozdzielić edycje, np. „Babolat Cup listopad 2026”. Zdjęcia bezpośrednio w galerieBizonow trafią do „Inne wydarzenia”. Po dodaniu kolejnych zdjęć ponownie wybierz cały folder i zapisz HTML.": "Erstelle Unterordner, z. B. „Babolat Cup“, „Bizons-Turnier“ und „Weitere Veranstaltungen“, und lege die passenden Bilder hinein. Jeder Unterordner wird zu einem auswählbaren Album. Einzelne Ausgaben kannst du separat ablegen, z. B. „Babolat Cup November 2026“. Bilder direkt in galerieBizonow erscheinen unter „Weitere Veranstaltungen“. Nach neuen Bildern den gesamten Ordner erneut wählen und die HTML-Datei speichern.", "Vienna Bizons Club — wspólna pasja, własny rytm": "Vienna Bizons Club — gemeinsame Leidenschaft, eigener Rhythmus"};
+const UI_TRANSLATIONS={"Aktualności": "Aktuelles", "Turnieje": "Turniere", "Rankingi": "Ranglisten", "Galeria": "Galerie", "Sklep klubowy": "Clubshop", "Torba": "Tasche", "Strefa bizona ↗": "Mitgliederbereich ↗", "POLSKA PASJA. WIEDEŃSKI ADRES.": "POLNISCHE LEIDENSCHAFT. IN WIEN ZU HAUSE.", "Więcej niż gra.": "Mehr als ein Spiel.", "To nasz": "Das ist unser", "klub.": "Club.", "Łączy nas badminton. Zostajemy dla ludzi.": "Badminton verbindet uns. Die Menschen halten uns zusammen.", "Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.": "Wir trainieren, spielen Turniere und leben polnische Sportgemeinschaft in Wien.", "Znajdź swój następny turniej ↗": "Finde dein nächstes Turnier ↗", "Poznaj Bizony ↓": "Lerne die Bizons kennen ↓", "20 lat": "20 Jahre", "wspólnej pasji": "gemeinsame Leidenschaft", "Wiedeń": "Wien", "nasze miejsce na korcie": "unser Zuhause auf dem Court", "Bez granic": "Ohne Grenzen", "Polska · Austria · dalej": "Polen · Österreich · darüber hinaus", "WSPÓLNOTA": "GEMEINSCHAFT", "RYWALIZACJA": "WETTKAMPF", "SZACUNEK": "RESPEKT", "WSPÓLNA PASJA": "GEMEINSAME LEIDENSCHAFT", "Z życia Bizonów": "Aus dem Clubleben", "Na korcie i poza nim.": "Auf und neben dem Court.", "Archiwum aktualności ↗": "Zum Nachrichtenarchiv ↗", "Kalendarz klubu": "Clubkalender", "Kolejny mecz?": "Das nächste Match?", "Widzimy się tutaj.": "Wir sehen uns hier.", "Turnieje klubowe, wyjazdy i starty indywidualne.": "Clubturniere, Auswärtsfahrten und Einzelstarts.", "Zapisy online dla członków klubu.": "Beispieltermine — vom Club zu ergänzen.", "Wszystkie": "Alle", "Klubowe": "Clubturniere", "Wyjazdowe": "Auswärts", "Indywidualne": "Einzelstarts", "Każdy punkt ma znaczenie": "Jeder Punkt zählt", "Nasza forma w liczbach.": "Unsere Leistung in Zahlen.", "SEZON 2026/27": "DEMO-SAISON", "Rywalizacja drużynowa": "Teamwettbewerb", "Tabela ligi hobby": "Hobbyliga-Tabelle", "Aktualizacja przez klub": "Beispielteams und -ergebnisse", "Drużyna": "Team", "Mecze": "Spiele", "Punkty": "Punkte", "Turnieje wewnętrzne": "Interne Turniere", "Ranking Bizonów": "Bizons-Rangliste", "Kobiety": "Damen", "Zawodnik": "Spieler · Demo-Daten", "Starty": "Teilnahmen", "Suma punktów z turniejów klubowych. Zasady rankingu dostępne w strefie członka.": "Gesamtpunkte aus Clubturnieren. Die Ranglistenregeln stehen im Mitgliederbereich.", "Nasze wspomnienia": "Unsere Erinnerungen", "Emocje zostają z nami.": "Momente, die bleiben.", "Dodaj zdjęcia z folderu +": "Bilder aus Ordner hinzufügen +", "Lightbox po najechaniu": "Lightbox beim Darüberfahren", "Wybierz imprezę": "Veranstaltung auswählen", "Wybierz imprezę powyżej, aby obejrzeć jej zdjęcia. Kliknięcie zdjęcia otwiera podgląd.": "Wähle oben eine Veranstaltung, um nur deren Bilder zu sehen. Jeder Unterordner wird zu einem eigenen Album. Klicken oder Darüberfahren öffnet die Ansicht; ein Klick schließt sie.", "Reprezentuj swoje barwy": "Zeig deine Clubfarben", "Bizon zawsze z Tobą.": "Dein Bizon ist immer dabei.", "Katalog demonstracyjny · zamówienia do zatwierdzenia przez klub": "Demo-Katalog · Bestellungen müssen vom Club bestätigt werden", "Jeden klub. Wiele możliwości.": "Ein Club. Viele Möglichkeiten.", "Twoje miejsce": "Dein Platz", "w drużynie.": "im Team.", "Sprawdź turnieje klubowe i zarządzaj swoimi zgłoszeniami.": "Anmeldungen, eigene Turnierstarts, Organisatorisches und alles für deinen nächsten Einsatz auf dem Court.", "Otwórz strefę bizona ↗": "Mitgliederbereich öffnen ↗", "01   Zapisy i historia turniejów": "01   Anmeldungen und Turnierhistorie", "02   Komunikaty tylko dla członków": "02   Mitteilungen für Mitglieder", "03   Zgłaszanie startów indywidualnych": "03   Eigene Turnierstarts melden", "04   Klubowe zamówienia i informacje": "04   Clubbestellungen und Informationen", "Polska społeczność badmintonowa w Wiedniu.": "Polnische Badminton-Community in Wien.", "20 lat wspólnej pasji.": "20 Jahre gemeinsame Leidenschaft.", "Prototyp klubowy · PL": "Clubprototyp · DE", "Wróć na górę ↑": "Nach oben ↑", "Kliknij w dowolnym miejscu, aby zamknąć · ← → kolejne zdjęcie · Esc zamknij": "Zum Schließen beliebig klicken · ← → nächstes Bild · Esc schließen", "Wszystkie imprezy": "Alle Veranstaltungen", "Wszystkie albumy": "Alle Alben", "Otwórz podgląd ↗": "Ansicht öffnen ↗", "Nie znaleziono pliku:": "Datei nicht gefunden:", "Jeszcze nie dodano zdjęć. Kliknij „Dodaj zdjęcia z folderu +” powyżej i wybierz cały folder galerieBizonow.": "Noch keine Bilder vorhanden. Klicke oben auf „Bilder aus Ordner hinzufügen +“ und wähle den Ordner galerieBizonow.", "Galeria · proste dodawanie": "Galerie · einfach hinzufügen", "Wybierz folder. Gotowe.": "Ordner wählen. Fertig.", "Wybierz z dysku cały folder": "Wähle auf deinem Computer den gesamten Ordner", ". Odczytamy wszystkie zdjęcia JPG, PNG, WebP, AVIF i GIF, również z podfolderów.": ". Alle JPG-, PNG-, WebP-, AVIF- und GIF-Bilder werden eingelesen, auch aus Unterordnern.", "1. Wybierz folder ze zdjęciami": "1. Bilderordner auswählen", "Przeglądarka może poprosić o zgodę na odczyt plików. Zdjęcia pozostają na Twoim komputerze — niczego nie wysyłamy.": "Der Browser kann um Zugriff auf die Dateien bitten. Die Bilder bleiben auf deinem Computer und werden nicht hochgeladen.", "2. Zapisz gotowy index.html ↓": "2. Fertige index.html speichern ↓", "Pobrany plik index.html umieść obok folderu galerieBizonow, zastępując poprzedni. Nie potrzebujesz galerie.js. Na GitHub wysyłasz tylko index.html i cały folder zdjęć.": "Lege die heruntergeladene index.html neben galerieBizonow und ersetze die bisherige Datei. galerie.js wird nicht benötigt. Lade index.html und den gesamten Bilderordner auf GitHub hoch.", "CLUB · TEKST DEMO": "CLUB · DEMOTEXT", "KLUB": "CLUB", "Z KORTU": "VOM COURT", "SPOŁECZNOŚĆ": "GEMEINSCHAFT", "Nowy rozdział. Ta sama pasja.": "Ein neues Kapitel. Dieselbe Leidenschaft.", "Pomysł na jubileuszowe spotkanie, sport i wspólne wspomnienia.": "Eine Idee für ein Jubiläum mit Sport und gemeinsamen Erinnerungen.", "Jeden weekend, wiele historii.": "Ein Wochenende, viele Geschichten.", "Tak może wyglądać relacja ze startów naszych zawodników w Polsce i Austrii.": "So könnte ein Bericht über die Turnierstarts unserer Mitglieder in Polen und Österreich aussehen.", "Po ostatniej lotce gramy dalej.": "Nach dem letzten Ball geht es weiter.", "Miejsce na zaproszenia na spotkania i wydarzenia poza kortem.": "Platz für Einladungen zu Treffen und Veranstaltungen abseits des Courts.", "20 LAT": "20 JAHRE", "Przeczytaj historię ↗": "Weiterlesen ↗", "Aktualności · przykład redakcyjny": "Aktuelles · redaktionelles Beispiel", "Tutaj opublikujemy pełną relację klubu: wyniki, zdjęcia, komentarze zawodników i podziękowania. Ten artykuł jest przykładem układu; nie opisuje potwierdzonego wydarzenia.": "Hier erscheinen Clubberichte mit Ergebnissen, Bildern und Stimmen der Spieler. Dieser Artikel zeigt nur das Layout und beschreibt kein bestätigtes Ereignis.", "Archiwum klubu": "Clubarchiv", "Przykładowe materiały · sezon demo": "Beispielbeiträge · Demo-Saison", "Bizon Cup · turniej listopadowy": "Bizon Cup · Novemberturnier", "Wiedeń · miejsce do potwierdzenia": "Wien · Spielort noch zu bestätigen", "Gra klubowa · planowany termin demo": "Clubturnier · geplanter Demotermin", "Wyjazd drużynowy · Austria": "Teamfahrt · Österreich", "Austria · organizator do uzupełnienia": "Österreich · Veranstalter noch zu ergänzen", "Wspólny transport · plan demo": "Gemeinsame Anreise · Demoplan", "Bizon Cup · finał roku": "Bizon Cup · Jahresfinale", "Turniej i spotkanie · plan demo": "Turnier und Treffen · Demoplan", "Start indywidualny · Polska": "Einzelstart · Polen", "Polska · zgłoszenie przykładowe": "Polen · Beispielmeldung", "Podziel się swoim startem z drużyną": "Teile deinen Turnierstart mit dem Team", "Turniej klubowy": "Clubturnier", "Turniej zewnętrzny": "Externes Turnier", "Start indywidualny": "Einzelstart", "Zapisano lokalnie ✓": "Lokal angemeldet ✓", "Dodaj swój start ↗": "Eigenen Start hinzufügen ↗", "Zapisz się ↗": "Anmelden ↗", "LIS · DEMO": "NOV · DEMO", "GRU · DEMO": "DEZ · DEMO", "Zawodnik A": "Spieler A", "Zawodnik B": "Spieler B", "Zawodnik C": "Spieler C", "Zawodnik D": "Spieler D", "Zawodniczka A": "Spielerin A", "Zawodniczka B": "Spielerin B", "Zawodniczka C": "Spielerin C", "Zawodniczka D": "Spielerin D", "Koszulka klubowa": "Clubshirt", "Techniczny materiał · projekt koncepcyjny": "Funktionsstoff · Konzeptentwurf", "Torba na trening": "Trainingstasche", "Na kort i w podróż · projekt koncepcyjny": "Für Training und Reisen · Konzeptentwurf", "Bidon Bizons": "Bizons-Trinkflasche", "Codzienna dawka klubowej energii": "Clubenergie für jeden Tag", "Klubowa kolekcja · demo": "Clubkollektion · Demo", "Wybierz +": "Auswählen +", "Rozmiar": "Größe", "Wariant": "Variante", "Klubowy": "Clubedition", "Dodaj do torby": "In die Tasche legen", "Dodano do torby": "Zur Tasche hinzugefügt", "Twój klubowy koszyk": "Deine Clubtasche", "Usuń": "Entfernen", "Zamówienie testowe. Nic nie zostanie wysłane do klubu ani opłacone.": "Testbestellung. Es wird nichts an den Club gesendet und keine Zahlung ausgelöst.", "Zapisz rezerwację demo": "Demo-Reservierung speichern", "Torba jest pusta. Wybierz coś z klubowej kolekcji.": "Deine Tasche ist leer. Wähle etwas aus der Clubkollektion.", "Rezerwacja zapisana lokalnie ✓": "Reservierung lokal gespeichert ✓", "To potwierdzenie demonstracyjne. Klub nie otrzymał zamówienia, a płatność nie została pobrana.": "Dies ist eine Demo-Bestätigung. Der Club hat keine Bestellung erhalten und es wurde nichts bezahlt.", "Strefa bizona · podgląd": "Mitgliederbereich · Vorschau", "Dobrze Cię widzieć.": "Schön, dich zu sehen.", "Wejdź do demonstracyjnego panelu. Nie wpisuj prawdziwego hasła ani poufnych danych.": "Öffne den Demo-Bereich. Gib kein echtes Passwort und keine vertraulichen Daten ein.", "Imię lub pseudonim": "Name oder Spitzname", "np. Bizon": "z. B. Bizon", "Wejdź do wersji demo ↗": "Demo öffnen ↗", "To nie jest prawdziwe uwierzytelnianie. Informacje panelu są przykładowe i dostępne w kodzie HTML.": "Dies ist keine echte Anmeldung. Die Beispieldaten des Bereichs stehen im HTML-Quelltext.", "Mój panel ↗": "Mein Bereich ↗", "Panel demonstracyjny": "Demo-Bereich", "Moje zapisy": "Meine Anmeldungen", "Nie masz jeszcze zapisów.": "Du hast noch keine Anmeldungen.", "Przejdź do turniejów ↗": "Zu den Turnieren ↗", "Komunikat klubowy": "Clubmitteilung", "Przykład: szczegóły najbliższego treningu i organizacja wspólnych dojazdów pojawią się w tym miejscu.": "Beispiel: Hier erscheinen Details zum nächsten Training und zur gemeinsamen Anreise.", "Starty indywidualne": "Eigene Turnierstarts", "Dodaj turniej, w którym planujesz uczestniczyć.": "Füge ein Turnier hinzu, an dem du teilnehmen möchtest.", "Zgłoś swój start +": "Eigenen Start melden +", "Zasady rankingu · przykład": "Ranglistenregeln · Beispiel", "Za każdy turniej naliczamy punkty według zajętego miejsca. Docelową punktację i zasady zatwierdza klub.": "Für jedes Turnier gibt es Punkte nach Platzierung. Die endgültige Wertung und Regeln legt der Club fest.", "Wyjdź z panelu": "Bereich verlassen", "Zakończono sesję demo": "Demo-Sitzung beendet", "Zapis demonstracyjny — tylko w tej przeglądarce, bez wysyłania zgłoszenia do organizatora.": "Demo-Anmeldung — nur in diesem Browser, ohne Meldung an den Veranstalter.", "Anuluj lokalny zapis": "Lokale Anmeldung stornieren", "Potwierdź lokalny zapis": "Lokale Anmeldung bestätigen", "Zaktualizowano zapis lokalny": "Lokale Anmeldung aktualisiert", "Twój kolejny start": "Dein nächster Turnierstart", "Nazwa turnieju": "Turniername", "Miejsce / kraj": "Ort / Land", "Data": "Datum", "Zapisz lokalnie": "Lokal speichern", "Start zapisany w tej przeglądarce": "Turnierstart in diesem Browser gespeichert", "Otwórz menu": "Menü öffnen", "Menu główne": "Hauptmenü", "Otwórz koszyk": "Tasche öffnen", "Kolorystyka strony": "Farbschema", "Oryginalna zielona": "Original in Grün", "Granatowa ciemna": "Dunkelblau", "Jasna biało-granatowa": "Hell in Weiß und Blau", "Wybierz album": "Album auswählen", "Podgląd zdjęcia": "Bildansicht", "Zamknij podgląd": "Bildansicht schließen", "Poprzednie zdjęcie": "Vorheriges Bild", "Następne zdjęcie": "Nächstes Bild", "Zamknij okno": "Fenster schließen", "Przeglądarka nie pozwala zapisać danych.": "Der Browser erlaubt das Speichern nicht.", "Wybierz folder o dokładnej nazwie galerieBizonow.": "Wähle den Ordner mit dem genauen Namen galerieBizonow.", "Nie znaleziono zdjęć JPG, PNG, WebP, AVIF ani GIF. Wybierz folder ze swoimi zdjęciami.": "Keine JPG-, PNG-, WebP-, AVIF- oder GIF-Bilder gefunden. Wähle deinen Bilderordner.", "Nazwy plików zawierają niedozwolone znaki (# ? :). Zmień te znaki i wybierz folder ponownie.": "Dateinamen enthalten unzulässige Zeichen (# ? :). Ändere sie und wähle den Ordner erneut.", "Teraz kliknij „Zapisz gotowy index.html”.": "Klicke jetzt auf „Fertige index.html speichern“.", "Zdjęcia wczytane. Zapisz HTML, aby zachować galerię.": "Bilder eingelesen. Speichere die HTML-Datei, um die Galerie zu behalten.", "Zapisz pobrany index.html obok folderu galerieBizonow.": "Speichere die heruntergeladene index.html neben dem Ordner galerieBizonow.", "Wczytano": "Eingelesen:", "zdjęć": "Bilder", "albumach. Galeria jest już widoczna za oknem.": "Alben. Die Galerie ist hinter diesem Fenster bereits sichtbar.", "Otwórz zdjęcie:": "Bild öffnen:", "Wybierz imprezę powyżej": "Wähle oben eine Veranstaltung", "Kalendarz i zapisy prowadzi klub. Koszyk przygotowuje zapytanie do pobrania.": "Demo-Version. Ergebnisse, Preise, Texte und Termine sind Beispiele. Anmeldungen und Warenkorb werden nur in diesem Browser gespeichert. Die Demo-Anmeldung schützt keine Daten; echte Mitgliedskonten benötigen einen Server und Authentifizierung. Die Galerie nutzt deine Bilder im Ordner galerieBizonow. Nach der Ordnerauswahl die neue HTML-Datei speichern und mit den Bildern veröffentlichen. galerie.js wird nicht benötigt.", "Utwórz podfoldery, np. „Babolat Cup”, „Turniej Bizonów” i „Inne wydarzenia”, i włóż do nich odpowiednie zdjęcia. Każdy podfolder stanie się przyciskiem wyboru imprezy. Możesz też rozdzielić edycje, np. „Babolat Cup listopad 2026”. Zdjęcia bezpośrednio w galerieBizonow trafią do „Inne wydarzenia”. Po dodaniu kolejnych zdjęć ponownie wybierz cały folder i zapisz HTML.": "Erstelle Unterordner, z. B. „Babolat Cup“, „Bizons-Turnier“ und „Weitere Veranstaltungen“, und lege die passenden Bilder hinein. Jeder Unterordner wird zu einem auswählbaren Album. Einzelne Ausgaben kannst du separat ablegen, z. B. „Babolat Cup November 2026“. Bilder direkt in galerieBizonow erscheinen unter „Weitere Veranstaltungen“. Nach neuen Bildern den gesamten Ordner erneut wählen und die HTML-Datei speichern.", "Vienna Bizons Club — wspólna pasja, własny rytm": "Vienna Bizons Club — gemeinsame Leidenschaft, eigener Rhythmus"};
 Object.assign(UI_TRANSLATIONS,{"Albumy klubowe": "Clubalben", "Wybierz imprezę powyżej, aby obejrzeć jej zdjęcia. Kliknięcie zdjęcia otwiera podgląd.": "Wähle oben eine Veranstaltung. Ein Klick auf ein Bild öffnet die Ansicht.", "Albumy pojawią się po publikacji zdjęć przez klub.": "Die Alben erscheinen, sobald der Club Bilder veröffentlicht.", "Aktualizacja przez klub": "Vom Club aktualisiert", "Zawodnik": "Spieler", "Suma punktów z turniejów klubowych.": "Gesamtpunkte aus Clubturnieren.", "Zasady punktacji ↗": "Wertungsregeln ↗"});
 UI_TRANSLATIONS["Kalendarz i zapisy prowadzi klub. Koszyk przygotowuje zapytanie do pobrania."]="Turnieranmeldungen, Mitgliederbereich und Shop sind Demos und senden keine Daten an den Veranstalter. Artikel, Ergebnisse und Alben werden vom Clubadministrator aktualisiert.";
 UI_TRANSLATIONS["Katalog publiczny · dostawa do Austrii i Polski"]="Öffentlicher Katalog · Versand nach Österreich und Polen";
@@ -282,17 +456,17 @@ async function refreshTournaments(){
   if(eventsResponse.error||entriesResponse.error)throw eventsResponse.error||entriesResponse.error;
   if(version!==tourVersion)return;
   tourSession=session;tourMember=memberResponse.data;tourEvents=eventsResponse.data;tourEntries=entriesResponse.data;tourState='ready';
-  $('#loginBtn').textContent=tourMember?.active?tourText('Mój panel ↗','Mein Bereich ↗'):tourText('Strefa członka ↗','Mitgliederbereich ↗');
+  $('#loginBtn').textContent=tourMember?.active?tourText('Mój panel ↗','Mein Bereich ↗'):tourText('Strefa bizona ↗','Mitgliederbereich ↗');
   renderEvents();
 }
 function tourLoadFailure(){tourState='error';tourEvents=[];tourEntries=[];tourMember=null;renderEvents()}
 async function openMember(eventKey=null){
   await tourReady;
   if(tourState!=='ready'){
-    modal(`<h2>${tourText('Strefa członka','Mitgliederbereich')}</h2><p>${tourText('Strefa członka jest chwilowo niedostępna.','Der Mitgliederbereich ist derzeit nicht verfügbar.')}</p>`);return;
+    modal(`<h2>${tourText('Strefa bizona','Mitgliederbereich')}</h2><p>${tourText('Strefa bizona jest chwilowo niedostępna.','Der Mitgliederbereich ist derzeit nicht verfügbar.')}</p>`);return;
   }
   if(tourSession){if(eventKey&&tourMember?.active)await tourSignup(eventKey);else dashboard();return}
-  modal(`<section class="tour-dialog"><h2>${tourText('Strefa członka','Mitgliederbereich')}</h2><p>${tourText('Dostęp dla członków zaproszonych przez klub.','Zugang für vom Club eingeladene Mitglieder.')}</p><form id="memberLogin">
+  modal(`<section class="tour-dialog"><h2>${tourText('Strefa bizona','Mitgliederbereich')}</h2><p>${tourText('Dostęp dla członków zaproszonych przez klub.','Zugang für vom Club eingeladene Mitglieder.')}</p><form id="memberLogin">
     ${eventKey?`<p>${tourText('Po zalogowaniu zapiszemy Twoją chęć udziału w wybranym turnieju.','Nach der Anmeldung wird dein Interesse am gewählten Turnier gespeichert.')}</p>`:''}
     <label class="field">E-mail<input type="email" name="email" autocomplete="username" required></label>
     <label class="field">${tourText('Hasło','Passwort')}<input type="password" name="password" autocomplete="current-password" required></label>
