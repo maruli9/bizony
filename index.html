@@ -398,13 +398,60 @@ body[data-theme="light"] .babolat-wordmark img {
   .babolat-card-action{min-height:44px}
 }
 </style>
-</head><body>
+<style id="bizonsActivityStyle">
+/* Z ostatniej chwili */
+.bizons-feed-strip,.bizons-feed-section {
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--panel);
+  color:var(--ink);
+}
+.bizons-feed-strip {
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:clamp(10px,2vw,24px);
+  min-height:106px;
+  padding:10px clamp(12px,2vw,24px);
+  margin-bottom:12px;
+}
+.bizons-feed-kicker {margin:0;color:var(--lime);font-size:10px;letter-spacing:.12em;font-weight:650;text-transform:uppercase}
+.bizons-feed-strip h3 {margin:2px 0 0;font-size:clamp(15px,2vw,19px);font-weight:550;line-height:1.2}
+.bizons-feed-mini {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;padding:0;list-style:none}
+.bizons-feed-mini li {min-width:0;border-inline-start:1px solid var(--line);padding-inline:10px}
+.bizons-feed-mini a {display:grid;align-content:center;gap:2px;min-height:42px;font-size:12px;line-height:1.25}
+.bizons-feed-mini strong {overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:520}
+.bizons-feed-mini time,.bizons-feed-time {color:var(--muted);font-size:11px}
+.bizons-feed-more {white-space:nowrap;font-size:12px}
+.bizons-feed-section {padding:clamp(18px,4vw,42px);margin-block:32px}
+.bizons-feed-section h2 {margin:3px 0 8px;font-weight:500}
+.bizons-feed-list {padding:0;margin:20px 0 0;list-style:none}
+.bizons-feed-list li {border-top:1px solid var(--line)}
+.bizons-feed-list a {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 4px;min-height:48px}
+.bizons-feed-list a:hover,.bizons-feed-mini a:hover {color:var(--lime)}
+.bizons-feed-list a span:first-child {display:grid;gap:3px;overflow-wrap:anywhere}
+.bizons-feed-list strong {font-weight:550}
+.bizons-feed-load {margin-top:14px}
+#ostatnia-chwila {scroll-margin-top:100px}
+@media(max-width:850px){
+ .bizons-feed-strip {grid-template-columns:minmax(0,1fr) auto;min-height:0}
+ .bizons-feed-mini {grid-column:1/-1;grid-row:2;grid-template-columns:1fr}
+ .bizons-feed-mini li {border-inline-start:0;border-top:1px solid var(--line);padding-inline:0}
+}
+
+#bizonsFeedLoad[hidden]{display:none}
+</style></head><body>
 <header><div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a><button class="btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mainNavigation"> <svg width="29" height="29" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M3 5h18M3 12h18M3 19h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-</svg></button><nav id="mainNavigation" aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#shop">Sklep klubowy</a><a id="trainingNav" href="#treningi" hidden onclick="openTraining();return false">Treningi</a><a href="#kontakt" id="bzContactOpen" aria-haspopup="dialog" aria-controls="kontakt">Kontakt</a>
+</svg></button><nav id="mainNavigation" aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#ostatnia-chwila">Z ostatniej chwili</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#shop">Sklep klubowy</a><a id="trainingNav" href="#treningi" hidden onclick="openTraining();return false">Treningi</a><a href="#kontakt" id="bzContactOpen" aria-haspopup="dialog" aria-controls="kontakt">Kontakt</a>
 </nav><button class="btn" onclick="openCart()" aria-label="Otwórz koszyk">Koszyk <span id="cartCount" class="count">0</span></button><div class="language-picker" role="group" aria-label="Język / Sprache"><button type="button" data-language="pl" aria-pressed="true" onclick="setLanguage('pl')">PL</button><button type="button" data-language="de" aria-pressed="false" onclick="setLanguage('de')">DE</button></div><div class="theme-picker" role="group" aria-label="Kolorystyka strony"><button class="theme-choice" data-theme-choice="original" style="--swatch:#d7f587" aria-label="Oryginalna zielona" title="Oryginalna zielona" aria-pressed="true" onclick="setTheme('original')"></button><button class="theme-choice" data-theme-choice="navy" style="--swatch:#233f6c" aria-label="Granatowa ciemna" title="Granatowa ciemna" aria-pressed="false" onclick="setTheme('navy')"></button><button class="theme-choice" data-theme-choice="light" style="--swatch:#ffffff" aria-label="Jasna biało-granatowa" title="Jasna biało-granatowa" aria-pressed="false" onclick="setTheme('light')"></button></div><button id="loginBtn" class="btn primary" onclick="openMember()">Strefa bizona ↗</button></div></header>
 <main><div class="hero" id="start"><div class="hero-art"></div><div class="wrap"><span class="pill"><i class="dot"></i> POLSKA PASJA. WIEDEŃSKI ADRES.</span><h1>Więcej niż gra.<br>To nasz <em>klub.</em></h1><p class="lead">Łączy nas badminton. Lubimy ze sobą grać.<br>Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.</p><div class="actions"><a class="btn primary" href="#events">Znajdź swój następny turniej ↗</a><a class="btn" href="#club">Poznaj Bizony ↓</a></div><div class="hero-bottom"><div><strong>20 lat</strong><span>wspólnej pasji</span></div><div><strong>Wiedeń</strong><span>nasze miejsce na korcie</span></div><div><strong>Bez granic</strong><span>Polska · Austria · dalej</span></div></div></div></div><div class="ticker">WSPÓLNOTA <b>✦</b> RYWALIZACJA <b>✦</b> SZACUNEK <b>✦</b> WSPÓLNA PASJA</div>
-<div class="wrap"><section id="news"><div class="section-top"><div><div class="eyebrow">Z życia Bizonów</div><h2>Na korcie i poza nim.</h2></div><button class="textlink" onclick="showArchive()">Archiwum aktualności ↗</button></div><aside class="babolat-feature" aria-labelledby="babolatTitle">
+<div class="wrap"><section id="news"><div class="section-top"><div><div class="eyebrow">Z życia Bizonów</div><h2>Na korcie i poza nim.</h2></div><button class="textlink" onclick="showArchive()">Archiwum aktualności ↗</button></div><aside class="bizons-feed-strip" aria-labelledby="bizonsFeedStripTitle">
+  <div><p class="bizons-feed-kicker">Vienna Bizons</p><h3 id="bizonsFeedStripTitle">Z ostatniej chwili</h3></div>
+  <ul class="bizons-feed-mini" id="bizonsFeedMini" data-user-content></ul>
+  <a class="btn bizons-feed-more" href="#ostatnia-chwila">Zobacz wszystkie ↗</a>
+</aside>
+<aside class="babolat-feature" aria-labelledby="babolatTitle">
   <div>
     <p class="babolat-eyebrow">Vienna Bizons · Liga drużynowa</p>
     <h3 class="babolat-wordmark" id="babolatTitle"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCACaAisDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo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Ifyh7GXc/BSvqy1Vvhn/AME7bqaXEd/8RvFSpAvRmsbRfmb6CaNl/wCBiv0//wCGP/gn/wBEv8M/+C9P8K3NY/Z2+GXiDQNG0PUvA2iXuj6Msi6dYzWitFahyGcRr0XcQCfWpli4ytoNUmj+fivrD/gmT4Dfxl+1JpeoMm618PWNxqcjEcbtohQfXdKD/wABNfp3/wAMf/BP/ol/hn/wXp/hXV+APgr4D+Fd1d3PhDwlpPhy4u0WOeXT7ZYmkUHIBI6gE0VMXGUXFLcI0mndlrx98QIfAEekNLpGpau+qXyafBFpqwl/NcErnzJE4wGORnAUk4Fcl4O/aZ8HePPE2k6Do/2+4vtSnvIYz5K7I1twx81zv4jkC5jIzuBHAr0y/wBHstUltJbu1iuJLSQy27SKCYnKMhZfQ7Hdc+jGsbQfhr4U8K3UFzo/hzTNLuII/KjltLVI2VfLSPaCB02RRr9EArzly21Wp0a3OloooqBhRRRQAUUUUAFFFFABXmP7QPxof4J+B5tVsfDereLdbmBjsNJ0mzlnaWTjmRkU+Wgzkk/QZNenUU42TuxM/B/4uaT8cfjf42vfFPizwd4tv9SuDtRP7FuhFbR5JWKJSh2IMnA9yTkkk8Z/wov4k/8ARPfFX/gluf8A4iv6E6K9BYxpWUTD2Pmfz2f8KL+JP/RPfFX/AIJbn/4ij/hRfxJ/6J74q/8ABLc//EV/QnRT+uv+UPYrufz2f8KL+JP/AET3xV/4Jbn/AOIo/wCFF/En/onvir/wS3P/AMRX9CdFH11/yh7Fdz+elvgj8RkbDeAPFCn0OjXP/wARSf8ACk/iJ/0IXif/AME1x/8AEV/QvRR9df8AKL2Pmfz0f8KT+In/AEIXif8A8E1x/wDEUf8ACk/iJ/0IXif/AME1x/8AEV/QvRR9df8AKHsfM/no/wCFJ/ET/oQvE/8A4Jrj/wCIro/Df7KPxj8WTImnfDTxMQxwJbrTZbaL/vuUKv61++lFH12XYfsV3PzI/Zx/4JWapPqVlrnxbu4bOxicSf8ACOafKJJZsc7ZpR8qqe4Qkkd1r7e8dSeOfCE9rpXw90vTItCtNHENraNpzNHHdGaOGBAySoFhRGZ2ULkLFwfm49ZorknWlUd5GqgoqyPPPg/4m8b+KbXVLrxnoMPhzDwCys1BMu0wq0jO24gkuT8o+790kkE16HRRWLd3coKKKKQwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//Z" alt="Babolat" width="555" height="154"><span>CUP</span></h3>
@@ -416,7 +463,15 @@ body[data-theme="light"] .babolat-wordmark img {
 <div class="surface"><div class="wrap"><section id="events"><div class="section-top"><div><div class="eyebrow">Kalendarz klubu</div><h2>Kolejny mecz?<br>Widzimy się tutaj.</h2></div><p class="muted">Turnieje klubowe, wyjazdy i starty indywidualne.<br><span class="tiny">Zapisy online dla członków klubu.</span></p></div><div class="tabs" id="eventTabs"><button class="tab active" data-filter="all">Wszystkie</button><button class="tab" data-filter="club">Klubowe</button><button class="tab" data-filter="away">Wyjazdowe</button><button class="tab" data-filter="solo">Indywidualne</button></div><div id="eventList" data-user-content aria-live="polite"></div></section></div></div>
 <div class="wrap"><section id="rankings"><div class="section-top"><div><div class="eyebrow">Każdy punkt ma znaczenie</div><h2>Nasza forma w liczbach.</h2></div><span class="pill">SEZON 2026/27</span></div><div class="split"><div class="card pad"><div class="badge">Rywalizacja drużynowa</div><h3>Babolat Cup - Tabela</h3><div class="tiny">Aktualizacja przez klub</div><table><thead><tr><th>#</th><th>Drużyna</th><th>Mecze</th><th>Punkty</th></tr></thead><tbody id="league"></tbody></table></div><div class="card pad"><div class="badge">Turnieje wewnętrzne</div><h3>Ranking Bizonów</h3><div class="tabs" id="rankTabs"><button class="tab active" data-rank="open">Open</button><button class="tab" data-rank="women">Kobiety</button></div><table><thead><tr><th>#</th><th>Zawodnik</th><th>Starty</th><th>Punkty</th></tr></thead><tbody id="players"></tbody></table><p class="tiny">Suma punktów z turniejów klubowych.</p><button class="textlink" onclick="modal(clubRules())">Zasady punktacji ↗</button></div></div></section><section id="gallery"><div class="section-top"><div><div class="eyebrow">Nasze wspomnienia</div><h2>Emocje zostają z nami.</h2></div><span class="tiny">Albumy klubowe</span></div><div class="event-album-list" id="galleryTabs" aria-label="Wybierz imprezę"></div><div class="gallery-controls"><label>Album <select id="albumSelect" aria-label="Wybierz album"></select></label><span id="galleryCount" class="tiny"></span></div><p class="tiny">Wybierz imprezę powyżej, aby obejrzeć jej zdjęcia. Kliknięcie zdjęcia otwiera podgląd.</p><h3 data-user-content id="selectedAlbumName">Wybierz imprezę</h3><div class="masonry" id="albums"></div></section></div>
 <div class="surface"><div class="wrap"><section id="shop"><div class="section-top"><div><div class="eyebrow">Reprezentuj swoje barwy</div><h2>Bizon zawsze z Tobą.</h2></div><p class="tiny">Katalog publiczny · dostawa do Austrii i Polski</p></div><div class="tabs" id="shopFilters" data-user-content></div><div class="shop-gallery" id="products" data-user-content></div></section></div></div>
-<div class="wrap"><section id="club"><div class="member-banner"><div><div class="eyebrow">Jeden klub. Wiele możliwości.</div><h2>Twoje miejsce<br>w drużynie.</h2><p>Sprawdź turnieje klubowe i zarządzaj swoimi zgłoszeniami.</p><button class="btn" onclick="openMember()">Otwórz strefę bizona ↗</button></div><div class="perks"><div>01 &nbsp; Zapisy i historia turniejów</div><div>02 &nbsp; Turnieje dostępne po zalogowaniu</div><div>03 &nbsp; Status zgłoszenia i lista rezerwowa</div><div>04 &nbsp; Rezygnacja ze zgłoszenia</div></div></div><div class="demo-note">Kalendarz i zapisy prowadzi klub. Koszyk przygotowuje zapytanie do pobrania.</div></section></div></main>
+<div class="wrap"><section id="club"><div class="member-banner"><div><div class="eyebrow">Jeden klub. Wiele możliwości.</div><h2>Twoje miejsce<br>w drużynie.</h2><p>Sprawdź turnieje klubowe i zarządzaj swoimi zgłoszeniami.</p><button class="btn" onclick="openMember()">Otwórz strefę bizona ↗</button></div><div class="perks"><div>01 &nbsp; Zapisy i historia turniejów</div><div>02 &nbsp; Turnieje dostępne po zalogowaniu</div><div>03 &nbsp; Status zgłoszenia i lista rezerwowa</div><div>04 &nbsp; Rezygnacja ze zgłoszenia</div></div></div><div class="demo-note">Kalendarz i zapisy prowadzi klub. Koszyk przygotowuje zapytanie do pobrania.</div></section></div><div class="wrap"><section class="bizons-feed-section" id="ostatnia-chwila" aria-labelledby="bizonsFeedTitle">
+  <p class="bizons-feed-kicker">Vienna Bizons</p>
+  <h2 id="bizonsFeedTitle">Z ostatniej chwili</h2>
+  <p class="muted">Najnowsze zmiany w klubie. Wybierz wiadomość, aby przejść do szczegółów.</p>
+  <ul id="bizonsFeedList" class="bizons-feed-list" data-user-content></ul>
+  <button class="btn bizons-feed-load" id="bizonsFeedLoad" type="button" hidden>Wczytaj starsze ↘</button>
+  <p id="bizonsFeedStatus" class="tiny" role="status" data-user-content></p>
+</section></div>
+</main>
 <dialog id="kontakt" aria-labelledby="bzContactTitle">
   <div class="bz-contact-shell">
     <button type="button" class="bz-contact-close" aria-label="Zamknij kontakt" autofocus>
@@ -612,6 +667,11 @@ Object.assign(UI_TRANSLATIONS,{
 });
 Object.assign(UI_TRANSLATIONS,{"Kontakt": "Kontakt", "Napisz do Bizonów.": "Schreib den Bizons.", "Imię": "Name", "Twój e-mail": "Deine E-Mail-Adresse", "Temat": "Betreff", "Wybierz temat": "Thema auswählen", "Trening i członkostwo": "Training und Mitgliedschaft", "Turnieje i zapisy": "Turniere und Anmeldung", "Współpraca z klubem": "Zusammenarbeit mit dem Club", "Inna sprawa": "Sonstiges", "Wiadomość": "Nachricht", "Wpisz imię i treść wiadomości.": "Gib deinen Namen und deine Nachricht ein.", "Wyślij wiadomość ↗": "Nachricht senden ↗", "Odpowiemy na adres e-mail podany w formularzu.": "Wir antworten an die im Formular angegebene E-Mail-Adresse.", "Wysyłanie wiadomości…": "Nachricht wird gesendet…", "Wiadomość wysłana. Dziękujemy!": "Nachricht gesendet. Vielen Dank!", "Nie udało się wysłać wiadomości. Spróbuj ponownie.": "Die Nachricht konnte nicht gesendet werden. Versuche es erneut.", "Zamknij kontakt": "Kontakt schließen", "Treningi, turnieje i współpraca klubowa.": "Training, Turniere und Zusammenarbeit mit dem Club."});
 Object.assign(UI_TRANSLATIONS,{"Vienna Bizons · Liga drużynowa":"Vienna Bizons · Mannschaftsliga","Otwórz kronikę ↗":"Chronik öffnen ↗"});
+Object.assign(UI_TRANSLATIONS,{
+ "Z ostatniej chwili":"Aktuell","Zobacz wszystkie ↗":"Alle Meldungen ↗",
+ "Najnowsze zmiany w klubie. Wybierz wiadomość, aby przejść do szczegółów.":"Neuigkeiten aus dem Club. Wähle eine Meldung, um die Details zu sehen.",
+ "Wczytaj starsze ↘":"Ältere Meldungen laden ↘"
+});
 const UI_REVERSE=Object.fromEntries(Object.entries(UI_TRANSLATIONS).map(([pl,de])=>[de,pl]));
 let currentLanguage='pl';
 try{currentLanguage=localStorage.getItem('bizons-language')||'pl'}catch{}
@@ -724,14 +784,14 @@ function renderBabolatCard(){
   const context=latest?ct('Najnowsza relacja: ','Neuester Bericht: ')+translated(latest,'title'):ct('Kronika sezonu','Saisonchronik');
   $('#babolatCardMeta').textContent=[summary,context].filter(Boolean).join(' · ');
 }
-function openBabolatChronicle(){
+function openBabolatChronicle(target=null){
   const reports=babolatReports();
   const date=value=>new Intl.DateTimeFormat(currentLanguage==='de'?'de-AT':'pl-PL',{dateStyle:'medium',timeZone:'Europe/Vienna'}).format(new Date(value+'T12:00:00Z'));
   const content=reports.map((article,index)=>{
     const articleIndex=clubData.articles.indexOf(article);
     const label=translated(article,'title');
     const album=article.albumId?`<button class="btn" type="button" onclick="goClubAlbum(${articleIndex})">${ct('Zobacz galerię','Galerie ansehen')} ↗</button>`:'';
-    return `<details ${index===0?'open':''}><summary><time datetime="${safe(article.date)}">${safe(date(article.date))}</time> <strong>${safe(label)}</strong></summary>
+    return `<details id="babolat-report-${safe(article.id)}" ${(target?article.id===target:index===0)?'open':''}><summary><time datetime="${safe(article.date)}">${safe(date(article.date))}</time> <strong>${safe(label)}</strong></summary>
       <div class="babolat-report"><p class="muted">${safe(translated(article,'summary'))}</p>${articleContent(article,currentLanguage,safe)}${album}</div></details>`;
   }).join('');
   modal(`<section class="babolat-chronicle" data-user-content><p class="tiny">${ct('VIENNA BIZONS · KRONIKA LIGI','VIENNA BIZONS · LIGACHRONIK')}</p>
@@ -739,6 +799,10 @@ function openBabolatChronicle(){
     ${content||`<p class="muted">${ct('Pierwsza relacja z Babolat Cup pojawi się tutaj po publikacji.','Der erste Bericht zum Babolat Cup erscheint hier nach der Veröffentlichung.')}</p>`}</section>`);
 }
 
+function openBabolatFromFeed(id){
+  openBabolatChronicle(id);
+  document.getElementById('babolat-report-'+id)?.scrollIntoView({block:'nearest'});
+}
 function renderClubNews(){renderBabolatCard();const posts=clubData.articles.filter(a=>a.status==='published'&&!isBabolatReport(a)).sort((a,b)=>b.date.localeCompare(a.date));$('#newsGrid').innerHTML=posts.length?posts.slice(0,6).map(a=>{const i=clubData.articles.indexOf(a);return `<article class="card" data-user-content>${articleCover(a)?`<img class="club-cover" src="${safe(articleCover(a).src)}" alt="${safe(articleCover(a).alt||translated(a,'title'))}" loading="lazy">`:'<div class="news-art"><span>BIZONS</span></div>'}<div class="pad"><span class="badge">${safe(a.category)} · ${safe(a.date)}</span><h3>${safe(translated(a,'title'))}</h3><p class="muted">${safe(translated(a,'summary'))}</p><button class="textlink" onclick="clubArticle(${i})">${ct('Czytaj dalej ↗','Weiterlesen ↗')}</button></div></article>`}).join(''):`<p class="muted">${ct('Wkrótce pierwsze klubowe historie.','Bald gibt es die ersten Clubgeschichten.')}</p>`}
 function clubArticle(i){const a=clubData.articles[i];if(!a||a.status==='draft')return;modal(`<article class="club-article-reader" data-user-content><span class="badge">${safe(a.category)} · ${safe(a.date)}</span><h2>${safe(translated(a,'title'))}</h2><p class="muted">${safe(translated(a,'summary'))}</p>${articleContent(a,currentLanguage,safe)}${a.albumId?`<button class="btn primary" onclick="goClubAlbum(${i})">${ct('Zobacz galerię wydarzenia ↗','Zur Veranstaltungsgalerie ↗')}</button>`:''}<div class="club-article-close-footer"><button type="button" class="btn club-article-close-bottom" aria-label="${ct('Zamknij artykuł','Artikel schließen')}">×</button></div></article>`)}
 function goClubAlbum(i){const a=clubData.articles[i];if(!galleryConfig.albums.some(x=>x.id===a.albumId)){toast(ct('Ten album nie jest już dostępny.','Dieses Album ist nicht mehr verfügbar.'));return}$('#modal').close();activeAlbum=a.albumId;activePhotoType='all';gallery();location.hash='gallery'}
@@ -750,7 +814,8 @@ const originalSetLanguage=setLanguage;setLanguage=function(language){originalSet
 $('#rankTabs').addEventListener('click',e=>{const b=e.target.closest('[data-rank]');if(!b)return;$('#rankTabs').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));renderClubRank(b.dataset.rank)});
 renderClubContent();
 renderShop();
-</script><script src="./turnieje-config.js"></script>
+</script><script id="bizonsActivityData" type="application/json">{"baseline":[{"key":"article:mw8go6hz-iqgv59y","kind":"babolat","target":"mw8go6hz-iqgv59y","pl":"Rusza kronika Babolat Cup","de":"","hash":"3194974:neohpq","date":"2026-11-09","status":"published"},{"key":"article:mw814htx-x4bfjym","kind":"article","target":"mw814htx-x4bfjym","pl":"fg","de":"","hash":"3323510:1gzkhrl","date":"2026-11-08","status":"published"},{"key":"article:mw70770c-ii52u91","kind":"article","target":"mw70770c-ii52u91","pl":"Badminton shuttlecock close-up","de":"","hash":"3475520:ykwqfj","date":"2026-11-07","status":"published"},{"key":"article:mw5g9wwk-7rwchbd","kind":"article","target":"mw5g9wwk-7rwchbd","pl":"Wspólna sobota na korcie","de":"","hash":"5318761:1p4ezmb","date":"2026-11-06","status":"published"},{"key":"album:album-0","kind":"album","target":"album-0","pl":"Inne Wydarzenia","de":"Inne Wydarzenia","hash":"725:1fzmh64","date":""},{"key":"album:mw5n7tgd-j6wbszy","kind":"album","target":"mw5n7tgd-j6wbszy","pl":"Projekty Statuetek","de":"Projekty Statuetek","hash":"873:1r5qjvh","date":""},{"key":"rankings","kind":"ranking","target":"rankings","pl":"Tabela ligi i rankingi Bizons","de":"Ligatabelle und Bizons-Ranglisten","hash":"2774:7t7wni"}],"events":[{"kind":"babolat","target":"mw8go6hz-iqgv59y","pl":"Rusza kronika Babolat Cup","de":"","action":"added","at":"2026-11-09T12:00:00Z"},{"kind":"article","target":"mw814htx-x4bfjym","pl":"fg","de":"","action":"added","at":"2026-11-08T12:00:00Z"},{"kind":"article","target":"mw70770c-ii52u91","pl":"Badminton shuttlecock close-up","de":"","action":"added","at":"2026-11-07T12:00:00Z"},{"kind":"article","target":"mw5g9wwk-7rwchbd","pl":"Wspólna sobota na korcie","de":"","action":"added","at":"2026-11-06T12:00:00Z"}],"generatedAt":"2026-11-09T09:01:07.949Z"}</script>
+<script src="./turnieje-config.js"></script>
 <script>
 const tourText=(pl,de)=>document.documentElement.lang==='de'?de:pl;
 const tourDate=value=>new Intl.DateTimeFormat(document.documentElement.lang==='de'?'de-AT':'pl-PL',{dateStyle:'medium',timeStyle:'short',timeZone:'Europe/Vienna'}).format(new Date(value));
@@ -821,7 +886,7 @@ function trainingError(error){
   return tourText(...(messages[key]||['Nie udało się wykonać operacji.','Der Vorgang ist fehlgeschlagen.']));
 }
 let trainingOverview=null;
-async function openTraining(){
+async function openTraining(target=null){
   if(!tourMember?.active)return;
   modal(`<section id="trainingPanel" class="tour-dialog"><h2>${tourText('Treningi Bizons','Bizons-Training')}</h2>
     <div id="trainingBody" aria-live="polite">${tourText('Wczytywanie treningów…','Trainings werden geladen…')}</div></section>`);
@@ -832,6 +897,17 @@ async function openTraining(){
     if(!body.isConnected||!$('#modal').open||!tourMember?.active)return;
     trainingOverview=data;
     renderTraining(body);
+    if(target){
+      const card=document.getElementById('training-card-'+target);
+      if(card){
+        for(let parent=card.parentElement;parent&&parent!==body;parent=parent.parentElement)
+          if(parent.tagName==='DETAILS')parent.open=true;
+        const roster=card.querySelector('details');
+        if(roster)roster.open=true;
+        card.scrollIntoView({block:'nearest'});
+      }
+    }
+    void loadSiteFeed();
   }catch(error){if(body.isConnected)body.textContent=trainingError(error)}
 }
 function renderTraining(body){
@@ -863,7 +939,7 @@ function trainingCard(s){
     const people=s.roster.filter(row=>row.status===key);
     return `<div><strong>${tourText(pl,de)} · ${people.length}</strong>${people.length?`<ol>${people.map(row=>`<li>${safe(row.name)}${row.preference?' · '+weekendFormatLabel(row.preference):''}</li>`).join('')}</ol>`:''}</div>`;
   }).join('');
-  return `<div class="internal">
+  return `<div class="internal" id="training-card-${safe(s.id)}">
     <strong>${trainingName(s.kind)} · ${trainingDate(s.day)}</strong>
     ${s.cancelled?` <span class="badge">${tourText('Odwołany','Abgesagt')}</span>`:''}
     <p class="tiny">${safe(s.starts_at.slice(0,5))} · ${safe(s.venue)}${s.capacity===null?'':` · ${tourText('Limit miejsc','Platzlimit')} ${safe(s.capacity)}`}</p>
@@ -943,6 +1019,8 @@ function trainingForm(mode,id=null){
 
 function renderEvents(filter=tourFilter){
   syncTrainingNav();
+  syncSiteFeedViewer();
+  renderSiteFeed();
   tourFilter=filter;
   const list=$('#eventList');
   if(tourState!=='ready'){
@@ -955,7 +1033,7 @@ function renderEvents(filter=tourFilter){
     const now=Date.now();
     const canSign=e.state==='published'&&now>=Date.parse(e.opens_at)&&now<Date.parse(e.closes_at||e.starts_at);
     const action=entry&&now<Date.parse(e.starts_at)?`<button class="btn" onclick="tourWithdraw('${e.id}',this)">${tourText('Zrezygnuj','Abmelden')}</button>`:canSign?`<button class="btn primary" onclick="tourSignup('${e.id}',this)">${tourMember?.active?tourText('Zapisz się','Anmelden'):tourText('Zaloguj się, aby się zapisać','Zur Anmeldung einloggen')}</button>`:'';
-    return `<article class="event live-event"><div><span class="badge">${tourText(...tourCategories[e.category])} · ${e.visibility==='public'?tourText('Publiczny','Öffentlich'):tourText('Dla członków','Für Mitglieder')}</span><h3>${safe(tourTitle(e))}</h3><div>${safe(tourEventDate(e))} · ${safe(e.venue)}</div><p class="tiny">${tourText('Zapisy','Anmeldung')}: ${safe(tourDate(e.opens_at))} – ${e.closes_at?safe(tourDate(e.closes_at)):tourText('do dnia turnieju','bis zum Turniertag')} · ${e.capacity===null?tourText('bez limitu','ohne Limit'):e.capacity+' '+tourText('miejsc','Plätze')}</p><p class="tiny">${e.waitlist?tourText('Lista rezerwowa aktywna','Warteliste aktiv'):''}</p><p class="tour-details">${safe(tourText(e.details,e.details_de||e.details))}</p><b>${e.state==='cancelled'?tourText('Odwołany','Abgesagt'):entry?tourEntryStatus(entry.status,e):canSign?'':tourText('Zapisy nie są otwarte','Anmeldung nicht geöffnet')}</b></div>${action}</article>`;
+    return `<article class="event live-event" id="tournament-${safe(e.id)}"><div><span class="badge">${tourText(...tourCategories[e.category])} · ${e.visibility==='public'?tourText('Publiczny','Öffentlich'):tourText('Dla członków','Für Mitglieder')}</span><h3>${safe(tourTitle(e))}</h3><div>${safe(tourEventDate(e))} · ${safe(e.venue)}</div><p class="tiny">${tourText('Zapisy','Anmeldung')}: ${safe(tourDate(e.opens_at))} – ${e.closes_at?safe(tourDate(e.closes_at)):tourText('do dnia turnieju','bis zum Turniertag')} · ${e.capacity===null?tourText('bez limitu','ohne Limit'):e.capacity+' '+tourText('miejsc','Plätze')}</p><p class="tiny">${e.waitlist?tourText('Lista rezerwowa aktywna','Warteliste aktiv'):''}</p><p class="tour-details">${safe(tourText(e.details,e.details_de||e.details))}</p><b>${e.state==='cancelled'?tourText('Odwołany','Abgesagt'):entry?tourEntryStatus(entry.status,e):canSign?'':tourText('Zapisy nie są otwarte','Anmeldung nicht geöffnet')}</b></div>${action}</article>`;
   }).join(''):`<p class="muted">${tourText('Brak turniejów w tym widoku.','Keine Turniere in dieser Ansicht.')}</p>`;
 }
 async function refreshTournaments(){
@@ -974,6 +1052,7 @@ async function refreshTournaments(){
   tourSession=session;tourMember=memberResponse.data;tourEvents=eventsResponse.data;tourEntries=entriesResponse.data;tourState='ready';
   $('#loginBtn').textContent=tourMember?.active?tourText('Mój panel ↗','Mein Bereich ↗'):tourText('Strefa bizona ↗','Mitgliederbereich ↗');
   renderEvents();
+  void loadSiteFeed();
 }
 function tourLoadFailure(){tourState='error';tourEvents=[];tourEntries=[];tourMember=null;renderEvents()}
 async function openMember(eventKey=null){
@@ -1153,7 +1232,113 @@ async function initTournaments(){
 if(/(?:[?#&])type=invite(?:&|$)/.test(location.hash+location.search)){
   try{sessionStorage.setItem('bizons-invite','1')}catch{}
 }
+const siteFeedData=JSON.parse($('#bizonsActivityData').textContent);
+let siteFeedLive=[];
+let siteFeedBefore=null;
+let siteFeedHasMore=false;
+let siteFeedRequest=0;
+let siteFeedViewer=null;
+let siteFeedOlderLoaded=false;
+const siteFeedKinds={
+  article:['Artykuł','Artikel'],babolat:['Babolat Cup','Babolat Cup'],
+  album:['Galeria','Galerie'],ranking:['Rankingi','Ranglisten'],
+  tournament:['Turniej','Turnier'],training:['Trening','Training']
+};
+const siteFeedActions={
+  added:['Nowość','Neu'],updated:['Aktualizacja','Aktualisierung'],
+  cancelled:['Odwołano','Abgesagt'],signup:['Nowe zgłoszenie','Neue Anmeldung'],
+  withdrawal:['Rezygnacja','Abmeldung'],removed:['Usunięto','Entfernt']
+};
+function siteFeedItem(row){
+  const kind=siteFeedKinds[row.kind];
+  const action=siteFeedActions[row.action];
+  if(!kind||!action||!Number.isFinite(Date.parse(row.at)))return null;
+  let title=tourText(row.pl||'',row.de||row.pl||'');
+  if(row.kind==='training')title=row.day?trainingName(row.trainingKind)+' · '+trainingDate(row.day):tourText('Zobacz trening','Training ansehen');
+  if(row.kind==='tournament'){
+    const event=tourEvents.find(item=>item.id===row.target);
+    title=event?tourTitle(event):tourText('Sprawdź terminarz','Zum Turnierkalender');
+  }
+  const href=row.action==='removed'?(row.kind==='album'?'#gallery':'#news'):
+    row.kind==='ranking'?'#rankings':'#bizons-'+row.kind+'-'+encodeURIComponent(row.target);
+  const timestamp=new Intl.DateTimeFormat(currentLanguage==='de'?'de-AT':'pl-PL',{
+    dateStyle:'medium',timeStyle:'short',timeZone:'Europe/Vienna'
+  }).format(new Date(row.at));
+  return {href,title,tag:tourText(...kind)+' · '+tourText(...action),timestamp};
+}
+function renderSiteFeed(){
+  const rows=[...siteFeedData.events,...siteFeedLive].sort((a,b)=>Date.parse(b.at)-Date.parse(a.at)).map(siteFeedItem).filter(Boolean);
+  const markup=(item,small)=>`<li><a href="${safe(item.href)}">${small
+    ?`<strong title="${safe(item.title)}">${safe(item.title||item.tag)}</strong><time>${safe(item.tag)}</time>`
+    :`<span><span class="bizons-feed-time">${safe(item.tag)} · ${safe(item.timestamp)}</span><strong>${safe(item.title||item.tag)}</strong></span><span aria-hidden="true">↗</span>`}</a></li>`;
+  const empty=`<li class="tiny">${tourText('Na razie nie ma nowych wiadomości.','Zurzeit gibt es keine neuen Meldungen.')}</li>`;
+  $('#bizonsFeedMini').innerHTML=rows.slice(0,3).map(row=>markup(row,true)).join('')||empty;
+  $('#bizonsFeedList').innerHTML=rows.map(row=>markup(row,false)).join('')||empty;
+  $('#bizonsFeedLoad').hidden=!siteFeedHasMore;
+}
+function syncSiteFeedViewer(){
+  const viewer=tourMember?.active?tourMember.user_id:null;
+  if(siteFeedViewer!==viewer){
+    siteFeedViewer=viewer;siteFeedLive=[];siteFeedBefore=null;siteFeedHasMore=false;siteFeedOlderLoaded=false;
+    siteFeedRequest++;
+  }
+}
+async function loadSiteFeed(older=false){
+  if(!tourDb)return;
+  syncSiteFeedViewer();
+  const request=++siteFeedRequest;
+  const button=$('#bizonsFeedLoad');
+  button.disabled=true;
+  try{
+    const {data,error}=await tourDb.rpc('bizons_site_activity_page',{p_before:older?siteFeedBefore:null});
+    if(request!==siteFeedRequest)return;
+    if(error)throw error;
+    const page=data.map(row=>({id:row.id,kind:row.kind,target:row.entity_id,action:row.action,at:row.happened_at,day:row.training_day,trainingKind:row.training_kind}));
+    if(older||siteFeedOlderLoaded){
+      const seen=new Map([...siteFeedLive,...page].map(row=>[row.id,row]));
+      siteFeedLive=[...seen.values()];
+    }else siteFeedLive=page;
+    if(older||!siteFeedOlderLoaded){siteFeedBefore=page.at(-1)?.id??null;siteFeedHasMore=page.length===50;}
+    if(older)siteFeedOlderLoaded=true;
+    $('#bizonsFeedStatus').textContent='';
+    renderSiteFeed();
+  }catch{
+    if(request===siteFeedRequest)$('#bizonsFeedStatus').textContent=tourText('Zmiany treningów i turniejów są chwilowo niedostępne.','Training- und Turnieränderungen sind vorübergehend nicht verfügbar.');
+  }finally{if(request===siteFeedRequest)button.disabled=false}
+}
+function siteFeedRoute(){
+  const match=location.hash.match(/^#bizons-(article|babolat|album|training|tournament)-([\w-]+)$/);
+  if(!match)return;
+  const [,kind,id]=match;
+  if(kind==='training'){
+    if(tourMember?.active)openTraining(id);
+    else openMember();
+  }else if(kind==='tournament'){
+    renderEvents('all');
+    ($('#tournament-'+id)||$('#events')).scrollIntoView();
+  }else if(kind==='album'){
+    if(galleryConfig.albums.some(album=>album.id===id)){
+      activeAlbum=id;activePhotoType='all';gallery();$('#gallery').scrollIntoView();
+    }
+  }else{
+    const index=clubData.articles.findIndex(article=>article.id===id&&article.status!=='draft');
+    if(index>=0){
+      if(kind==='babolat')openBabolatFromFeed(id);
+      else clubArticle(index);
+    }else $('#news').scrollIntoView();
+  }
+}
+$('#bizonsFeedLoad').addEventListener('click',()=>loadSiteFeed(true));
+document.addEventListener('click',event=>{
+  const link=event.target.closest?.('a[href^="#bizons-"]');
+  if(link&&link.hash===location.hash){event.preventDefault();siteFeedRoute();}
+});
+window.addEventListener('hashchange',siteFeedRoute);
+
+renderSiteFeed();
 tourReady=initTournaments();
+void tourReady.then(siteFeedRoute);
+window.setInterval(()=>{if(!document.hidden&&tourDb)void loadSiteFeed();},60000);
 tabs('#eventTabs','filter',renderEvents);
 window.addEventListener('focus',()=>{if(tourDb)refreshTournaments().catch(tourLoadFailure)});
 
