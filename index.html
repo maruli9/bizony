@@ -664,12 +664,77 @@ body[data-theme="light"] .babolat-wordmark img {
 }
 .bizons-shop-shelf-note-first {top:23%;left:24%;transform:rotate(-5deg)}
 .bizons-shop-shelf-note-second {top:58%;left:51%;transform:rotate(4deg)}
+</style><style id="bizonsWelcomeStyle">
+.bizons-welcome {
+  width:min(100%,43rem);
+  margin-top:24px;
+  padding:15px 16px;
+  border:1px solid var(--line);
+  border-inline-start:2px solid var(--lime);
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--ink);
+}
+.bizons-welcome[hidden],.bizons-welcome-row[hidden] {display:none}
+.bizons-welcome-row {display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap}
+.bizons-welcome-copy {flex:1 1 16rem}
+.bizons-welcome-title {margin:0 0 4px;font-size:15px;font-weight:650;line-height:1.3;letter-spacing:0}
+.bizons-welcome-copy p {margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+.bizons-welcome-actions {display:flex;align-items:center;gap:6px 8px;flex-wrap:wrap}
+.bizons-welcome-actions .btn {min-height:44px;justify-content:center;padding:8px 11px;font-size:13px;white-space:nowrap}
+.bizons-welcome-actions .btn:not(.primary) {background:transparent}
+.bizons-welcome-actions .btn:focus-visible {outline:2px solid var(--lime);outline-offset:3px}
+@media(max-width:440px) {
+  .bizons-welcome {padding:13px 12px}
+  .bizons-welcome-actions {width:100%}
+  .bizons-welcome-actions .btn {flex:1 1 auto}
+}
 </style></head><body>
 <header><div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a><div class="bizons-menu-dropdown"><button class="btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mainNavigation"> <svg width="29" height="29" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M3 5h18M3 12h18M3 19h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
 </svg><span>Menu</span><svg class="bizons-menu-shuttle" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 16 4.5 4.5l4 1.5L12 4l3.5 2 4-1.5-4 11.5v2a3.5 3.5 0 0 1-7 0zM8.5 16h7M8.5 6l2 10m5-10-2 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="bizons-menu-sound" id="bizonsMenuSound" type="button" role="switch" aria-checked="false"><span class="bizons-menu-sound-track" aria-hidden="true"></span><span>Dźwięk menu</span></button><nav id="mainNavigation" aria-label="Menu główne"><a href="#news">Aktualności</a><a href="#ostatnia-chwila">Z ostatniej chwili</a><a href="#technika-tygodnia">Technika tygodnia</a><a href="#events">Turnieje</a><a href="#rankings">Rankingi</a><a href="#gallery">Galeria</a><a href="#bizonsShopNotice" aria-haspopup="dialog" aria-controls="bizonsShopNotice">Sklep klubowy</a><a id="trainingNav" href="#treningi" hidden onclick="openTraining();return false">Treningi</a><a href="#kontakt" id="bzContactOpen" aria-haspopup="dialog" aria-controls="kontakt">Kontakt</a>
 </nav></div><button class="btn" onclick="openCart()" aria-label="Otwórz koszyk">Koszyk <span id="cartCount" class="count">0</span></button><div class="language-picker" role="group" aria-label="Język / Sprache"><button type="button" data-language="pl" aria-pressed="true" onclick="setLanguage('pl')">PL</button><button type="button" data-language="de" aria-pressed="false" onclick="setLanguage('de')">DE</button></div><div class="theme-picker" role="group" aria-label="Kolorystyka strony"><button class="theme-choice" data-theme-choice="original" style="--swatch:#d7f587" aria-label="Oryginalna zielona" title="Oryginalna zielona" aria-pressed="true" onclick="setTheme('original')"></button><button class="theme-choice" data-theme-choice="navy" style="--swatch:#233f6c" aria-label="Granatowa ciemna" title="Granatowa ciemna" aria-pressed="false" onclick="setTheme('navy')"></button><button class="theme-choice" data-theme-choice="light" style="--swatch:#ffffff" aria-label="Jasna biało-granatowa" title="Jasna biało-granatowa" aria-pressed="false" onclick="setTheme('light')"></button></div><button id="loginBtn" class="btn primary" onclick="openMember()">Strefa bizona ↗</button></div></header>
-<main><div class="hero" id="start"><div class="hero-art"></div><div class="wrap"><span class="pill"><i class="dot"></i> POLSKA PASJA. WIEDEŃSKI ADRES.</span><h1>Więcej niż gra.<br>To nasz <em>klub.</em></h1><p class="lead">Łączy nas badminton. Lubimy ze sobą grać.<br>Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.</p><div class="actions"><a class="btn primary" href="#events">Znajdź swój następny turniej ↗</a><a class="btn" href="#club">Poznaj Bizony ↓</a></div><div class="hero-bottom"><div><strong>20 lat</strong><span>wspólnej pasji</span></div><div><strong>Wiedeń</strong><span>nasze miejsce na korcie</span></div><div><strong>Bez granic</strong><span>Polska · Austria · dalej</span></div></div></div></div><div class="ticker">WSPÓLNOTA <b>✦</b> RYWALIZACJA <b>✦</b> SZACUNEK <b>✦</b> WSPÓLNA PASJA</div>
+<main><div class="hero" id="start"><div class="hero-art"></div><div class="wrap"><span class="pill"><i class="dot"></i> POLSKA PASJA. WIEDEŃSKI ADRES.</span><h1>Więcej niż gra.<br>To nasz <em>klub.</em></h1><p class="lead">Łączy nas badminton. Lubimy ze sobą grać.<br>Trenujemy, rywalizujemy i tworzymy polską społeczność sportową w Wiedniu.</p><div class="actions"><a class="btn primary" href="#events">Znajdź swój następny turniej ↗</a><a class="btn" href="#club">Poznaj Bizony ↓</a></div><div class="bizons-welcome" id="bizonsWelcome" hidden>
+  <div class="bizons-welcome-row" id="bizonsWelcomeFirst" hidden>
+    <div class="bizons-welcome-copy">
+      <h2 class="bizons-welcome-title">Witaj w klubie Vienna Bizons</h2>
+      <p>Stronę możesz przeglądać bez logowania. Konto daje dostęp do treningów, turniejów dla członków i zapisów.</p>
+    </div>
+    <div class="bizons-welcome-actions">
+      <button class="btn primary" type="button" onclick="openMember(null,true)">Załóż konto</button>
+      <button class="btn" type="button" onclick="openMember()">Zaloguj się</button>
+    </div>
+  </div>
+  <div class="bizons-welcome-row" id="bizonsWelcomeReturn" hidden>
+    <div class="bizons-welcome-copy">
+      <h2 class="bizons-welcome-title">Miło Cię znów widzieć</h2>
+      <p>Strona jest otwarta dla gości. Do treningów i terminów klubowych przejdziesz po zalogowaniu.</p>
+    </div>
+    <div class="bizons-welcome-actions">
+      <button class="btn primary" type="button" onclick="openMember()">Zaloguj się</button>
+      <button class="btn" type="button" onclick="openMember(null,true)">Załóż konto</button>
+    </div>
+  </div>
+  <div class="bizons-welcome-row" id="bizonsWelcomeMember" hidden>
+    <div class="bizons-welcome-copy">
+      <h2 class="bizons-welcome-title">Twój klub, Twój plan gry</h2>
+      <p>Sprawdź najbliższe treningi i terminy turniejów.</p>
+    </div>
+    <div class="bizons-welcome-actions">
+      <button class="btn" type="button" onclick="openTraining()">Treningi</button>
+      <a class="btn" href="#events">Turnieje</a>
+    </div>
+  </div>
+  <div class="bizons-welcome-row" id="bizonsWelcomeAccount" hidden>
+    <div class="bizons-welcome-copy">
+      <h2 class="bizons-welcome-title">Twoje konto Bizons</h2>
+      <p>Status dostępu do treningów i turniejów sprawdzisz w swoim panelu.</p>
+    </div>
+    <div class="bizons-welcome-actions">
+      <button class="btn" type="button" onclick="openMember()">Mój panel</button>
+    </div>
+  </div>
+</div><div class="hero-bottom"><div><strong>20 lat</strong><span>wspólnej pasji</span></div><div><strong>Wiedeń</strong><span>nasze miejsce na korcie</span></div><div><strong>Bez granic</strong><span>Polska · Austria · dalej</span></div></div></div></div><div class="ticker">WSPÓLNOTA <b>✦</b> RYWALIZACJA <b>✦</b> SZACUNEK <b>✦</b> WSPÓLNA PASJA</div>
 <div class="wrap"><section id="news"><div class="section-top"><div><div class="eyebrow">Z życia Bizonów</div><h2>Na korcie i poza nim.</h2></div><button class="textlink" onclick="showArchive()">Archiwum aktualności ↗</button></div><aside class="bizons-feed-strip" aria-labelledby="bizonsFeedStripTitle">
   <div><p class="bizons-feed-kicker">Vienna Bizons</p><h3 id="bizonsFeedStripTitle">Z ostatniej chwili</h3></div>
   <ul class="bizons-feed-mini" id="bizonsFeedMini" data-user-content></ul>
@@ -958,6 +1023,18 @@ Object.assign(UI_TRANSLATIONS,{
  "Czekamy na towar":"Wir warten auf Ware",
  "Puste półki z kartkami „Czekamy na towar”":"Leere Regale mit Zetteln „Wir warten auf Ware“"
 });
+Object.assign(UI_TRANSLATIONS,{
+ "Witaj w klubie Vienna Bizons":"Willkommen beim Vienna Bizons Club",
+ "Stronę możesz przeglądać bez logowania. Konto daje dostęp do treningów, turniejów dla członków i zapisów.":"Du kannst die Website ohne Anmeldung nutzen. Mit einem Konto siehst du Trainings und Turniere für Mitglieder und kannst dich dafür anmelden.",
+ "Miło Cię znów widzieć":"Schön, dass du wieder da bist",
+ "Strona jest otwarta dla gości. Do treningów i terminów klubowych przejdziesz po zalogowaniu.":"Die Website ist für Gäste offen. Trainings und Clubtermine siehst du nach der Anmeldung.",
+ "Twój klub, Twój plan gry":"Dein Club, dein Spielplan",
+ "Sprawdź najbliższe treningi i terminy turniejów.":"Sieh dir die nächsten Trainings und Turniertermine an.",
+ "Twoje konto Bizons":"Dein Bizons-Konto",
+ "Status dostępu do treningów i turniejów sprawdzisz w swoim panelu.":"In deinem Bereich siehst du, ob dein Zugang zu Trainings und Turnieren aktiv ist.",
+ "Załóż konto":"Konto erstellen",
+ "Mój panel":"Mein Bereich"
+});
 const UI_REVERSE=Object.fromEntries(Object.entries(UI_TRANSLATIONS).map(([pl,de])=>[de,pl]));
 let currentLanguage='pl';
 try{currentLanguage=localStorage.getItem('bizons-language')||'pl'}catch{}
@@ -1148,6 +1225,24 @@ function tourError(err){
     capacity_below_confirmed:['Limit jest mniejszy niż liczba potwierdzonych uczestników.','Das Limit liegt unter der Zahl bestätigter Teilnehmer.']
   };
   return messages[err?.message]?tourText(...messages[err.message]):tourText('Operacja nie powiodła się. Sprawdź dane lub spróbuj ponownie.','Vorgang fehlgeschlagen. Bitte prüfe die Daten oder versuche es erneut.');
+}
+const bizonsReturningVisitor=(()=>{
+  try{
+    const returning=localStorage.getItem('bizons-has-visited')==='1';
+    localStorage.setItem('bizons-has-visited','1');
+    return returning;
+  }catch{return false}
+})();
+function syncBizonsWelcome(){
+  const welcome=$('#bizonsWelcome');
+  if(tourState==='loading')return;
+  const selected=tourState==='ready'&&tourSession
+    ?(tourMember?.active?'Member':'Account')
+    :(bizonsReturningVisitor?'Return':'First');
+  for(const state of ['First','Return','Member','Account']){
+    $('#bizonsWelcome'+state).hidden=state!==selected;
+  }
+  welcome.hidden=false;
 }
 function syncTrainingNav(){
   const link=$('#trainingNav');
@@ -1397,6 +1492,7 @@ function trainingForm(mode,id=null){
 
 function renderEvents(filter=tourFilter){
   syncTrainingNav();
+  syncBizonsWelcome();
   syncSiteFeedViewer();
   renderSiteFeed();
   tourFilter=filter;
@@ -1419,8 +1515,16 @@ async function refreshTournaments(){
   const sessionResult=await tourDb.auth.getSession();
   if(sessionResult.error)throw sessionResult.error;
   const session=sessionResult.data.session;
-  const memberResponse=session?await tourDb.from('bizons_members').select('user_id,display_name,role,active').eq('user_id',session.user.id).maybeSingle():{data:null};
+  const readMember=()=>tourDb.from('bizons_members').select('user_id,display_name,role,active').eq('user_id',session.user.id).maybeSingle();
+  let memberResponse=session?await readMember():{data:null};
   if(memberResponse.error)throw memberResponse.error;
+  if(!memberResponse.data&&session?.user.user_metadata?.bizons_self_signup===true&&session.user.email_confirmed_at){
+    const activation=await tourDb.rpc('bizons_activate_self_signup');
+    if(!activation.error&&activation.data){
+      memberResponse=await readMember();
+      if(memberResponse.error)throw memberResponse.error;
+    }
+  }
   const [eventsResponse,entriesResponse]=await Promise.all([
     tourDb.from('bizons_events').select('*').order('starts_at'),
     memberResponse.data?.active?tourDb.from('bizons_entries').select('event_id,status').eq('user_id',session.user.id):{data:[]}
@@ -1433,19 +1537,22 @@ async function refreshTournaments(){
   void loadSiteFeed();
 }
 function tourLoadFailure(){tourState='error';tourEvents=[];tourEntries=[];tourMember=null;renderEvents()}
-async function openMember(eventKey=null){
+async function openMember(eventKey=null,createAccount=false){
   await tourReady;
   if(tourState!=='ready'){
     modal(`<h2>${tourText('Strefa bizona','Mitgliederbereich')}</h2><p>${tourText('Strefa bizona jest chwilowo niedostępna.','Der Mitgliederbereich ist derzeit nicht verfügbar.')}</p>`);return;
   }
   if(tourSession){if(eventKey&&tourMember?.active)await tourSignup(eventKey);else dashboard();return}
-  modal(`<section class="tour-dialog"><h2>${tourText('Strefa bizona','Mitgliederbereich')}</h2><p>${tourText('Dostęp dla członków zaproszonych przez klub.','Zugang für vom Club eingeladene Mitglieder.')}</p><form id="memberLogin">
+  if(createAccount){openMemberSignup(eventKey);return}
+  modal(`<section class="tour-dialog"><h2>${tourText('Strefa bizona','Mitgliederbereich')}</h2><p>${tourText('Zaloguj się lub załóż konto, aby zobaczyć treningi i turnieje dla członków.','Melde dich an oder erstelle ein Konto, um Trainings und Turniere für Mitglieder zu sehen.')}</p><form id="memberLogin">
     ${eventKey?`<p>${tourText('Po zalogowaniu zapiszemy Twoją chęć udziału w wybranym turnieju.','Nach der Anmeldung wird dein Interesse am gewählten Turnier gespeichert.')}</p>`:''}
     <label class="field">E-mail<input type="email" name="email" autocomplete="username" required></label>
     <label class="field">${tourText('Hasło','Passwort')}<input type="password" name="password" autocomplete="current-password" required></label>
     <button class="btn primary">${tourText('Zaloguj się','Anmelden')}</button>
+    <button type="button" class="btn" id="memberSignupButton">${tourText('Załóż konto','Konto erstellen')}</button>
     <button type="button" class="btn" onclick="tourReset(this)">${tourText('Zresetuj hasło','Passwort zurücksetzen')}</button>
     <p class="tiny" id="tourFormError" role="status"></p></form></section>`);
+  $('#memberSignupButton').onclick=()=>openMemberSignup(eventKey);
   $('#memberLogin').onsubmit=async e=>{
     e.preventDefault();
     const form=e.currentTarget, button=form.querySelector('button');
@@ -1463,6 +1570,53 @@ async function openMember(eventKey=null){
     finally{button.disabled=false}
   };
 }
+function openMemberSignup(eventKey){
+  modal(`<section class="tour-dialog"><h2>${tourText('Załóż konto Bizons','Bizons-Konto erstellen')}</h2>
+    <p>${tourText('Potwierdź adres e-mail z otrzymanej wiadomości. Po zalogowaniu uzyskasz dostęp do treningów i turniejów dla członków.','Bestätige deine E-Mail-Adresse über den Link in der Nachricht. Nach der Anmeldung erhältst du Zugang zu Trainings und Turnieren für Mitglieder.')}</p>
+    <form id="memberSignup">
+      <label class="field">${tourText('Imię i nazwisko','Vor- und Nachname')}<input name="displayName" autocomplete="name" maxlength="80" required></label>
+      <label class="field">E-mail<input type="email" name="email" autocomplete="email" required></label>
+      <label class="field">${tourText('Hasło (min. 10 znaków)','Passwort (mind. 10 Zeichen)')}<input type="password" name="password" autocomplete="new-password" minlength="10" required></label>
+      <button type="submit" class="btn primary">${tourText('Załóż konto','Konto erstellen')}</button>
+      <button type="button" class="btn" id="memberSignupBack">${tourText('Wróć do logowania','Zurück zur Anmeldung')}</button>
+      <p class="tiny" role="status"></p>
+    </form></section>`);
+  const form=$('#memberSignup');
+  $('#memberSignupBack').onclick=()=>openMember(eventKey);
+  form.onsubmit=async event=>{
+    event.preventDefault();
+    const fields=new FormData(form);
+    const name=fields.get('displayName').trim();
+    const status=form.querySelector('[role=status]');
+    const button=form.querySelector('[type=submit]');
+    if(button.disabled)return;
+    if(!name){
+      status.textContent=tourText('Wpisz imię i nazwisko.','Gib deinen Vor- und Nachnamen ein.');
+      return;
+    }
+    button.disabled=true;
+    try{
+      const {data,error}=await tourDb.auth.signUp({
+        email:fields.get('email').trim(),
+        password:fields.get('password'),
+        options:{data:{bizons_self_signup:true,bizons_display_name:name}}
+      });
+      if(error)throw error;
+      if(data.session){
+        const {error:logoutError}=await tourDb.auth.signOut();
+        if(logoutError)throw logoutError;
+        status.textContent=tourText('Potwierdzanie e-maila jest chwilowo niedostępne. Skontaktuj się z klubem.','Die E-Mail-Bestätigung ist derzeit nicht verfügbar. Wende dich an den Club.');
+        return;
+      }
+      form.reset();
+      status.textContent=tourText('Sprawdź skrzynkę pocztową i folder Spam. Otwórz link potwierdzający, a następnie zaloguj się.','Prüfe deinen Posteingang und Spam-Ordner. Öffne den Bestätigungslink und melde dich anschließend an.');
+    }catch(error){
+      status.textContent=error.status===429
+        ?tourText('Za dużo prób. Odczekaj chwilę i spróbuj ponownie.','Zu viele Versuche. Warte kurz und versuche es erneut.')
+        :tourText('Nie udało się założyć konta. Sprawdź dane. Jeśli masz już konto, zaloguj się lub zresetuj hasło.','Das Konto konnte nicht erstellt werden. Prüfe deine Angaben. Wenn du bereits ein Konto hast, melde dich an oder setze dein Passwort zurück.');
+    }finally{button.disabled=false}
+  };
+}
 async function tourReset(button){
   const input=$('#memberLogin input[name=email]');
   if(!input.value||!input.reportValidity()){input.focus();return}
@@ -1478,7 +1632,9 @@ function dashboard(){
   const items=tourEntries.map(r=>({r,event:tourEvents.find(e=>e.id===r.event_id)})).filter(x=>x.event);
   modal(`<section class="tour-dialog"><h2>${tourText('Mój panel','Mein Bereich')}</h2>
   ${tourMember?.active?`<p>${safe(tourMember.display_name)}</p><h3>${tourText('Moje zgłoszenia','Meine Anmeldungen')}</h3>${items.map(({r,event:e})=>`<div class="internal"><b>${safe(tourTitle(e))}</b> · ${e.state==='cancelled'?tourText('Odwołany','Abgesagt'):tourEntryStatus(r.status,e)}<p class="tiny">${safe(tourEventDate(e))}</p>${Date.now()<Date.parse(e.starts_at)?`<button class="btn" onclick="tourWithdraw('${e.id}',this,true)">${tourText('Zrezygnuj','Abmelden')}</button>`:''}</div>`).join('')||`<p>${tourText('Brak zgłoszeń.','Keine Anmeldungen.')}</p>`}
-  <div class="actions"><a class="btn" href="#events" onclick="$('#modal').close()">${tourText('Przejdź do terminarza','Zum Kalender')}</a>${tourAdmin()?`<button class="btn primary" onclick="tourAdminPanel()">${tourText('Zarządzaj turniejami','Turniere verwalten')}</button>`:''}</div>`:`<p>${tourText('Konto czeka na aktywację przez klub.','Das Konto wartet auf die Aktivierung durch den Club.')}</p>`}
+  <div class="actions"><a class="btn" href="#events" onclick="$('#modal').close()">${tourText('Przejdź do terminarza','Zum Kalender')}</a>${tourAdmin()?`<button class="btn primary" onclick="tourAdminPanel()">${tourText('Zarządzaj turniejami','Turniere verwalten')}</button>`:''}</div>`:`<p>${!tourMember&&tourSession?.user.user_metadata?.bizons_self_signup===true
+    ?tourText('Nie udało się aktywować konta. Spróbuj ponownie się zalogować lub skontaktuj się z klubem.','Das Konto konnte nicht aktiviert werden. Melde dich erneut an oder wende dich an den Club.')
+    :tourText('Konto czeka na aktywację przez klub.','Das Konto wartet auf die Aktivierung durch den Club.')}</p>`}
   <div class="actions"><button class="btn" onclick="tourPassword()">${tourText('Ustaw hasło','Passwort festlegen')}</button><button class="btn" onclick="tourLogout(this)">${tourText('Wyloguj się','Abmelden')}</button></div></section>`);
 }
 async function tourLogout(button){
