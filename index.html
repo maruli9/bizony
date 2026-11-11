@@ -696,6 +696,91 @@ body[data-theme="light"] .babolat-wordmark img {
   .bizons-welcome-actions .btn {flex:1 1 auto}
 }
 </style>
+
+<style id="bizonsAcademyStyle">
+/* Akademia badmintona — styl inspirowany dostarczoną fotografią */
+#technika-tygodnia.bizons-academy{max-width:none;width:calc(100vw - 7vw);margin-left:50%;transform:translateX(-50%);padding:clamp(22px,3vw,46px);border:1px solid #9b9b98;border-radius:22px;background:linear-gradient(135deg,#f4f3ef 0%,#c5c6c3 32%,#f7f7f4 51%,#242626 51.2%,#080a0b 100%);color:#151718;box-shadow:0 25px 75px #0005;overflow:hidden}
+#technika-tygodnia .academy-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+#technika-tygodnia .academy-kicker{color:#474a4b;font-size:11px;font-weight:750;letter-spacing:.22em;text-transform:uppercase}
+#technika-tygodnia .academy-heading h2{font-size:clamp(30px,4vw,58px);letter-spacing:-.05em;font-weight:400;margin:5px 0}
+#technika-tygodnia .academy-heading p{margin:0;max-width:580px;font-size:13px;color:#4b4e4f}
+#technika-tygodnia .academy-tag{font-size:11px;letter-spacing:.15em;text-transform:uppercase;border:1px solid #888;border-radius:99px;padding:9px 15px;background:#f4f3efbb}
+#technika-tygodnia .academy-grid{display:grid;grid-template-columns:1.2fr 1fr 1.1fr .78fr;gap:13px;align-items:stretch}
+#technika-tygodnia .academy-card{min-width:0;border:1px solid #b3b4b0;border-radius:16px;padding:clamp(15px,1.6vw,25px);background:#f7f7f4f2;color:#202222;box-shadow:0 10px 30px #0002}
+#technika-tygodnia .academy-card:nth-child(2){background:#e4e5e2f5}
+#technika-tygodnia .academy-card:nth-child(3){background:#222526f5;color:#f2f2ee;border-color:#555}
+#technika-tygodnia .academy-card:nth-child(4){background:#0c0e0ff5;color:#f2f2ee;border-color:#444}
+#technika-tygodnia .academy-number{font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+#technika-tygodnia .academy-card h3{font-size:clamp(19px,1.6vw,26px);font-weight:500;letter-spacing:-.04em;margin:12px 0}
+#technika-tygodnia .academy-card p,#technika-tygodnia .academy-card li{font-size:13px;line-height:1.65}
+#technika-tygodnia .academy-video-wrap{position:relative;aspect-ratio:9/10;background:radial-gradient(ellipse at 75% 35%,#777,#181a1b 55%,#080a0b);border-radius:11px;overflow:hidden;display:grid;place-items:center}
+#technika-tygodnia .academy-video-wrap video{display:block;width:100%;height:100%;object-fit:contain;background:#0b0c0d}
+#technika-tygodnia .academy-video-empty{position:absolute;inset:0;display:grid;place-content:center;gap:12px;text-align:center;color:#eee;padding:18px;font-size:12px;pointer-events:none}
+#technika-tygodnia .academy-video-empty strong{font-size:clamp(30px,4vw,54px);font-weight:300;letter-spacing:-.08em}
+#technika-tygodnia .academy-video-wrap:has(video[src]) .academy-video-empty{display:none}
+#technika-tygodnia .academy-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#technika-tygodnia .academy-button{border:1px solid currentColor;border-radius:8px;background:transparent;color:inherit;padding:10px 14px;min-height:42px;font-weight:650;font-size:12px}
+#technika-tygodnia .academy-button.primary{background:#171a1b;color:white;border-color:#171a1b}
+#technika-tygodnia .academy-button:disabled{opacity:.4;cursor:not-allowed}
+#technika-tygodnia .academy-choice{display:flex;align-items:flex-start;gap:10px;padding:11px 9px;border-bottom:1px solid #b5b6b2;cursor:pointer;font-size:13px;line-height:1.5}
+#technika-tygodnia .academy-choice input{width:17px;height:17px;flex:none;margin:2px 0 0;accent-color:#151718}
+#technika-tygodnia .academy-choice.correct{background:#d2ded5;border-radius:7px}
+#technika-tygodnia .academy-choice.incorrect{background:#ead9d8;border-radius:7px}
+#technika-tygodnia .academy-result{margin-top:15px;padding:14px;border-radius:10px;background:#fff;border:1px solid #b8b9b6;font-size:13px;line-height:1.6}
+#technika-tygodnia .academy-result[hidden]{display:none}
+#technika-tygodnia .academy-result strong{display:block;margin-bottom:5px}
+#technika-tygodnia .academy-theory h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#dededa;margin:20px 0 6px}
+#technika-tygodnia .academy-theory p{color:#d4d6d2;margin:5px 0 12px}
+#technika-tygodnia .academy-theory ul{padding-left:18px;color:#d4d6d2}
+#technika-tygodnia .academy-archive{display:grid;gap:9px}
+#technika-tygodnia .academy-archive button{width:100%;padding:14px 12px;text-align:left;border:1px solid #555;border-radius:10px;background:#202324;color:#eee;font-size:13px;cursor:pointer}
+#technika-tygodnia .academy-archive button[aria-current="true"]{background:#e9eae6;color:#101213;border-color:#e9eae6}
+#technika-tygodnia .academy-archive small{display:block;opacity:.65;margin-top:4px}
+#technika-tygodnia .academy-note{font-size:11px;opacity:.7;margin-top:12px}
+@media(min-width:701px) and (max-width:1150px){
+  #technika-tygodnia .academy-card:nth-child(3),#technika-tygodnia .academy-card:nth-child(4){max-height:65vh;overflow-y:auto;overscroll-behavior:contain}
+  #technika-tygodnia .academy-card:nth-child(3)>*,#technika-tygodnia .academy-card:nth-child(4)>*{flex-shrink:0}
+}
+@media(max-width:1150px){#technika-tygodnia .academy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#technika-tygodnia.bizons-academy{width:calc(100vw - 24px);padding:18px;background:linear-gradient(150deg,#e9eae7,#aeb0af 35%,#181a1b 70%)}#technika-tygodnia .academy-grid{grid-template-columns:1fr}#technika-tygodnia .academy-video-wrap{aspect-ratio:16/10}#technika-tygodnia .academy-tag{display:none}}
+/* Dopasowanie Akademii do jednego ekranu na komputerze. */
+@media (min-width:1151px) and (min-height:580px) {
+  #technika-tygodnia.bizons-academy {
+    height:calc(100dvh - var(--bizons-header-offset, 100px) - 14px);
+    min-height:0;
+    padding:clamp(12px,1.3vw,20px);
+    display:flex;
+    flex-direction:column;
+    scroll-margin-top:var(--bizons-header-offset,100px);
+  }
+  #technika-tygodnia .academy-heading {flex:0 0 auto;margin-bottom:10px;gap:8px}
+  #technika-tygodnia .academy-heading h2 {font-size:clamp(27px,2.8vw,43px);margin:2px 0}
+  #technika-tygodnia .academy-heading p {font-size:12px;line-height:1.3}
+  #technika-tygodnia .academy-grid {flex:1 1 auto;min-height:0;grid-template-columns:1.2fr 1fr 1.1fr .78fr;gap:10px}
+  #technika-tygodnia .academy-card {min-height:0;max-height:100%;padding:clamp(10px,1vw,17px);overflow:hidden;display:flex;flex-direction:column}
+  #technika-tygodnia .academy-card h3 {flex:none;font-size:clamp(17px,1.4vw,22px);margin:6px 0 9px}
+  #technika-tygodnia .academy-card p,#technika-tygodnia .academy-card li {font-size:12px;line-height:1.42}
+  #technika-tygodnia .academy-video-wrap {aspect-ratio:auto;flex:1 1 auto;min-height:100px}
+  #technika-tygodnia .academy-actions {flex:none;margin-top:9px;gap:6px}
+  #technika-tygodnia .academy-button {padding:7px 10px;min-height:35px}
+  #technika-tygodnia .academy-note {flex:none;margin-top:7px;font-size:10px;line-height:1.35}
+  #technika-tygodnia .academy-choice {padding:7px 5px;font-size:12px;line-height:1.3;gap:7px}
+  #technika-tygodnia .academy-result {padding:9px;margin-top:8px;font-size:11px;line-height:1.35}
+  #technika-tygodnia .academy-card:nth-child(2) {overflow:hidden}
+  #technika-tygodnia .academy-card:nth-child(3),
+  #technika-tygodnia .academy-card:nth-child(4) {overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#858784 transparent}
+  /* Elementy teorii i archiwum nie mogą się kurczyć: inaczej tekst jest obcinany bez scrolla. */
+  #technika-tygodnia .academy-card:nth-child(3) > *,
+  #technika-tygodnia .academy-card:nth-child(4) > * {flex-shrink:0}
+  #technika-tygodnia .academy-card:nth-child(3),
+  #technika-tygodnia .academy-card:nth-child(4) {overflow-x:hidden;min-height:0}
+  #technika-tygodnia .academy-card:nth-child(3) {scrollbar-gutter:stable}
+  #technika-tygodnia .academy-card:nth-child(4) {scrollbar-gutter:stable}
+  #technika-tygodnia .academy-theory h4 {margin:12px 0 4px}
+  #technika-tygodnia .academy-theory p {margin:4px 0 8px}
+  #technika-tygodnia .academy-archive button {padding:10px}
+}
+</style>
 </head>
 <body>
 <header>
@@ -927,7 +1012,7 @@ body[data-theme="light"] .babolat-wordmark img {
 </section>
   </div>
 <div class="wrap">
-    <section id="technika-tygodnia" class="bizons-feed-section bizons-technique" aria-labelledby="bizonsTechniqueTitle">
+    <section id="technika-tygodnia" class="bizons-feed-section bizons-technique bizons-academy" aria-labelledby="bizonsTechniqueTitle">
   <p class="bizons-feed-kicker">Vienna Bizons · Poradnik</p>
   <h2 id="bizonsTechniqueTitle">Technika tygodnia</h2>
   <div id="bizonsTechniqueContent" data-user-content></div>
@@ -1720,22 +1805,7 @@ function isTechniqueArticle(article){
   return article.category.trim().toLocaleLowerCase('pl')==='technika tygodnia';
 }
 function renderTechnique(){
-  const list=clubData.articles.filter(article=>article.status==='published'&&isTechniqueArticle(article))
-    .sort((a,b)=>b.date.localeCompare(a.date));
-  const target=$('#bizonsTechniqueContent');
-  if(!list.length){
-    target.innerHTML=`<p class="muted">${ct('Pierwsze ćwiczenie pojawi się tutaj po publikacji.','Die erste Übung erscheint hier nach der Veröffentlichung.')}</p>`;
-    return;
-  }
-  const [current,...older]=list;
-  const cover=articleCover(current);
-  const link=article=>`<a class="textlink" href="#bizons-technique-${encodeURIComponent(article.id)}">${ct('Zobacz ćwiczenie','Übung ansehen')} ↗</a>`;
-  target.innerHTML=`<article class="bizons-technique-feature">
-    ${cover?`<img src="${safe(cover.src)}" alt="${safe(cover.alt||translated(current,'title'))}" loading="lazy">`:''}
-    <div><p class="bizons-feed-time">${safe(current.date)}</p><h3>${safe(translated(current,'title'))}</h3>
-    <p class="muted">${safe(translated(current,'summary'))}</p>${link(current)}</div></article>
-    ${older.length?`<details class="bizons-technique-archive"><summary>${ct('Poprzednie techniki','Frühere Übungen')} · ${older.length}</summary>
-      <ul class="bizons-feed-list">${older.map(article=>`<li><a href="#bizons-technique-${encodeURIComponent(article.id)}"><span><small>${safe(article.date)}</small><strong>${safe(translated(article,'title'))}</strong></span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></details>`:''}`;
+  if(typeof window.renderBizonsAcademy==='function') window.renderBizonsAcademy();
 }
 
 function renderClubNews(){renderBabolatCard();renderTechnique();const posts=clubData.articles.filter(a=>a.status==='published'&&!isBabolatReport(a)&&!isTechniqueArticle(a)).sort((a,b)=>b.date.localeCompare(a.date));$('#newsGrid').innerHTML=posts.length?posts.slice(0,6).map(a=>{const i=clubData.articles.indexOf(a);return `<article class="card" data-user-content>${articleCover(a)?`<img class="club-cover" src="${safe(articleCover(a).src)}" alt="${safe(articleCover(a).alt||translated(a,'title'))}" loading="lazy">`:'<div class="news-art"><span>BIZONS</span></div>'}<div class="pad"><span class="badge">${safe(a.category)} · ${safe(a.date)}</span><h3>${safe(translated(a,'title'))}</h3><p class="muted">${safe(translated(a,'summary'))}</p><button class="textlink" onclick="clubArticle(${i})">${ct('Czytaj dalej ↗','Weiterlesen ↗')}</button></div></article>`}).join(''):`<p class="muted">${ct('Wkrótce pierwsze klubowe historie.','Bald gibt es die ersten Clubgeschichten.')}</p>`}
@@ -1901,5 +1971,56 @@ renderShop();
 <script src="js/site-03.js"></script>
 <script id="mobileNavigation" src="js/site-04.js"></script>
 <script id="bizonsContactRuntime" src="js/site-05.js"></script>
+
+<script id="bizonsAcademyLogic">
+(function(){
+'use strict';
+// Dodawanie kolejnych lekcji: dopisz obiekt do tablicy lessons, podając video: 'media/nazwa.mp4'.
+const lessons=[{
+ id:'crossdrop',title:'Crossdrop',subtitle:'Krótki cross po przekątnej · gra przy siatce',video:'media/crossdrop.mp4',
+ question:'Przeciwnik jest pod presją i zagrywa crossdrop z przedniej części kortu. Co powinieneś zrobić?',
+ options:[
+  'Obserwować rakietę i pozycję przeciwnika, przygotowując się do przechwycenia lotki po przekątnej.',
+  'Z góry pobiec do jednego narożnika, zanim przeciwnik uderzy lotkę.',
+  'Po odegraniu lotki odzyskać zrównoważoną pozycję bazową, odpowiednią do sytuacji w wymianie.',
+  'Pozostać przy siatce niezależnie od jakości własnego zagrania i pozycji przeciwnika.'
+ ],correct:[0,2],
+ explanation:'Prawidłowe są odpowiedzi 1 i 3. Czytaj ustawienie ciała i przygotowanie rakiety rywala, ale nie zgaduj kierunku zbyt wcześnie. Po własnym uderzeniu wracaj do pozycji pozwalającej bronić najbardziej prawdopodobnych odpowiedzi. Pozycja bazowa zależy od tego, gdzie jesteś, jak dobry był twój crossdrop i czy grasz singla, czy debla.',
+ theory:[
+  ['Na czym polega crossdrop?','Crossdrop to delikatne, krótkie zagranie po przekątnej, zwykle z okolicy siatki na przeciwną stronę przedniej części kortu. Ma zmusić rywala do ruchu w bok i do przodu, zmienić kierunek wymiany i otworzyć wolną przestrzeń.'],
+  ['Co obserwować?','Ustawienie stóp i tułowia przeciwnika, położenie główki rakiety, moment kontaktu z lotką oraz to, czy rywal jest spóźniony. Nie reaguj wyłącznie na zamach — ostateczny kierunek rozpoznawaj po kontakcie i wczesnym torze lotki.'],
+  ['Jak się ustawić?','Po własnym crossdropie odzyskaj równowagę i wykonaj split step w chwili zagrania przeciwnika. Nie zostawiaj całkowicie odkrytej prostej odpowiedzi przy siatce ani możliwości podniesienia lotki w tył kortu. W singlu wracaj do sytuacyjnej bazy, nie mechanicznie do geometrycznego środka.'],
+  ['Jakie pola asekurować?','Najpierw realne odpowiedzi rywala: prostą i krzyżową grę przy siatce oraz lift do tylnego kortu. W deblu asekuracja zależy od podziału ról i ustawienia partnera; nie stosuj automatycznie zasad singla.'],
+  ['Kiedy stosować?','Gdy jesteś wcześnie przy lotce i możesz zagrać ją nisko nad siatką, zwłaszcza gdy rywal jest przesunięty na przeciwną stronę. Unikaj wolnego, wysokiego crossdropa, który daje przeciwnikowi łatwy atak.']
+ ]
+}];
+let active=0,finished=false;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(){
+ const host=document.getElementById('bizonsTechniqueContent');if(!host)return;
+ const x=lessons[active];finished=false;
+ host.innerHTML=`<div class="academy-heading"><div><span class="academy-kicker">Vienna Bizons · Akademia gry</span><h2>${esc(x.title)}</h2><p>${esc(x.subtitle)} — obejrzyj sytuację, podejmij decyzję i sprawdź, dlaczego to działa.</p></div><span class="academy-tag">OBSERWUJ · DECYDUJ · ROZUMIEJ</span></div>
+ <div class="academy-grid">
+ <article class="academy-card"><span class="academy-number">01 / Obserwacja</span><h3>Sytuacja na korcie</h3><div class="academy-video-wrap"><video id="academyVideo" preload="metadata" playsinline aria-label="Film instruktażowy: ${esc(x.title)}"></video><div class="academy-video-empty"><strong>↗</strong><span>Film: ${esc(x.video)}<br>Wstaw plik MP4 do folderu media.</span></div></div><div class="academy-actions"><button class="academy-button primary" id="academyStart" type="button">▶ Start / Enter</button><button class="academy-button" id="academyReset" type="button">↺ Powtórz</button></div><p class="academy-note" id="academyVideoStatus" role="status">Zaznacz odpowiedzi w oknie 02, następnie uruchom film.</p></article>
+ <article class="academy-card"><span class="academy-number">02 / Twoja decyzja</span><h3>Co zrobi zawodnik?</h3><p>${esc(x.question)}</p><div id="academyChoices">${x.options.map((v,i)=>`<label class="academy-choice"><input type="checkbox" value="${i}"/><span><b>${String.fromCharCode(65+i)}.</b> ${esc(v)}</span></label>`).join('')}</div><div id="academyResult" class="academy-result" hidden aria-live="polite"></div></article>
+ <article class="academy-card academy-theory"><span class="academy-number">03 / Wiedza i taktyka</span><h3>Dlaczego tak gramy?</h3>${x.theory.map(([h,p])=>`<h4>${esc(h)}</h4><p>${esc(p)}</p>`).join('')}</article>
+ <article class="academy-card"><span class="academy-number">04 / Biblioteka</span><h3>Archiwum technik</h3><div class="academy-archive">${lessons.map((l,i)=>`<button type="button" data-lesson="${i}" aria-current="${i===active}">${esc(l.title)}<small>${i===active?'Aktualna lekcja':'Otwórz lekcję'} · ćwiczenie interaktywne</small></button>`).join('')}</div><p class="academy-note">Kolejne techniki dodasz do listy lessons w kodzie HTML. Wszystkie pozostaną dostępne do ponownego ćwiczenia.</p></article>
+ </div>`;
+ const video=host.querySelector('#academyVideo'),status=host.querySelector('#academyVideoStatus'),start=host.querySelector('#academyStart');
+ video.src=x.video;
+ video.load();
+ video.addEventListener('error',()=>{status.textContent='Nie znaleziono filmu. Umieść plik: '+x.video+' — możesz już teraz sprawdzić quiz przyciskiem Start.'});
+ video.addEventListener('ended',reveal);
+ start.addEventListener('click',()=>{if(finished){reset();return}const checked=host.querySelectorAll('#academyChoices input:checked');if(!checked.length){status.textContent='Najpierw zaznacz co najmniej jedną odpowiedź.';return}host.querySelectorAll('#academyChoices input').forEach(i=>i.disabled=true);start.disabled=true;status.textContent='Oglądaj zagranie. Odpowiedź pojawi się po zakończeniu filmu.';if(video.readyState>=2){video.currentTime=0;video.play().catch(()=>{status.textContent='Przeglądarka nie może odtworzyć MP4. Pokazuję wynik quizu.';reveal()})}else{status.textContent='Brak dostępnego filmu MP4 — pokazuję wynik quizu. Po dodaniu filmu odpowiedź pojawi się po jego zakończeniu.';reveal()}});
+ host.querySelector('#academyReset').addEventListener('click',reset);
+ host.querySelectorAll('[data-lesson]').forEach(b=>b.addEventListener('click',()=>{active=Number(b.dataset.lesson);video.pause();render()}));
+ function reveal(){if(finished)return;finished=true;start.disabled=false;start.textContent='↺ Zagraj ponownie';const chosen=[...host.querySelectorAll('#academyChoices input:checked')].map(i=>Number(i.value));const good=chosen.length===x.correct.length&&chosen.every(i=>x.correct.includes(i));host.querySelectorAll('.academy-choice').forEach((label,i)=>{label.classList.toggle('correct',x.correct.includes(i));label.classList.toggle('incorrect',chosen.includes(i)&&!x.correct.includes(i))});const result=host.querySelector('#academyResult');result.hidden=false;result.innerHTML='<strong>'+(good?'✓ Dobra decyzja!':'Sprawdź poprawne odpowiedzi: '+x.correct.map(i=>String.fromCharCode(65+i)).join(', '))+'</strong>'+esc(x.explanation);status.textContent='Analiza zakończona. Możesz powtórzyć lekcję.'}
+ function reset(){video.pause();try{video.currentTime=0}catch{}finished=false;start.disabled=false;start.textContent='▶ Start / Enter';host.querySelectorAll('#academyChoices input').forEach(i=>{i.checked=false;i.disabled=false});host.querySelectorAll('.academy-choice').forEach(l=>l.classList.remove('correct','incorrect'));host.querySelector('#academyResult').hidden=true;status.textContent='Zaznacz odpowiedzi i uruchom film.'}
+}
+window.renderBizonsAcademy=render;
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+document.addEventListener('keydown',e=>{if(e.key!=='Enter'||e.repeat||!location.hash.includes('technika-tygodnia'))return;const tag=document.activeElement?.tagName;if(['INPUT','BUTTON','A','TEXTAREA','SELECT'].includes(tag))return;const b=document.getElementById('academyStart');if(b&&!b.disabled){e.preventDefault();b.click()}});
+})();
+</script>
 </body>
 </html>
