@@ -1977,7 +1977,7 @@ renderShop();
 'use strict';
 // Dodawanie kolejnych lekcji: dopisz obiekt do tablicy lessons, podając video: 'media/nazwa.mp4'.
 const lessons=[{
- id:'crossdrop',title:'Crossdrop',subtitle:'Krótki cross po przekątnej · gra przy siatce',video:'media/crossdrop.mp4',
+ id:'crossdrop',publishedAt:'2026-11-11T21:00:00+01:00',title:'Crossdrop',subtitle:'Krótki cross po przekątnej · gra przy siatce',video:'media/crossdrop.mp4',
  question:'Przeciwnik jest pod presją i zagrywa crossdrop z przedniej części kortu. Co powinieneś zrobić?',
  options:[
   'Obserwować rakietę i pozycję przeciwnika, przygotowując się do przechwycenia lotki po przekątnej.',
@@ -2001,7 +2001,7 @@ function render(){
  const x=lessons[active];finished=false;
  host.innerHTML=`<div class="academy-heading"><div><span class="academy-kicker">Vienna Bizons · Akademia gry</span><h2>${esc(x.title)}</h2><p>${esc(x.subtitle)} — obejrzyj sytuację, podejmij decyzję i sprawdź, dlaczego to działa.</p></div><span class="academy-tag">OBSERWUJ · DECYDUJ · ROZUMIEJ</span></div>
  <div class="academy-grid">
- <article class="academy-card"><span class="academy-number">01 / Obserwacja</span><h3>Sytuacja na korcie</h3><div class="academy-video-wrap"><video id="academyVideo" preload="metadata" playsinline aria-label="Film instruktażowy: ${esc(x.title)}"></video><div class="academy-video-empty"><strong>↗</strong><span>Film: ${esc(x.video)}<br>Wstaw plik MP4 do folderu media.</span></div></div><div class="academy-actions"><button class="academy-button primary" id="academyStart" type="button">▶ Start / Enter</button><button class="academy-button" id="academyReset" type="button">↺ Powtórz</button></div><p class="academy-note" id="academyVideoStatus" role="status">Zaznacz odpowiedzi w oknie 02, następnie uruchom film.</p></article>
+ <article class="academy-card"><span class="academy-number">01 / Obserwacja</span><h3>Sytuacja na korcie</h3><div class="academy-video-wrap"><video id="academyVideo" preload="metadata" playsinline controlslist="nodownload noplaybackrate" aria-label="Film instruktażowy: ${esc(x.title)}"></video><div class="academy-video-empty"><strong>↗</strong><span>Film: ${esc(x.video)}<br>Wstaw plik MP4 do folderu media.</span></div></div><div class="academy-actions"><button class="academy-button primary" id="academyStart" type="button">▶ Start / Enter</button><button class="academy-button" id="academyReset" type="button">↺ Odtwórz ponownie</button></div><p class="academy-note" id="academyVideoStatus" role="status">Zaznacz odpowiedzi w oknie 02, następnie uruchom film.</p></article>
  <article class="academy-card"><span class="academy-number">02 / Twoja decyzja</span><h3>Co zrobi zawodnik?</h3><p>${esc(x.question)}</p><div id="academyChoices">${x.options.map((v,i)=>`<label class="academy-choice"><input type="checkbox" value="${i}"/><span><b>${String.fromCharCode(65+i)}.</b> ${esc(v)}</span></label>`).join('')}</div><div id="academyResult" class="academy-result" hidden aria-live="polite"></div></article>
  <article class="academy-card academy-theory"><span class="academy-number">03 / Wiedza i taktyka</span><h3>Dlaczego tak gramy?</h3>${x.theory.map(([h,p])=>`<h4>${esc(h)}</h4><p>${esc(p)}</p>`).join('')}</article>
  <article class="academy-card"><span class="academy-number">04 / Biblioteka</span><h3>Archiwum technik</h3><div class="academy-archive">${lessons.map((l,i)=>`<button type="button" data-lesson="${i}" aria-current="${i===active}">${esc(l.title)}<small>${i===active?'Aktualna lekcja':'Otwórz lekcję'} · ćwiczenie interaktywne</small></button>`).join('')}</div><p class="academy-note">Kolejne techniki dodasz do listy lessons w kodzie HTML. Wszystkie pozostaną dostępne do ponownego ćwiczenia.</p></article>
@@ -2009,15 +2009,87 @@ function render(){
  const video=host.querySelector('#academyVideo'),status=host.querySelector('#academyVideoStatus'),start=host.querySelector('#academyStart');
  video.src=x.video;
  video.load();
- video.addEventListener('error',()=>{status.textContent='Nie znaleziono filmu. Umieść plik: '+x.video+' — możesz już teraz sprawdzić quiz przyciskiem Start.'});
+ video.addEventListener('error',()=>{status.textContent='Nie można wczytać '+x.video+'. Sprawdź ścieżkę i kodowanie MP4.'});
  video.addEventListener('ended',reveal);
- start.addEventListener('click',()=>{if(finished){reset();return}const checked=host.querySelectorAll('#academyChoices input:checked');if(!checked.length){status.textContent='Najpierw zaznacz co najmniej jedną odpowiedź.';return}host.querySelectorAll('#academyChoices input').forEach(i=>i.disabled=true);start.disabled=true;status.textContent='Oglądaj zagranie. Odpowiedź pojawi się po zakończeniu filmu.';if(video.readyState>=2){video.currentTime=0;video.play().catch(()=>{status.textContent='Przeglądarka nie może odtworzyć MP4. Pokazuję wynik quizu.';reveal()})}else{status.textContent='Brak dostępnego filmu MP4 — pokazuję wynik quizu. Po dodaniu filmu odpowiedź pojawi się po jego zakończeniu.';reveal()}});
- host.querySelector('#academyReset').addEventListener('click',reset);
+ const checks=[...host.querySelectorAll('#academyChoices input')];
+ const replay=host.querySelector('#academyReset');
+ const selected=()=>checks.some(input=>input.checked);
+ let hasStarted=false;
+ replay.disabled=true;
+ function updateStart(){start.disabled=hasStarted||!selected();}
+ checks.forEach(input=>input.addEventListener('change',updateStart));
+ updateStart();
+ // Bez natywnych przycisków Play: jedyna droga startu prowadzi przez quiz.
+ video.controls=false;
+ video.addEventListener('play',()=>{if(!hasStarted||!selected())video.pause()});
+ async function playVideo(){
+  if(!selected()){status.textContent='Zaznacz przynajmniej jedną odpowiedź przed odtworzeniem filmu.';return;}
+  if(!hasStarted){hasStarted=true;checks.forEach(input=>input.disabled=true);}
+  start.disabled=true;
+  replay.disabled=false;
+  status.textContent='Film trwa. Wynik quizu pojawi się po zakończeniu nagrania.';
+  try{video.pause();video.currentTime=0;await video.play();}
+  catch(err){status.textContent='Nie można uruchomić filmu '+x.video+'. Sprawdź plik i format MP4.';replay.disabled=false;}
+ }
+ start.addEventListener('click',playVideo);
+ replay.addEventListener('click',playVideo);
  host.querySelectorAll('[data-lesson]').forEach(b=>b.addEventListener('click',()=>{active=Number(b.dataset.lesson);video.pause();render()}));
- function reveal(){if(finished)return;finished=true;start.disabled=false;start.textContent='↺ Zagraj ponownie';const chosen=[...host.querySelectorAll('#academyChoices input:checked')].map(i=>Number(i.value));const good=chosen.length===x.correct.length&&chosen.every(i=>x.correct.includes(i));host.querySelectorAll('.academy-choice').forEach((label,i)=>{label.classList.toggle('correct',x.correct.includes(i));label.classList.toggle('incorrect',chosen.includes(i)&&!x.correct.includes(i))});const result=host.querySelector('#academyResult');result.hidden=false;result.innerHTML='<strong>'+(good?'✓ Dobra decyzja!':'Sprawdź poprawne odpowiedzi: '+x.correct.map(i=>String.fromCharCode(65+i)).join(', '))+'</strong>'+esc(x.explanation);status.textContent='Analiza zakończona. Możesz powtórzyć lekcję.'}
- function reset(){video.pause();try{video.currentTime=0}catch{}finished=false;start.disabled=false;start.textContent='▶ Start / Enter';host.querySelectorAll('#academyChoices input').forEach(i=>{i.checked=false;i.disabled=false});host.querySelectorAll('.academy-choice').forEach(l=>l.classList.remove('correct','incorrect'));host.querySelector('#academyResult').hidden=true;status.textContent='Zaznacz odpowiedzi i uruchom film.'}
+ function reveal(){if(finished)return;finished=true;start.disabled=true;replay.disabled=false;const chosen=[...host.querySelectorAll('#academyChoices input:checked')].map(i=>Number(i.value));const good=chosen.length===x.correct.length&&chosen.every(i=>x.correct.includes(i));host.querySelectorAll('.academy-choice').forEach((label,i)=>{label.classList.toggle('correct',x.correct.includes(i));label.classList.toggle('incorrect',chosen.includes(i)&&!x.correct.includes(i))});const result=host.querySelector('#academyResult');result.hidden=false;result.innerHTML='<strong>'+(good?'✓ Dobra decyzja!':'Sprawdź poprawne odpowiedzi: '+x.correct.map(i=>String.fromCharCode(65+i)).join(', '))+'</strong>'+esc(x.explanation);status.textContent='Analiza zakończona. Możesz powtórzyć lekcję.'}
+ 
 }
-window.renderBizonsAcademy=render;
+// Aktualności Akademii: wpis i link są generowane z tej samej listy lekcji.
+// Działa również po ponownym renderowaniu kanału „Z ostatniej chwili”.
+function syncAcademyFeed(){
+ const latest=lessons[lessons.length-1];
+ if(!latest)return;
+ const isDe=typeof currentLanguage!=='undefined'&&currentLanguage==='de';
+ const title=(isDe?'Badmintontechnik: ':'Technika tygodnia: ')+latest.title;
+ const category=isDe?'Neue Lektion · Badminton-Akademie':'Nowa lekcja · Akademia badmintona';
+ const href='#technika-tygodnia';
+ const targets=[
+  {id:'bizonsFeedMini',small:true},
+  {id:'bizonsFeedList',small:false}
+ ];
+ targets.forEach(({id,small})=>{
+  const list=document.getElementById(id);if(!list)return;
+  const old=list.querySelector('[data-academy-feed]');if(old)old.remove();
+  const li=document.createElement('li');li.dataset.academyFeed='true';
+  const a=document.createElement('a');a.href=href;
+  if(small){const strong=document.createElement('strong');strong.textContent=title;strong.title=title;
+   const time=document.createElement('time');time.textContent=category;a.append(strong,time);
+  }else{const span=document.createElement('span'),meta=document.createElement('span'),strong=document.createElement('strong'),arrow=document.createElement('span');
+   meta.className='bizons-feed-time';meta.textContent=category;strong.textContent=title;
+   span.append(meta,strong);arrow.setAttribute('aria-hidden','true');arrow.textContent='↗';a.append(span,arrow);
+  }
+  li.append(a);
+  // Wpis Akademii zajmuje miejsce zgodne z datą publikacji, a nie zawsze pierwsze.
+  let position=0;
+  try {
+   const existing=[...(typeof siteFeedData!=='undefined'?siteFeedData.events:[]),...(typeof siteFeedLive!=='undefined'?siteFeedLive:[])]
+    .filter(row=>typeof siteFeedCutoff==='undefined'||!siteFeedCutoff||Date.parse(row.at)>Date.parse(siteFeedCutoff))
+    .sort((a,b)=>Date.parse(b.at)-Date.parse(a.at))
+    .filter(row=>typeof siteFeedItem==='function'?siteFeedItem(row):true);
+   position=existing.filter(row=>Date.parse(row.at)>Date.parse(latest.publishedAt)).length;
+  } catch(e) {position=0;}
+  if(small && position>=3)return;
+  list.insertBefore(li,list.children[position]||null);
+  // Skrót na stronie głównej: zawsze maksymalnie trzy najnowsze zmiany.
+  if(small)while(list.children.length>3)list.lastElementChild.remove();
+ });
+}
+function observeAcademyFeed(){
+ ['bizonsFeedMini','bizonsFeedList'].forEach(id=>{
+  const list=document.getElementById(id);if(!list)return;
+  new MutationObserver(records=>{
+   // Reaguj tylko na przebudowę listy przez istniejący moduł aktualności.
+   if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&!node.matches?.('[data-academy-feed]'))))syncAcademyFeed();
+  }).observe(list,{childList:true});
+ });
+ syncAcademyFeed();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',observeAcademyFeed);
+else observeAcademyFeed();
+window.renderBizonsAcademy=function(){render();syncAcademyFeed()};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
 document.addEventListener('keydown',e=>{if(e.key!=='Enter'||e.repeat||!location.hash.includes('technika-tygodnia'))return;const tag=document.activeElement?.tagName;if(['INPUT','BUTTON','A','TEXTAREA','SELECT'].includes(tag))return;const b=document.getElementById('academyStart');if(b&&!b.disabled){e.preventDefault();b.click()}});
 })();
