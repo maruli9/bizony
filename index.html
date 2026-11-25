@@ -2245,7 +2245,20 @@ body[data-theme="light"] .babolat-wordmark img {
   #technika-tygodnia .academy-archive button {padding:10px}
 }
 </style>
-<meta name="bizons-single-file" content="v0.4-2026-11-23"></head>
+<meta name="bizons-single-file" content="v0.4-2026-11-23"><style>.club-today,.club-calendar>div{padding:clamp(16px,3vw,32px);border:1px solid var(--line);border-radius:16px;background:var(--panel);min-width:0}.club-today{display:flex;align-items:center;gap:20px;margin-bottom:16px;background:linear-gradient(120deg,color-mix(in srgb,var(--lime) 10%,var(--panel)),var(--panel))}.club-today span{font-size:36px}.club-today :is(h3,p){margin:4px 0}.club-calendar{display:grid;grid-template-columns:1fr 1fr;gap:16px}.club-calendar article{padding-block:10px;border-bottom:1px solid var(--line)}@media(max-width:760px){.club-calendar{grid-template-columns:1fr}}</style><style>
+.club-today {
+  min-height:210px;
+  color:var(--ink);
+  background:linear-gradient(90deg,var(--panel) 4%,var(--panel) 34%,color-mix(in srgb,var(--panel) 90%,transparent) 55%,transparent 100%),
+    url('./images/7e7ca541a9567f82.png') right 53% / auto clamp(260px,52vw,520px) no-repeat var(--panel);
+}
+.club-today > div{max-width:60%}
+.club-today h3{font-size:clamp(1.3rem,3vw,2rem)}
+@media(max-width:600px){
+  .club-today{align-items:flex-end;min-height:250px;background-image:linear-gradient(0deg,var(--panel) 5%,color-mix(in srgb,var(--panel) 94%,transparent) 34%,transparent 100%),url('./images/7e7ca541a9567f82.png');background-position:center,center 49%;background-size:cover,cover}
+  .club-today > div{max-width:100%}
+}
+</style></head>
 <body>
 <header>
   <div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a>
@@ -2258,7 +2271,7 @@ body[data-theme="light"] .babolat-wordmark img {
         <a href="#ostatnia-chwila">Z ostatniej chwili</a>
         <a href="#technika-tygodnia">Technika tygodnia</a>
         <a href="#bizon-center">Bizon Center v0.4</a>
-        <a href="#events">Turnieje</a>
+        <a href="#events">Kalendarz Bizonów</a>
         <a href="#babolat-cup" aria-haspopup="dialog" aria-controls="modal" onclick="openBabolatChronicle();return false">Babolat Cup</a>
         <a href="#rankings">Rankingi</a>
         <a href="#gallery">Galeria</a>
@@ -2374,21 +2387,16 @@ body[data-theme="light"] .babolat-wordmark img {
 <div class="surface">
     <div class="wrap">
       <section id="events">
-        <div class="section-top">
-          <div>
-            <div class="eyebrow">Kalendarz klubu</div>
-            <h2>Kolejny mecz?<br>Widzimy się tutaj.</h2>
-          </div>
-          <p class="muted">Turnieje klubowe, wyjazdy i starty indywidualne.<br><span class="tiny">Zapisy online dla członków klubu.</span>
-          </p>
-        </div>
+<div class="section-top"><h2>Kalendarz Bizonów</h2></div>
+<div class="club-today" data-user-content><div><h3 id="todayHeading">Co robią Bizony dzisiaj?</h3><p id="todayPlan" aria-live="polite"></p></div></div>
+<div class="club-calendar"><div><h3>Treningi</h3><div id="publicTrainingPlan" data-user-content></div></div><div><h3>Turnieje</h3>
         <div class="tabs" id="eventPeriodTabs" aria-label="Okres turniejów">
           <button type="button" class="tab active" data-period="upcoming" aria-pressed="true">Nadchodzące</button>
           <button type="button" class="tab" data-period="past" aria-pressed="false">Zakończone</button>
         </div>
         <div class="tabs" id="eventTabs"><button class="tab active" data-filter="all">Wszystkie</button><button class="tab" data-filter="club">Klubowe</button><button class="tab" data-filter="away">Wyjazdowe</button><button class="tab" data-filter="solo">Indywidualne</button>
         </div>
-        <div id="eventList" data-user-content aria-live="polite"></div>
+        <div id="eventList" data-user-content aria-live="polite"></div></div></div>
       </section>
     </div>
   </div>
@@ -2912,6 +2920,7 @@ function downloadShopInquiry(){
 
 // Tłumaczenia interfejsu
 const UI_TRANSLATIONS = {
+ "Kalendarz Bizonów":"Bizons-Kalender",
  "Nadchodzące":"Bevorstehend", "Zakończone":"Vergangen", "Okres turniejów":"Turnierzeitraum",
   "Aktualności": "Aktuelles",
   "Turnieje": "Turniere",
@@ -3712,7 +3721,41 @@ function trainingForm(mode,id=null){
   };
 }
 
+let clubTrainingPlan=null, clubPlanRequest=0;
+async function loadClubTrainingPlan(){
+ const request=++clubPlanRequest;
+ const member=Boolean(tourMember?.active);
+ try{
+   const {data,error}=await tourDb.rpc(member?'bizons_training_overview':'bizons_public_training_calendar');
+   if(request!==clubPlanRequest)return;
+   const rows=member?data?.sessions:data;
+   clubTrainingPlan=!error&&Array.isArray(rows)?rows:null;
+ }catch{if(request!==clubPlanRequest)return;clubTrainingPlan=null}
+ renderClubPlan();
+}
+function renderClubPlan(){
+ const today=tournamentDay(Date.now());
+ const sessions=(clubTrainingPlan??[]).filter(item=>item.day>=today&&!item.archived&&!item.cancelled&&item.state!=='cancelled').sort((a,b)=>a.day.localeCompare(b.day)||String(a.starts_at).localeCompare(String(b.starts_at)));
+ const tournaments=tourEvents.filter(item=>item.state==='published'&&(item.visibility==='public'||tourMember?.active));
+ const label=item=>[trainingName(item.kind),String(item.starts_at??'').slice(0,5),item.venue].filter(Boolean).join(' · ');
+ const items=sessions.filter(item=>item.day===today).map(label).concat(tournaments.filter(item=>tournamentDay(item.starts_at)===today).map(item=>[tourTitle(item),tourEventDate(item),item.venue].filter(Boolean).join(' · ')));
+ const next=[...sessions.map(item=>[item.day,label(item)]),...tournaments.map(item=>[tournamentDay(item.starts_at),tourTitle(item)])].filter(([day])=>day>today).sort((a,b)=>a[0].localeCompare(b[0]))[0];
+ $('#todayHeading').textContent=tourText('Co robią Bizony dzisiaj?','Was machen die Bizons heute?');
+ $('#todayPlan').textContent=items.length?items.join(' / '):[
+ clubTrainingPlan!==null&&tourState==='ready'?tourText('Dziś wolne od kortu.','Heute ist spielfrei.'):tourText('Brak wydarzeń na dziś w dostępnym planie.','Keine Termine für heute im verfügbaren Kalender.'),
+ next?tourText('Najbliżej','Als Nächstes')+' · '+trainingDate(next[0])+' · '+next[1]:''
+ ].filter(Boolean).join(' ');
+ $('#publicTrainingPlan').innerHTML=sessions.length?sessions.map(item=>`<article><strong>${safe(trainingDate(item.day))}</strong><p>${safe(label(item))}</p><button class="btn" type="button" data-club-training="${safe(item.id??'')}">${tourMember?.active?tourText('Otwórz zapisy','Anmeldung öffnen'):tourText('Zaloguj się, aby się zapisać','Zur Anmeldung einloggen')}</button></article>`).join(''):
+ '<p class="muted">'+(clubTrainingPlan===null?tourText('Plan treningów jest dostępny w Strefie Bizona.','Der Trainingsplan ist im Mitgliederbereich verfügbar.'):tourText('Brak nadchodzących treningów.','Keine kommenden Trainings.'))+'</p>';
+}
+$('#publicTrainingPlan').addEventListener('click',event=>{
+ const button=event.target.closest('[data-club-training]');
+ if(!button)return;
+ if(tourMember?.active)void openTraining(button.dataset.clubTraining||null);
+ else void openMember();
+});
 function renderEvents(filter=tourFilter){
+  renderClubPlan();
   syncTrainingNav();
   syncBizonsWelcome();
   syncSiteFeedViewer();
@@ -3759,6 +3802,7 @@ async function refreshTournaments(){
   tourSession=session;tourMember=memberResponse.data;tourEvents=eventsResponse.data;tourEntries=entriesResponse.data;tourState='ready';
   $('#loginBtn').textContent=tourMember?.active?tourText('Mój panel ↗','Mein Bereich ↗'):tourText('Strefa bizona ↗','Mitgliederbereich ↗');
   renderEvents();
+  void loadClubTrainingPlan();
   void loadSiteFeed();
 }
 function tourLoadFailure(){tourState='error';tourEvents=[];tourEntries=[];tourMember=null;renderEvents()}
@@ -3978,7 +4022,7 @@ async function initTournaments(){
     const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
     tourDb=createClient(config.url,config.publishableKey);
     tourDb.auth.onAuthStateChange((event,session)=>{
-      if(event==='SIGNED_OUT'){tourMember=null;tourSession=null;tourEntries=[];tourEvents=[];renderEvents()}
+      if(event==='SIGNED_OUT'){++clubPlanRequest;clubTrainingPlan=null;tourMember=null;tourSession=null;tourEntries=[];tourEvents=[];renderEvents()}
       setTimeout(()=>refreshTournaments().then(()=>{
         if(event==='PASSWORD_RECOVERY'||(session&&sessionStorage.getItem('bizons-invite')==='1')){
           sessionStorage.removeItem('bizons-invite');tourPassword();
