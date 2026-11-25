@@ -2258,7 +2258,7 @@ body[data-theme="light"] .babolat-wordmark img {
   .club-today{align-items:flex-end;min-height:250px;background-image:linear-gradient(0deg,var(--panel) 5%,color-mix(in srgb,var(--panel) 94%,transparent) 34%,transparent 100%),url('./images/7e7ca541a9567f82.png');background-position:center,center 49%;background-size:cover,cover}
   .club-today > div{max-width:100%}
 }
-</style></head>
+</style><style>.academy-flight{position:relative;aspect-ratio:1.5;background:#204d40;border:2px solid #d9eee0;border-radius:10px;overflow:hidden}.academy-flight:before{content:"";position:absolute;inset:8%;border:1px solid #d9eee0}.academy-flight i{position:absolute;left:0;right:0;top:50%;border-top:2px solid #d7f587}.academy-flight b{position:absolute;left:63%;top:62%;transform:translate(-50%,-50%);font-size:24px}</style></head>
 <body>
 <header>
   <div class="nav"><span class="mark" aria-hidden="true"><svg width="33" height="37" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(24 20 23)" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round"><path d="M14 32 4 5l7 2 5-4 4 4 4-4 5 4 7-2-10 27Z" fill="currentColor" fill-opacity=".1" stroke-width="1.8"/><path d="m11 7 6 25M20 7v25M29 7l-6 25M8 16h24M11 25h18" stroke-width="1.5"/><path d="M14 32h12v5a6 6 0 0 1-12 0Z" fill="currentColor" stroke-width="1.8"/><path d="M14 33h12" stroke="#0b1111" stroke-width="1.5"/></g></svg></span><a class="brand" href="#start">VIENNA BIZONS<small>BADMINTON CLUB · WIEN</small></a>
@@ -4368,6 +4368,20 @@ const lessons=[{
   ['Jakie pola asekurować?','Najpierw realne odpowiedzi rywala: prostą i krzyżową grę przy siatce oraz lift do tylnego kortu. W deblu asekuracja zależy od podziału ról i ustawienia partnera; nie stosuj automatycznie zasad singla.'],
   ['Kiedy stosować?','Gdy jesteś wcześnie przy lotce i możesz zagrać ją nisko nad siatką, zwłaszcza gdy rywal jest przesunięty na przeciwną stronę. Unikaj wolnego, wysokiego crossdropa, który daje przeciwnikowi łatwy atak.']
  ]
+},{
+ id:'low-serve',publishedAt:'2026-11-25T09:00:00+01:00',title:'Niski serwis bekhendowy',subtitle:'Początek wymiany w deblu',
+ question:'Odbierający stoi przy krótkiej linii serwisowej. Jak utrudnisz mu atak na niski serwis?',
+ options:['Skieruję lotkę po przekątnej nisko nad siatką, tuż za krótką linię serwisową.','Podniosę tor na wysokość barków odbierającego.','Wykonam krótki, kontrolowany ruch i po serwisie przygotuję rakietę na odpowiedź.'],
+ correct:[0,2],explanation:'Niski tor ogranicza okazję do ataku, a gotowa rakieta pomaga przy kolejnej lotce. Celuj tuż za linię, żeby zostawić sobie margines.',
+ flight:[[66,68],[57,55],[48,46],[39,35]],
+ theory:[['Kontakt','Trzymaj lotkę przed ciałem. Użyj krótkiego ruchu rakiety i kontroluj kierunek.'],['Cel','Zacznij od krótkiego serwisu w okolice środka, w prawidłowe pole po przekątnej.'],['Po serwisie','Zostań w gotowości z przodu. Z partnerem podzielcie odpowiedzialność za krótką i płaską odpowiedź.']]
+},{
+ id:'defensive-lift',publishedAt:'2026-11-25T09:00:01+01:00',title:'Lift obronny spod siatki',subtitle:'Odzyskaj czas przy niskiej lotce',
+ question:'Docierasz późno do lotki poniżej taśmy. Rywal czeka przy siatce, a tył jego kortu jest wolny. Co pomoże Ci wrócić do obrony?',
+ options:['Spróbuję skończyć wymianę stromym uderzeniem w dół.','Zagram wysoki, głęboki lift w wolną strefę.','Po lifcie wrócę do gotowości, a w deblu rozdzielę szerokość kortu z partnerem.'],
+ correct:[1,2],explanation:'Głęboki lift odsuwa kolejny kontakt rywala od siatki i daje czas na ustawienie. Krótki lift może dać rywalowi wygodny atak.',
+ flight:[[63,58],[56,43],[46,23],[33,12]],
+ theory:[['Dojście','Zrób kontrolowany wykrok i sięgnij rakietą przed siebie.'],['Tor lotki','Zagraj z dołu w górę. Gdy potrzebujesz czasu, wybierz wysokość i długość pozwalającą dotrzeć w tylną strefę.'],['Powrót','Odepchnij się z wykroku i dostosuj pozycję do kolejnego uderzenia rywala.']]
 }];
 let active=0,finished=false;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -4376,16 +4390,15 @@ function render(){
  const x=lessons[active];finished=false;
  host.innerHTML=`<div class="academy-heading"><div><span class="academy-kicker">Vienna Bizons · Akademia gry</span><h2>${esc(x.title)}</h2><p>${esc(x.subtitle)} — obejrzyj sytuację, podejmij decyzję i sprawdź, dlaczego to działa.</p></div><span class="academy-tag">OBSERWUJ · DECYDUJ · ROZUMIEJ</span></div>
  <div class="academy-grid">
- <article class="academy-card"><span class="academy-number">01 / Obserwacja</span><h3>Sytuacja na korcie</h3><div class="academy-video-wrap"><video id="academyVideo" preload="none" playsinline controlslist="nodownload noplaybackrate" aria-label="Film instruktażowy: ${esc(x.title)}"></video><div class="academy-video-empty"><strong>↗</strong><span>Film: ${esc(x.video)}<br>Wstaw plik MP4 do folderu media.</span></div></div><div class="academy-actions"><button class="academy-button primary" id="academyStart" type="button">▶ Start / Enter</button><button class="academy-button" id="academyReset" type="button">↺ Odtwórz ponownie</button></div><p class="academy-note" id="academyVideoStatus" role="status">Zaznacz odpowiedzi w oknie 02, następnie uruchom film.</p></article>
+ <article class="academy-card"><span class="academy-number">01 / Obserwacja</span><h3>Sytuacja na korcie</h3> ${x.flight?`<div class="academy-flight" role="img" aria-label="Schemat toru lotki na korcie widzianym z góry"><i></i><b>🏸</b></div><p class="academy-note">Schemat pokazuje kierunek i miejsce zagrania.</p>`:`<div class="academy-video-wrap"><video id="academyVideo" preload="none" playsinline controlslist="nodownload noplaybackrate" aria-label="Film instruktażowy: ${esc(x.title)}"></video><div class="academy-video-empty"><strong>↗</strong><span>Film: ${esc(x.video)}<br>Wstaw plik MP4 do folderu media.</span></div></div>`}<div class="academy-actions"><button class="academy-button primary" id="academyStart" type="button">▶ Start / Enter</button><button class="academy-button" id="academyReset" type="button">↺ Odtwórz ponownie</button></div><p class="academy-note" id="academyVideoStatus" role="status">Zaznacz odpowiedzi w oknie 02, następnie uruchom film.</p></article>
  <article class="academy-card"><span class="academy-number">02 / Twoja decyzja</span><h3>Co zrobi zawodnik?</h3><p>${esc(x.question)}</p><div id="academyChoices">${x.options.map((v,i)=>`<label class="academy-choice"><input type="checkbox" value="${i}"/><span><b>${String.fromCharCode(65+i)}.</b> ${esc(v)}</span></label>`).join('')}</div><div id="academyResult" class="academy-result" hidden aria-live="polite"></div></article>
  <article class="academy-card academy-theory"><span class="academy-number">03 / Wiedza i taktyka</span><h3>Dlaczego tak gramy?</h3>${x.theory.map(([h,p])=>`<h4>${esc(h)}</h4><p>${esc(p)}</p>`).join('')}</article>
  <article class="academy-card"><span class="academy-number">04 / Biblioteka</span><h3>Archiwum technik</h3><div class="academy-archive">${lessons.map((l,i)=>`<button type="button" data-lesson="${i}" aria-current="${i===active}">${esc(l.title)}<small>${i===active?'Aktualna lekcja':'Otwórz lekcję'} · ćwiczenie interaktywne</small></button>`).join('')}</div><p class="academy-note">Kolejne techniki dodasz do listy lessons w kodzie HTML. Wszystkie pozostaną dostępne do ponownego ćwiczenia.</p></article>
  </div>`;
  const video=host.querySelector('#academyVideo'),status=host.querySelector('#academyVideoStatus'),start=host.querySelector('#academyStart');
- video.src=x.video;
- video.load();
- video.addEventListener('error',()=>{status.textContent='Nie można wczytać '+x.video+'. Sprawdź ścieżkę i kodowanie MP4.'});
- video.addEventListener('ended',reveal);
+ if(video){video.src=x.video; video.load();}
+ video?.addEventListener('error',()=>{status.textContent='Nie można wczytać '+x.video+'. Sprawdź ścieżkę i kodowanie MP4.'});
+ video?.addEventListener('ended',reveal);
  const checks=[...host.querySelectorAll('#academyChoices input')];
  const replay=host.querySelector('#academyReset');
  const selected=()=>checks.some(input=>input.checked);
@@ -4396,19 +4409,29 @@ function render(){
  updateStart();
  // Bez natywnych przycisków Play: jedyna droga startu prowadzi przez quiz.
  video.controls=false;
- video.addEventListener('play',()=>{if(!hasStarted||!selected())video.pause()});
+ video?.addEventListener('play',()=>{if(!hasStarted||!selected())video.pause()});
  async function playVideo(){
   if(!selected()){status.textContent='Zaznacz przynajmniej jedną odpowiedź przed odtworzeniem filmu.';return;}
   if(!hasStarted){hasStarted=true;checks.forEach(input=>input.disabled=true);}
   start.disabled=true;
   replay.disabled=false;
+  if(x.flight){
+   const shuttle=host.querySelector('.academy-flight b');
+   status.textContent='Obserwuj tor lotki.';
+   const frames=x.flight.map(([left,top])=>({left:left+'%',top:top+'%'}));
+   Object.assign(shuttle.style,frames.at(-1));
+   const motion=shuttle.animate?.(frames,{duration:matchMedia('(prefers-reduced-motion: reduce)').matches?1:1000});
+   try{await motion?.finished}catch{return}
+   if(shuttle.isConnected)reveal();
+   return;
+  }
   status.textContent='Film trwa. Wynik quizu pojawi się po zakończeniu nagrania.';
   try{video.pause();video.currentTime=0;await video.play();}
   catch(err){status.textContent='Nie można uruchomić filmu '+x.video+'. Sprawdź plik i format MP4.';replay.disabled=false;}
  }
  start.addEventListener('click',playVideo);
  replay.addEventListener('click',playVideo);
- host.querySelectorAll('[data-lesson]').forEach(b=>b.addEventListener('click',()=>{active=Number(b.dataset.lesson);video.pause();render()}));
+ host.querySelectorAll('[data-lesson]').forEach(b=>b.addEventListener('click',()=>{active=Number(b.dataset.lesson);video?.pause();render()}));
  function reveal(){if(finished)return;finished=true;start.disabled=true;replay.disabled=false;const chosen=[...host.querySelectorAll('#academyChoices input:checked')].map(i=>Number(i.value));const good=chosen.length===x.correct.length&&chosen.every(i=>x.correct.includes(i));host.querySelectorAll('.academy-choice').forEach((label,i)=>{label.classList.toggle('correct',x.correct.includes(i));label.classList.toggle('incorrect',chosen.includes(i)&&!x.correct.includes(i))});const result=host.querySelector('#academyResult');result.hidden=false;result.innerHTML='<strong>'+(good?'✓ Dobra decyzja!':'Sprawdź poprawne odpowiedzi: '+x.correct.map(i=>String.fromCharCode(65+i)).join(', '))+'</strong>'+esc(x.explanation);status.textContent='Analiza zakończona. Możesz powtórzyć lekcję.'}
  
 }
